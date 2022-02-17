@@ -1,0 +1,27 @@
+{
+  "name": "stokhos",
+  "version": "1.0.0",
+  "description": "proyecto de traductores e interpretadores. Equipo: xxxxxxxx",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkauze/traductores-lab"
+  },
+  "author": "Jesus Kauze, Carlos Sivira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jkauze/traductores-lab/issues"
+  },
+  "homepage": "https://github.com/jkauze/traductores-lab#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "prompt-sync-history": "^1.0.1"
+  },
+  "engines": {
+    "npm": "8.5.0",
+    "node": "14.15.0"
+  }
+}
