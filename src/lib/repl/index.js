@@ -11,10 +11,10 @@ const promptStokhos = '<Stókhos> ';
 const startREPL = () => {
   console.info(`Welcome to stokhos ${version}`);
   while (true) {
-    const stdin = prompt(promptStokhos);
-    const input = formatInput(stdin);
+    const input = prompt(promptStokhos);
+    const formatedInput = formatInput(input);
 
-    const result = REPLHandler(input);
+    const result = REPLHandler(formatedInput);
     if (result === 'break') break;
     prompt.history.save();
   }
