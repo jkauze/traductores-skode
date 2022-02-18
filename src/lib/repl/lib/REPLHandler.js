@@ -4,11 +4,22 @@ const { errorMessage } = require('../utils/messages');
 
 const getArgs = (input) => input.split(' ');
 
-const getParams = (input) => input.join(' ');
-
-const getFirstChar = (args) => args.shift();
+const getFirstArg = (input) => input.shift();
 
 const validateSpecialCall = (input) => input && input[0] === '.';
+
+const printError = (input) => input ? errorMessage(input) : null;
+
+const evalSpecialCall = (firstArg, args, input) => {
+  if (firstArg === '.') {
+    return 'break';
+  } else if (firstArg === '.lex') {
+    return;
+  } else {
+    printError(input)
+    return;
+  }
+}
 
 /**
  * Root Hanlder for the REPL
@@ -17,14 +28,10 @@ const validateSpecialCall = (input) => input && input[0] === '.';
 const REPLHandler = (input) => {
   if (validateSpecialCall(input)) {
     const args = getArgs(input);
-    const specialCommand = getFirstChar(args);
-    const params = getParams(args);
-
-    if (specialCommand === '.') {
-      return 'break';
-    }
+    const firstArg = getFirstArg(args);
+    return evalSpecialCall(firstArg, args, input)
   } else {
-    input ? errorMessage(input) : true;
+    printError(input)
     return;
   }
 };
