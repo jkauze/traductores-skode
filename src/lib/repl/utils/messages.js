@@ -8,11 +8,15 @@ const oKMessage = (input, tokens) =>
 const ackMessage = (input) =>
   console.log(`ACK: ${input}`);
 
-  const errorMessage = (input, error = notImplemented) =>
+const errorMessage = (input, error = notImplemented) =>
   console.log(`ERROR: "${input}" ==> ${error}`);
+
+const lexErrorMessage = (error) =>
+  console.log(`ERROR: caracter inválido ("${error}") en la entrada`)
 
 module.exports = {
   oKMessage,
   ackMessage,
-  errorMessage
+  errorMessage,
+  lexErrorMessage
 };

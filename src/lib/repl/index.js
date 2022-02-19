@@ -8,8 +8,10 @@ const { formatInput } = require('./utils/formatInput');
 
 const promptStokhos = '<Stókhos> ';
 
+const welcomeMessage = `Welcome to stokhos ${version}`
+
 const startREPL = () => {
-  console.info(`Welcome to stokhos ${version}`);
+  console.info(welcomeMessage);
   while (true) {
     const input = prompt(promptStokhos);
     const formatedInput = formatInput(input);
@@ -21,4 +23,3 @@ const startREPL = () => {
 };
 
 startREPL();
-//process.exit(1);

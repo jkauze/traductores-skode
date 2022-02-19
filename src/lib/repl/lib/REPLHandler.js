@@ -3,6 +3,7 @@
 const { errorMessage } = require('../utils/messages');
 const { commandNotFound } = require('../replErrors');
 const { fileReader } = require('../utils/fileReader')
+const { lex } = require('./commands')
 
 const getArgs = (input) => input.split(' ');
 
@@ -16,7 +17,7 @@ const evalSpecialCall = (firstArg, args, input) => {
   if (firstArg === '.') {
     return 'break';
   } else if (firstArg === '.lex') {
-    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+    lex(args)
     return;
   } else if (firstArg === '.load') {
     const fileContent = fileReader(args[0]);

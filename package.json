@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jkauze/traductores-lab#readme",
   "dependencies": {
+    "peggy": "^1.2.0",
     "prompt-sync": "^4.2.0",
     "prompt-sync-history": "^1.0.1"
   },
