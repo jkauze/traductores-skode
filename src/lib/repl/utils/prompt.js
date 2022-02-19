@@ -5,7 +5,8 @@ const history = require('prompt-sync-history')();
 
 const prompt = setupPrompt({
   history,
-  sigint: true
+  sigint: true,
+  eot: true
 });
 
 module.exports = prompt

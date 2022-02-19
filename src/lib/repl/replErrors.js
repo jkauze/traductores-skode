@@ -2,7 +2,7 @@
 
 const errors = {
     notImplemented: 'interpretación no implementada',
-    commandNotFound: (comando) => `comando especial "${comando}" no implementado`
+    commandNotFound: (command) => `comando especial "${command}" no implementado`
 }
 
 module.exports = errors
