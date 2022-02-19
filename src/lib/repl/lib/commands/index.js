@@ -2,4 +2,4 @@
 
 const lex = require('./lex')
 
-module.exports = { lex, load }
+module.exports = { lex }
