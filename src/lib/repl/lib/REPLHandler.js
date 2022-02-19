@@ -6,11 +6,40 @@ const { fileReader } = require('../utils/fileReader')
 
 const getArgs = (input) => input.split(' ');
 
-const getParams = (input) => input.join(' ');
-
-const getFirstChar = (args) => args.shift();
+const getFirstArg = (input) => input.shift();
 
 const validateSpecialCall = (input) => input && input[0] === '.';
+
+const printError = (input) => input ? errorMessage(input) : null;
+
+const evalSpecialCall = (firstArg, args, input) => {
+  if (firstArg === '.') {
+    return 'break';
+  } else if (firstArg === '.lex') {
+    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+    return;
+  } else if (firstArg === '.load') {
+    const fileContent = fileReader(args[0]);
+    if (fileContent) {
+      fileContent.lines.forEach(line => {
+        const result = REPLHandler(line);
+        if (result === 'break') process.exit(0);
+      });
+    } else {
+      console.log(`Error loading file: ${input}`)
+    }
+    return;
+  } else if (firstArg === '.failed') {
+    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+    return;
+  } else if (firstArg === '.reset') {
+    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+    return;
+  }else {
+    printError(input)
+    return;
+  }
+}
 
 /**
  * Root Handler for the REPL
@@ -19,52 +48,10 @@ const validateSpecialCall = (input) => input && input[0] === '.';
 const REPLHandler = (input) => {
   if (validateSpecialCall(input)) {
     const args = getArgs(input);
-    const specialCommand = getFirstChar(args);
-    const params = getParams(args);
-
-    switch (specialCommand) {
-      case '.':
-        return 'break';
-      case '.lex':
-        // Executes lextest function (Not implemented yet)
-        input ? errorMessage(input, commandNotFound(specialCommand)) : true;
-        break;
-      case '.load':
-        const fileContent = fileReader(params);
-        
-        if (fileContent) {
-          fileContent.lines.forEach(line => {
-            const result = REPLHandler(line);
-            /* 
-            HELP
-
-            este caso no esto claro de como manejarlo todavia. Porque cuando
-            la recursion se encuentra con un . en la lectura de archivos, lo 
-            ignora y continua. Se me ocurre reescribir la manera en la que se
-            manda a parar el proceso, para que no sea una validacion dentro del
-            index del repl sino que sea algo global.
-            */
-            if (result === 'break') return;
-          });
-        } else {
-          console.log(`Error loading file: ${params}`)
-        }
-
-        break;
-      case '.failed':
-        // Show errors reported by the VM (Not implemented yet)
-        input ? errorMessage(input, commandNotFound(specialCommand)) : true;
-        break;
-      case 'reset':
-        // Clear error list (Not implemented yet)
-        input ? errorMessage(input, commandNotFound(specialCommand)) : true;
-        break;
-      default:
-        input ? errorMessage(input, commandNotFound(specialCommand)) : true;
-    }
-
+    const firstArg = getFirstArg(args);
+    return evalSpecialCall(firstArg, args, input)
   } else {
-    input ? errorMessage(input) : true;
+    printError(input)
     return;
   }
 };
