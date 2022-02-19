@@ -21,7 +21,6 @@ const evalSpecialCall = (firstArg, args, input) => {
     return;
   } else if (firstArg === '.load') {
     const fileContent = fileReader(args[0]);
-    console.log(REPLHandler, ' AAAAAA')
     if (fileContent) {
       fileContent.lines.forEach(line => {
         const result = REPLHandler(line);
