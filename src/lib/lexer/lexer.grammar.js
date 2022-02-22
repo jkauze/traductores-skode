@@ -15,7 +15,7 @@ module.exports =
                     / TkCloseBracket
 
     primary = 
-        l:char r:char+ { return l+", "+r }
+        l:char r:char+ { return l+","+r }
 
         char = TkNumber / op / par / bracket
 
