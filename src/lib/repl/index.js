@@ -10,9 +10,11 @@ const promptStokhos = '<Stókhos> ';
 
 const welcomeMessage = `Welcome to stokhos ${version}`
 
+const infinityLoop = true
+
 const startREPL = () => {
   console.info(welcomeMessage);
-  while (true) {
+  while (infinityLoop) {
     const input = prompt(promptStokhos);
     const formatedInput = formatInput(input);
 

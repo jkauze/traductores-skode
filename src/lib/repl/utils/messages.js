@@ -1,21 +1,30 @@
 'use strict';
 
 const { notImplemented } = require('../replErrors');
+const { saveError } = require('./saveError');
 
-const oKMessage = (input, tokens) =>
-  console.log(`OK: lexer(${input}) ==> ${tokens}`);
+const okMessage = (input, tokens) => {
+  const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
+  console.log(formatedMessage);
+}
 
 const ackMessage = (input) =>
   console.log(`ACK: ${input}`);
 
-const errorMessage = (input, error = notImplemented) =>
-  console.log(`ERROR: "${input}" ==> ${error}`);
+const errorMessage = ({ input, error = notImplemented, fileInfo }) => {
+  const formatedError = `ERROR: "${input}" ==> ${error}`
+  console.log(formatedError);
+  saveError({ fileInfo, error: formatedError })
+}
 
-const lexErrorMessage = (error) =>
-  console.log(`ERROR: caracter inválido ("${error}") en la entrada`)
+const lexErrorMessage = ({ error, fileInfo }) => {
+  const formatedError = `ERROR: caracter inválido ("${error}") en la entrada`
+  console.log(formatedError)
+  saveError({ fileInfo, error: formatedError })
+}
 
 module.exports = {
-  oKMessage,
+  okMessage,
   ackMessage,
   errorMessage,
   lexErrorMessage
