@@ -1,8 +1,14 @@
 'use strict';
 
 const { errorMessage } = require('../utils/messages');
-const { commandNotFound } = require('../replErrors');
 const { fileReader } = require('../utils/fileReader')
+const { lex, failed, reset } = require('./commands')
+
+const isLexCommand = firstArg => firstArg === '.lex';
+const isLoadCommand = firstArg => firstArg === '.load';
+const isFailedCommand = firstArg => firstArg === '.failed';
+const isResetCommand = firstArg => firstArg === '.reset';
+const isExitCommand = firstArg => firstArg === '.';
 
 const getArgs = (input) => input.split(' ');
 
@@ -10,48 +16,63 @@ const getFirstArg = (input) => input.shift();
 
 const validateSpecialCall = (input) => input && input[0] === '.';
 
-const printError = (input) => input ? errorMessage(input) : null;
+const printError = ({ input, error, fileInfo }) => input ? errorMessage({ input, error, fileInfo }) : null;
 
-const evalSpecialCall = (firstArg, args, input) => {
-  if (firstArg === '.') {
+const executeLine = fileName => (data, line) => {
+  const result = REPLHandler(data, { fileName, line });
+  if (result === 'break') process.exit(0);
+}
+
+/**
+ * @param {Object} options 
+ * @param {String} options.firstArg 
+ * @param {Array<String>} options.args
+ * @param {String} options.input
+ * @param {[Object]} options.fileInfo
+ * @returns 
+ */
+const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
+  if (isExitCommand(firstArg)) {
     return 'break';
-  } else if (firstArg === '.lex') {
-    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+  } else if (isLexCommand(firstArg)) {
+    lex({ args, fileInfo })
     return;
-  } else if (firstArg === '.load') {
-    const fileContent = fileReader(args[0]);
+  } else if (isLoadCommand(firstArg)) {
+    const fileName = args[0];
+    const fileContent = fileReader(fileName);
     if (fileContent) {
-      fileContent.lines.forEach(line => {
-        const result = REPLHandler(line);
-        if (result === 'break') process.exit(0);
-      });
+      fileContent.lines.forEach(executeLine(fileName));
     } else {
-      console.log(`Error loading file: ${input}`)
+      const error = `Error loading file: ${args.join(' ')}`
+      printError({ input, error })
     }
     return;
-  } else if (firstArg === '.failed') {
-    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+  } else if (isFailedCommand(firstArg)) {
+    failed({ input, fileInfo })
     return;
-  } else if (firstArg === '.reset') {
-    input ? errorMessage(input, commandNotFound(firstArg)) : true;
+  } else if (isResetCommand(firstArg)) {
+    reset({ input, fileInfo })
     return;
-  }else {
-    printError(input)
+  } else {
+    printError({ input, fileInfo })
     return;
   }
 }
 
 /**
  * Root Handler for the REPL
+ * @param {[Object]} fileInfo
+ * @param {[Object]} fileInfo.fileName
+ * @param {[Object]} fileInfo.line
  * @param {String} input
  */
-const REPLHandler = (input) => {
+const REPLHandler = (input, fileInfo) => {
   if (validateSpecialCall(input)) {
     const args = getArgs(input);
     const firstArg = getFirstArg(args);
-    return evalSpecialCall(firstArg, args, input)
+    return evalSpecialCall({ firstArg, args, input, fileInfo })
   } else {
-    printError(input)
+    printError({ input, fileInfo })
     return;
   }
 };
