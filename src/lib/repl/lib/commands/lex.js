@@ -1,22 +1,24 @@
 'use strict'
 
 const { parser } = require('../../../lexer/index')
-const { lexErrorMessage } = require('../../utils/messages')
+const { lexErrorMessage, okMessage } = require('../../utils/messages')
 
 const tokenize = (arg) => parser(arg)
 
 /**
- * 
- * @param {Array<String>} input params
+ * @param {Object} options 
+ * @param {Array<String>} options.args 
+ * @param {Object} options.fileInfo
  * @returns {Array<String>} tokens 
  */
-const lex = (input) => {
+const lex = ({ args, fileInfo }) => {
     let tokens
+    const formatedArgs = args.join(' ')
     try {
-        tokens = input.map(tokenize)
-        console.log(tokens)
+        tokens = args.map(tokenize)
+        okMessage(formatedArgs, tokens)
     } catch (error) {
-        lexErrorMessage(error.found)
+        lexErrorMessage({ error: error.found, fileInfo })
     }
     return;
 }
