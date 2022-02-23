@@ -3,7 +3,7 @@ module.exports =
     start = 
         Primary
             / Char
-                TkNumber
+                / TkNumber
                 / TkId
                 / Extra
                     / TkLComment
@@ -71,7 +71,7 @@ module.exports =
 
             TkNumber "number" = [0-9]+ { return 'TkNumber(' + text() + ')' }
 
-            TkId "id" = ([$_a-zA-Z]i [$_a-zA-Z0-9]i*) { return 'TkId("' + text() + '")' }
+            TkId "id" = (Reserved)?([$_a-zA-Z]i [$_a-zA-Z0-9]i*) { return 'TkId("' + text() + '")' }
 
             Extra = 
                 TkLComment
@@ -100,22 +100,22 @@ module.exports =
                 / TkTry
                 / TkCatch
 
-                TkNum = 'num' { return 'TkNum' }
-                TkBool = 'bool' { return 'TkBool' }
-                TkTrue = 'true' { return 'TkTrue' }
-                TkFalse = 'false' { return 'TkFalse' }
-                TkType = 'type' { return 'TkType' }
-                TkIf = 'if' { return 'TkIf' }
-                TkElse = 'else' { return 'TkElse' }
-                TkSwitch = 'switch' { return 'TkSwitch' }
-                TkCase = 'case' { return 'TkCase' }
-                TkDefault = 'default' { return 'TkDefault' }
-                TkWhile = 'while' { return 'TkWhile' }
-                TkFor = 'for' { return 'TkFor' }
-                TkBreak = 'break' { return 'TkBreak' }
-                TkContinue = 'continue' { return 'TkContinue' }
-                TkTry = 'try' { return 'TkTry' }
-                TkCatch = 'catch' { return 'TkCatch' }
+                TkNum = 'num'i { return 'TkNum' }
+                TkBool = 'bool'i { return 'TkBool' }
+                TkTrue = 'true'i { return 'TkTrue' }
+                TkFalse = 'false'i { return 'TkFalse' }
+                TkType = 'type'i { return 'TkType' }
+                TkIf = 'if'i { return 'TkIf' }
+                TkElse = 'else'i { return 'TkElse' }
+                TkSwitch = 'switch'i { return 'TkSwitch' }
+                TkCase = 'case'i { return 'TkCase' }
+                TkDefault = 'default'i { return 'TkDefault' }
+                TkWhile = 'while'i { return 'TkWhile' }
+                TkFor = 'for'i { return 'TkFor' }
+                TkBreak = 'break'i { return 'TkBreak' }
+                TkContinue = 'continue'i { return 'TkContinue' }
+                TkTry = 'try'i { return 'TkTry' }
+                TkCatch = 'catch'i { return 'TkCatch' }
 
             Operator = 
                 TkOpenPar

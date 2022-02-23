@@ -4,7 +4,8 @@
   "description": "proyecto de traductores e interpretadores. Equipo: xxxxxxxx",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "mocha  src/**/test/*test.js --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/jkauze/traductores-lab#readme",
   "dependencies": {
+    "mocha": "^9.2.1",
     "peggy": "^1.2.0",
     "prompt-sync": "^4.2.0",
     "prompt-sync-history": "^1.0.1"

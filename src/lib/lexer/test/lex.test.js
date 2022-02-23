@@ -1,28 +1,16 @@
 'use strict'
 
-const test = require('mocha')
 const { parser } = require('../index')
 
-test('case 1:  caso cuando se le pasa valor invaldo', (t) => {
-    // preparacion
-    const input = '1 + 2'
+const assert = require('assert');
 
-    // ejecucion
-    const actual = parser(input)
+describe('#Sample: lex function', function () {
+    it('Caso 1: 1+2+3a', function () {
+        const input = '1+2+3a'
 
-    // evaluacion
-    const expected = '[TkNumber(1), TkPlus, TkNumber(2)]'
-    t.equal(actual, expected, 'should be tokenize correctly')
-})
+        const actual = parser(input)
 
-test('case 3:  caso cuando se le pasa valor invaldo', (t) => {
-    // preparacion
-    const input = '1 + 2'
-
-    // ejecucion
-    const actual = parser(input)
-
-    // evaluacion
-    const expected = '[TkNumber(1), TkPlus, TkNumber(2)]'
-    t.equal(actual, expected, 'should be tokenize correctly')
-})
+        const expected = 'TkNumber(1),TkPlus,TkNumber(2),TkPlus,TkNumber(3),TkId("a")'
+        assert.equal(actual, expected, 'should be TkNumber(1),TkPlus,TkNumber(2),TkPlus,TkNumber(3),TkId("a") ');
+    });
+});
