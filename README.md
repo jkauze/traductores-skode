@@ -1,31 +1,7 @@
-# traductores-lab
-Proyecto de traductores e interpretadores
-
-
-# Recomendaciones
-
-- Usar [nvm](https://github.com/nvm-sh/nvm) con node 14.15.0 y npm 8.5.0 (usar el comando `nvm use` dentro del proyecto para agarrar esta configuracion default con el **.nvmrc**)
-# Como usar (prototipo)
-
-```sh
-
-# instalar dependencias:
-npm install
-
-# para ejecutar el repl:
-npm start
-
-# para salir del repl CRTL+C o escribir el comando "."
-<Stókhos> .
-```
-
-
-
 # Stókhos powered by SKode
 
 Repositorio del proyecto del laboratorio de traductores e interpretadores para el trimestre ene-mar 2022.
 
-Equipo: _SKode_
 
 # Recomendaciones
 
@@ -55,3 +31,5 @@ Welcome to stokhos 1.0.0
 # Documentacion
 
  - [`Comandos del REPL`](src/lib/repl/README.md)
+
+> Equipo: _SKode:_ Carlos Sivira & Jesus Kauze
