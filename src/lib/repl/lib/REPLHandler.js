@@ -2,12 +2,13 @@
 
 const { errorMessage } = require('../utils/messages');
 const { fileReader } = require('../utils/fileReader')
-const { lex, failed, reset } = require('./commands')
+const { lex, failed, reset, help } = require('./commands')
 
 const isLexCommand = firstArg => firstArg === '.lex';
 const isLoadCommand = firstArg => firstArg === '.load';
 const isFailedCommand = firstArg => firstArg === '.failed';
 const isResetCommand = firstArg => firstArg === '.reset';
+const isHelpCommand = firstArg => firstArg === '.help';
 const isExitCommand = firstArg => firstArg === '.';
 
 const getArgs = (input) => input.split(' ');
@@ -37,6 +38,15 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
   } else if (isLexCommand(firstArg)) {
     lex({ args, fileInfo })
     return;
+  } else if (isFailedCommand(firstArg)) {
+    failed({ input, fileInfo })
+    return;
+  } else if (isResetCommand(firstArg)) {
+    reset({ input, fileInfo })
+    return;
+  } else if (isHelpCommand(firstArg)) {
+    help();
+    return;
   } else if (isLoadCommand(firstArg)) {
     const fileName = args[0];
     const fileContent = fileReader(fileName);
@@ -46,12 +56,6 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
       const error = `Error loading file: ${args.join(' ')}`
       printError({ input, error })
     }
-    return;
-  } else if (isFailedCommand(firstArg)) {
-    failed({ input, fileInfo })
-    return;
-  } else if (isResetCommand(firstArg)) {
-    reset({ input, fileInfo })
     return;
   } else {
     printError({ input, fileInfo })

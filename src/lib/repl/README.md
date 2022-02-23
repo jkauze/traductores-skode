@@ -40,7 +40,7 @@ OK:lex("2 + +") ==> [TkNum(2),TkPlus,TkPlus]
 ```
 
 ---
-- `.` or `CTRL+C`- Exit the REPL
+- `.` - Exit the REPL
 
 ```sh
 <Stókhos> .
