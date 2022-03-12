@@ -1,7 +1,7 @@
 'use strict';
 
 const peggy = require('peggy');
-const grammar = require('./lexer.grammar');
+const grammar = require('./parser.grammar');
 
 const createParser = peggy.generate(grammar);
 

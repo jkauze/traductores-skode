@@ -1,9 +1,9 @@
 'use strict'
 
-const { parser } = require('../../../lexer/index')
+const { lexer } = require('../../../vm')
 const { lexErrorMessage, okMessage } = require('../../utils/messages')
 
-const tokenize = (arg) => parser(arg)
+const tokenize = (arg) => lexer(arg)
 
 /**
  * @param {Object} options 
