@@ -21,7 +21,7 @@ const executeParser = (tokensString) => createParser.parse(tokensString)
 const parser = (args) => {
   const tokens = getTokens(args) 
   const tokensString = tokens2str(tokens)
-  executeParser(tokensString)
+  return executeParser(tokensString)
 }
 
 module.exports = {
