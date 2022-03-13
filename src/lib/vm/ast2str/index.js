@@ -1,37 +1,16 @@
 'use strict'
 
-/* const test = {
-    predicate: ':=',
-    type: 'num',
-    identifier: 'variable',
-    expresion: {
-        predicate: '+',
-        operands: [
-        '1',
-        {
-            predicate: '+',
-            operands: [ { predicate: '*', operands: [ '2', '3' ] }, '4' ]
-        }
-        ]
-    }
-} */
+const ast2strExpression = require('./ast2strExpression')
+const ast2strInstruction = require('./ast2strInstruction')
 
-/* 
-{
-    type: 'BinaryExpression',
-    operator: ':=',
-    left: { type: 'Literal', value: 40 },
-    right: { type: 'Literal', value: 2 }
-}
-*/
+const isExpressionType = ({ type }) => type === 'expression'
 
-// def(num, x, ( 6 * 7 ) )
-// def( num, variable, ( 1 + ( ( 2 * 3 ) + 4 ) ) )
-// num variable := 1 + ( 2 * 3 + 4 )
-const ast2str = ast => {
+/**
+ * @param {Object} ast 
+ * @returns {String} ast converted to string
+ */
+const ast2str = ast => (
+    isExpressionType(ast) ? ast2strExpression(ast) : ast2strInstruction(ast)
+)
 
-}
-
-module.exports = {
-    ast2str
-}
+module.exports = { ast2str }

@@ -1,8 +1,7 @@
 'use strict'
 
 const { parser, ast2str } = require('../../../vm')
-const { lexErrorMessage, okMessage } = require('../../utils/messages')
-const util = require('util') 
+const { fatalErrorMessage, okMessage } = require('../../utils/messages')
 
 /**
  * @param {Object} options 
@@ -11,15 +10,13 @@ const util = require('util')
  * @returns {String} aststr 
  */
 const testParser = ({ args, fileInfo }) => {
-    const formatedArgs = args.join(' ')
     try {
-        const ast = parser(formatedArgs)
+        const formatedArgs = args.join(' ')
+        const ast = parser(args)
         const aststr = ast2str(ast)
         okMessage(formatedArgs, aststr)
-        console.log(util.inspect(aststr, false, null, true)) 
     } catch (error) {
-        console.log(error)
-        lexErrorMessage({ error: error.found, fileInfo })
+        fatalErrorMessage({ error: error.found, fileInfo })
     }
     return;
 }

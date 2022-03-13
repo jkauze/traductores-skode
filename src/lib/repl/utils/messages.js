@@ -23,9 +23,16 @@ const lexErrorMessage = ({ error, fileInfo }) => {
   saveError({ fileInfo, error: formatedError })
 }
 
+const fatalErrorMessage = ({ error, fileInfo }) => {
+  const formatedError = `ERROR: ha ocurrido un error inesperado: "${error}"`
+  console.log(formatedError)
+  saveError({ fileInfo, error: formatedError })
+}
+
 module.exports = {
   okMessage,
   ackMessage,
   errorMessage,
-  lexErrorMessage
+  lexErrorMessage,
+  fatalErrorMessage
 };
