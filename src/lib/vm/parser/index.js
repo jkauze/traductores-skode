@@ -21,6 +21,7 @@ const executeParser = (tokensString) => createParser.parse(tokensString)
 const parser = (args) => {
   const tokens = getTokens(args) 
   const tokensString = tokens2str(tokens)
+  console.log(`DEBUG* ast input -->  ${tokensString}`)
   return executeParser(tokensString)
 }
 

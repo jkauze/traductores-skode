@@ -9,33 +9,37 @@ module.exports =
         / a:assignation { return a; }
 
     definition
-        = t:type i:identifier ':=' space* e:expresion { return { op: ':=', type: t, identifier: i, expresion: e } }
+        = t:typeDef space* i:identifier space* 'TkAssign' space* e:expresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     assignation
-        = i:identifier ':=' space* e:expresion { return { op: ':=', identifier: i, expresion: e } }
+        = i:identifier space* 'TkAssign' space* e:expresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
-    type
-        = t:[a-zA-Z()]+ space* { return t.join(''); }
+    typeDef
+        = t:[a-zA-Z()]+ { return t.join(''); }
     
     identifier
-        = i:content space* { return i.join(''); }
+        = i:tkid { return i; }
 
     expresion
         = plus / e:content space* { return e; }
 
     plus
-        = space* l:mult space* 'TkPlus' space* r:plus { return { op: '+', type: 'expression', operands: [l, r] } }
+        = l:mult space* 'TkPlus' space* r:plus { return { op: '+', type: 'expression', operands: [l, r] } }
         / mult
 
     mult
         = l:numbers space* 'TkMult' space* r:mult { return { op: '*', type: 'expression', operands: [l, r] } }
         / numbers
+        / tkid
 
     numbers
-        = n:content { return n.join('') }
+        = 'TkNumber(' + n:content + ')'  { return n.join('') }
+
+    tkid
+        = 'TkId("' + n:content + '")'  { return n.join('') }
 
     content 
-        = c:[a-zA-Z0-9_()]+ { return c }
+        = c:[a-zA-Z0-9_]+ { return c }
 
     space = ' ' / '\\t' / '\\n' 
 `
