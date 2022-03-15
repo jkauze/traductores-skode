@@ -3,6 +3,11 @@
 const { notImplemented } = require('../replErrors');
 const { saveError } = require('./saveError');
 
+const okASTMessage = (input, tokens) => {
+  const formatedMessage = `OK:ast("${input}") ==> ${tokens}`
+  console.log(formatedMessage);
+}
+
 const okMessage = (input, tokens) => {
   const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
   console.log(formatedMessage);
@@ -31,6 +36,7 @@ const fatalErrorMessage = ({ error, fileInfo }) => {
 
 module.exports = {
   okMessage,
+  okASTMessage,
   ackMessage,
   errorMessage,
   lexErrorMessage,

@@ -89,5 +89,5 @@ module.exports = {
     case3,
     case4,
     case5,
-    case6,
+    case6
 }

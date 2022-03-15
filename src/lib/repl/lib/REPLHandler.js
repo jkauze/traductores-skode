@@ -12,7 +12,10 @@ const isResetCommand = firstArg => firstArg === '.reset';
 const isHelpCommand = firstArg => firstArg === '.help';
 const isExitCommand = firstArg => firstArg === '.';
 
-const getArgs = (input) => input.split(' ');
+const getArgs = (input) => {
+  const formatedArgs = input.replace(/\s+/g,' ').trim()
+  return formatedArgs.split(' ');
+}
 
 const getFirstArg = (input) => input.shift();
 

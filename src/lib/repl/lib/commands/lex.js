@@ -14,6 +14,7 @@ const tokenize = (arg) => lexer(arg)
 const lex = ({ args, fileInfo }) => {
     let tokens
     const formatedArgs = args.join(' ')
+    console.log(args)
     try {
         tokens = args.map(tokenize)
         okMessage(formatedArgs, tokens)
