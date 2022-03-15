@@ -15,7 +15,9 @@ module.exports =
         = i:identifier space* 'TkAssign' space* e:expresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
-        = t:[a-zA-Z()]+ { return t.join(''); }
+        = 'TkNum' { return 'Num'; }
+        / 'TkBool' { return 'Boolean' }
+        / t:[a-zA-Z()]+ { return t.join(''); } // fallback rule delete after test
     
     identifier
         = i:tkid { return i; }
