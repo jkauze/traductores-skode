@@ -31,5 +31,7 @@ Welcome to stokhos 1.0.0
 # Documentacion
 
  - [`Comandos del REPL`](src/lib/repl/README.md)
+ - [`Gramatica del parser (grammar.md)`](src/lib/vm/parser/GRAMMAR.md)
+
 
 > Equipo: _SKode:_ Carlos Sivira & Jesus Kauze
