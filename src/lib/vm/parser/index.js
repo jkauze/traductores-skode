@@ -10,7 +10,13 @@ const tokenize = (arg) => lexer(arg)
 
 const getTokens = (args) =>  args.map(tokenize)
 
-const tokens2str = (args) =>  args.join(' ')
+const validateCommas = (tokens) => tokens.split(',')
+
+const tokens2str = (args) =>  {
+  const tokensString = args.join(' ')
+  const sanitizedTokens = validateCommas(tokensString)
+  return sanitizedTokens.join(' ')
+}
 
 const executeParser = (tokensString) => createParser.parse(tokensString)
 
