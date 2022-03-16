@@ -83,11 +83,57 @@ const case6 = {
     ]
 }
 
+// ((y - z) + x)
+const case7 = {
+    op: '+',
+    type: 'expression',
+    operands: [{ op: '-', type: 'expression', operands: ['y', 'z'] }, 'x']
+}
+
+// ((x - y) + z)
+const case8 = {
+    op: '+',
+    type: 'expression',
+    operands: [{ op: '-', type: 'expression', operands: ['x', 'y'] }, 'z']
+}
+
+// (+y)
+const case9 = {
+    op: '+', type: 'expression', operands: ['y']
+}
+
+// ((+y) - x)
+const case10 = {
+    op: '-',
+    type: 'expression',
+    operands: [{ op: '+', type: 'expression', operands: ['y'] }, 'x']
+}
+
+// ((y+x)-z)
+const case11 = {
+    op: '-',
+    type: 'expression',
+    operands: [{ op: '+', type: 'expression', operands: ['y', 'x'] }, 'z']
+}
+
+// (y+(x-z))
+const case12 = {
+    op: '+',
+    type: 'expression',
+    operands: ['y', { op: '-', type: 'expression', operands: ['x', 'z'] }]
+}
+
 module.exports = {
     case1,
     case2,
     case3,
     case4,
     case5,
-    case6
+    case6,
+    case7,
+    case8,
+    case9,
+    case10,
+    case11,
+    case12
 }
