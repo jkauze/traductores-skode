@@ -9,16 +9,11 @@ const setupCase = (input) => {
     return parseToArray(formatedArgs)
   }
   
-
-// const case1 = [ '1', '+', '2' ]
 const case1 = setupCase('1 + 2')
 
 const case2 = setupCase('x + 1')
 
-const case3 = [ '1', '+', '1']
-
 module.exports = {
     case1,
     case2,
-    case3
 }
