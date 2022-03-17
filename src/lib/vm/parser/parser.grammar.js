@@ -9,22 +9,35 @@ module.exports =
         / a:assignation { return a; }
 
     definition
-        = t:typeDef space* i:identifier space* 'TkAssign' space* e:expresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
+        = t:typeDef space* i:identifier space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     assignation
-        = i:identifier space* 'TkAssign' space* e:expresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
+        = i:identifier space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
-        // Debe validar [<type>]
+        = 'TkOpenBracket' space* n:normalType space* 'TkCloseBracket' { return [n]; }
+        / normalType
+    
+    normalType
         = 'TkNum' { return 'Num'; }
-        / 'TkBool' { return 'Boolean' }
+        / 'TkBool' { return 'Boolean'; }
         / t:[a-zA-Z()]+ { return t.join(''); } // fallback rule delete after test
     
     identifier
         = i:id { return i; }
 
+    arrayExpresion
+        = 'TkOpenBracket' space* e:arrayContentExpresion space* 'TkCloseBracket' { return e; }
+        / arrayContentExpresion
+
+    arrayContentExpresion
+        = h:expresion t:(expresionWithCommas)* { return t.length > 0 ? [h].concat(t[0]) : h }
+        / expresion
+
+    expresionWithCommas
+        = space* 'TkComma' space* e:arrayExpresion { return e }
+
     expresion
-        // Ampliar para soportar arrays
         = plus / primary
 
     plus
