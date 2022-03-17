@@ -38,27 +38,76 @@ module.exports =
         = space* 'TkComma' space* e:arrayExpresion { return e }
 
     expresion
-        = plus / primary
+        = and / primary
 
-    plus
-        = l:minus space* 'TkPlus' space* r:plus { return { op: '+', type: 'expression', operands: [l, r] } }
-        / minus
+    and
+        = l:or space* 'TkAnd' space* r:and { return { op: '&&', type: 'expression', operands: [l, r] } }
+        / or
 
-    minus
-        = l:mult space* 'TkMinus' space* r:minus { return { op: '-', type: 'expression', operands: [l, r] } }
+    or
+        = l:eq space* 'TkOr' space* r:or { return { op: '||', type: 'expression', operands: [l, r] } }
+        / eq
+       
+    eq
+        = l:ne space* 'TkEQ' space* r:eq { return { op: '=', type: 'expression', operands: [l, r] } }
+        / ne
+
+    ne
+        = l:lt space* 'TkNE' space* r:ne { return { op: '<>', type: 'expression', operands: [l, r] } }
+        / lt
+
+    lt
+        = l:le space* 'TkLT' space* r:lt { return { op: '<', type: 'expression', operands: [l, r] } }
+        / le
+
+    le
+        = l:gt space* 'TkLE' space* r:le { return { op: '<=', type: 'expression', operands: [l, r] } }
+        / gt
+
+    gt
+        = l:ge space* 'TkGT' space* r:gt { return { op: '>', type: 'expression', operands: [l, r] } }
+        / ge
+
+    ge
+        = l:pow space* 'TkGE' space* r:gt { return { op: '>=', type: 'expression', operands: [l, r] } }
+        / pow
+
+    pow
+        = l:mod space* 'TkPower' space* r:pow { return { op: '^', type: 'expression', operands: [l, r] } }
+        / mod
+
+    mod
+        = l:div space* 'TkMod' space* r:mod { return { op: '%', type: 'expression', operands: [l, r] } }
+        / div
+
+    div
+        = l:mult space* 'TkDiv' space* r:div { return { op: '*', type: 'expression', operands: [l, r] } }
         / mult
 
     mult
-        = l:unary space* 'TkMult' space* r:minus { return { op: '*', type: 'expression', operands: [l, r] } }
+        = l:minus space* 'TkMult' space* r:mult { return { op: '*', type: 'expression', operands: [l, r] } }
+        / minus
+
+    minus
+        = l:plus space* 'TkMinus' space* r:minus { return { op: '-', type: 'expression', operands: [l, r] } }
+        / plus
+
+    plus
+        = l:unary space* 'TkPlus' space* r:plus { return { op: '+', type: 'expression', operands: [l, r] } }
         / unary
 
+
     unary
-        = 'TkPlus' space* v:primary { return { op: '+', type: 'expression', operands: [v] } }
+        = 'TkNot' space* v:primary { return { op: '!', type: 'expression', operands: [v] } }
+        / 'TkPlus' space* v:primary { return { op: '+', type: 'expression', operands: [v] } }
         / 'TkMinus' space* v:primary { return { op: '-', type: 'expression', operands: [v] } }
         / primary
-    
+
+
     primary
         = 'TkOpenPar' space* e:expresion space* 'TkClosePar' { return e }
+        / 'TkOpenBracket' space* e:expresion space* 'TkCloseBracket' { return e }
+        / 'TkOpenBrace' space* e:expresion space* 'TkCloseBrace' { return e }
         / value
     
     value
