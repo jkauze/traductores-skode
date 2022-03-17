@@ -149,6 +149,12 @@ const case15 = {
     operands: ['x', ['1', '2', '3', '4'], 'Boolean']
 }
 
+const case16 = [{
+    op: '+', type: 'expression', operands: ['1', '2']
+}]
+
+const case17 = ['1']
+
 module.exports = {
     case1,
     case2,
@@ -164,5 +170,7 @@ module.exports = {
     case12,
     case13,
     case14,
-    case15
+    case15,
+    case16,
+    case17
 }

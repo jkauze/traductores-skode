@@ -4,7 +4,7 @@ const { lexer } = require('../index')
 
 const assert = require('assert');
 
-describe('#lex:  function', function () {
+describe('#lex:', function () {
     it('Case 1: 1+2+3a', function () {
         const input = '1+2+3a'
 

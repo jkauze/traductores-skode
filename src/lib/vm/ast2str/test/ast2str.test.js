@@ -16,7 +16,9 @@ const {
     case12,
     case13,
     case14,
-    case15
+    case15,
+    case16,
+    case17
 } = require('./fixtures/cases')
 
 const assert = require('assert');
@@ -28,7 +30,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '(1 + 2)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 2: (1 + (2 * (2 * (2 * 3))))', () => {
@@ -37,7 +39,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '(1 + (2 * (2 * (2 * 3))))'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 3: def(Boolean, id, value)', () => {
@@ -46,7 +48,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'def(Boolean, id, value)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 4: asg(id, value)', () => {
@@ -55,7 +57,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'asg(id, value)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 5: asg(id, (1 + 2))', () => {
@@ -64,7 +66,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'asg(id, (1 + 2))'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 6: def(Boolean, id, (1 + 2))', () => {
@@ -73,7 +75,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'def(Boolean, id, (1 + 2))'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 7: ((y + z) + x)', () => {
@@ -82,7 +84,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '((y - z) + x)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 8: (x - y) + z)', () => {
@@ -91,7 +93,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '((x - y) + z)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 9: (+y)', () => {
@@ -100,7 +102,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '(+y)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 10: ((+y) - x)', () => {
@@ -109,7 +111,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '((+y) - x)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 11: ((y + x) - z)', () => {
@@ -118,7 +120,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '((y + x) - z)'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 12: (y + (x - z))', () => {
@@ -127,7 +129,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '(y + (x - z))'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 13: asg(x, [1+1,2])', () => {
@@ -136,7 +138,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'asg(x, [(1 + 1),2])'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 14: def(Boolean, x, [1,(2 + 1)])', () => {
@@ -145,7 +147,7 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'def(Boolean, x, [1,(2 + 1)])'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
     it('Case 15: def(Boolean, x, [1,2,3,4])', () => {
@@ -154,6 +156,24 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = 'def(Boolean, x, [1,2,3,4])'
-        assert.equal(actual, expected, 'should convert the correct ast');
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 16: [1+2])', () => {
+        const input = case16
+
+        const actual = ast2str(input)
+
+        const expected = ['(1 + 2)']
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 17: [1])', () => {
+        const input = case17
+
+        const actual = ast2str(input)
+
+        const expected = ['1']
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 });
