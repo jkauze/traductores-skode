@@ -1,113 +1,83 @@
 module.exports = 
 `
+    {{
+        function getTokenValue(token) {
+            if (token === 'TkNum') return 'Num'
+            else if (token === 'TkBool') return 'Boolean'
+            else if (token === 'TkPlus') return '+'
+            else if (token === 'TkMinus') return '-'
+            else if (token === 'TkMult') return '*'
+            else if (token === 'TkDiv') return '/'
+            else if (token === 'TkMod') return '%'
+            else if (token === 'TkPower') return '^'
+            else if (token === 'TkEQ') return '='
+            else if (token === 'TkNE') return '<>'
+            else if (token === 'TkLT') return '<'
+            else if (token === 'TkLE') return '<='
+            else if (token === 'TkGT') return '>'
+            else if (token === 'TkGE') return '>='
+            else if (token === 'TkAnd') return '&&'
+            else if (token === 'TkOr') return '||'
+            else if (token === 'TkNot') return '!'
+        }
+    }}
+
     start
-        = i:instruction { return i; }
-        / e:expresion { return e; }
+        = i:instruction { return i }
+        / e:expression { return e }
 
     instruction
-        = d:definition { return d; }
-        / a:assignation { return a; }
+        = d:definition { return d }
+        / a:assignation { return a }
 
     definition
-        = t:typeDef space* i:identifier space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
+        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     assignation
-        = i:identifier space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
+        = i:id space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
-        = 'TkOpenBracket' space* n:normalType space* 'TkCloseBracket' { return [n]; }
-        / normalType
-    
-    normalType
-        = 'TkNum' { return 'Num'; }
-        / 'TkBool' { return 'Boolean'; }
-        / t:[a-zA-Z()]+ { return t.join(''); } // fallback rule delete after test
-    
-    identifier
-        = i:id { return i; }
+        = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [t] }
+        / t:typeTokens { return getTokenValue(t) }
 
     arrayExpresion
-        = 'TkOpenBracket' space* e:arrayContentExpresion space* 'TkCloseBracket' { return e; }
-        / arrayContentExpresion
+        = 'TkOpenBracket' space* e:arrayContent space* 'TkCloseBracket' { return e }
+        / arrayContent
 
-    arrayContentExpresion
-        = h:expresion t:(expresionWithCommas)* { return t.length > 0 ? [h].concat(t[0]) : h }
-        / expresion
+    arrayContent
+        = h:expression t:(arrayItem)* { return t.length > 0 ? [h].concat(t[0]) : h }
+        / expression
 
-    expresionWithCommas
+    arrayItem
         = space* 'TkComma' space* e:arrayExpresion { return e }
 
-    expresion
-        = and / primary
+    expression
+        = aditive / primary
 
-    and
-        = l:or space* 'TkAnd' space* r:and { return { op: '&&', type: 'expression', operands: [l, r] } }
-        / or
+    aditive
+        = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / multiplicative
 
-    or
-        = l:eq space* 'TkOr' space* r:or { return { op: '||', type: 'expression', operands: [l, r] } }
-        / eq
-       
-    eq
-        = l:ne space* 'TkEQ' space* r:eq { return { op: '=', type: 'expression', operands: [l, r] } }
-        / ne
+    multiplicative
+        = l:relational space* op:multiplicativeTokens space* r:multiplicative { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / relational
 
-    ne
-        = l:lt space* 'TkNE' space* r:ne { return { op: '<>', type: 'expression', operands: [l, r] } }
-        / lt
+    relational
+        = l:boolean space* op:relationalTokens space* r:relational { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / boolean
 
-    lt
-        = l:le space* 'TkLT' space* r:lt { return { op: '<', type: 'expression', operands: [l, r] } }
-        / le
-
-    le
-        = l:gt space* 'TkLE' space* r:le { return { op: '<=', type: 'expression', operands: [l, r] } }
-        / gt
-
-    gt
-        = l:ge space* 'TkGT' space* r:gt { return { op: '>', type: 'expression', operands: [l, r] } }
-        / ge
-
-    ge
-        = l:pow space* 'TkGE' space* r:gt { return { op: '>=', type: 'expression', operands: [l, r] } }
-        / pow
-
-    pow
-        = l:mod space* 'TkPower' space* r:pow { return { op: '^', type: 'expression', operands: [l, r] } }
-        / mod
-
-    mod
-        = l:div space* 'TkMod' space* r:mod { return { op: '%', type: 'expression', operands: [l, r] } }
-        / div
-
-    div
-        = l:mult space* 'TkDiv' space* r:div { return { op: '*', type: 'expression', operands: [l, r] } }
-        / mult
-
-    mult
-        = l:minus space* 'TkMult' space* r:mult { return { op: '*', type: 'expression', operands: [l, r] } }
-        / minus
-
-    minus
-        = l:plus space* 'TkMinus' space* r:minus { return { op: '-', type: 'expression', operands: [l, r] } }
-        / plus
-
-    plus
-        = l:unary space* 'TkPlus' space* r:plus { return { op: '+', type: 'expression', operands: [l, r] } }
+    boolean
+        = l:unary space* op:booleanTokens space* r:boolean { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
         / unary
 
-
     unary
-        = 'TkNot' space* v:primary { return { op: '!', type: 'expression', operands: [v] } }
-        / 'TkPlus' space* v:primary { return { op: '+', type: 'expression', operands: [v] } }
-        / 'TkMinus' space* v:primary { return { op: '-', type: 'expression', operands: [v] } }
+        = op:(aditiveTokens/'TkNot') space* v:primary { return { op: getTokenValue(op), type: 'expression', operands: [v] } }
         / primary
 
-
     primary
-        = 'TkOpenPar' space* e:expresion space* 'TkClosePar' { return e }
-        / 'TkOpenBracket' space* e:expresion space* 'TkCloseBracket' { return e }
-        / 'TkOpenBrace' space* e:expresion space* 'TkCloseBrace' { return e }
+        = 'TkOpenPar' space* e:expression space* 'TkClosePar' { return e }
+        / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return e }
+        / 'TkOpenBrace' space* e:expression space* 'TkCloseBrace' { return e }
         / value
     
     value
@@ -122,5 +92,31 @@ module.exports =
     content 
         = c:[a-zA-Z0-9_]+ { return c }
 
-    space = ' ' / '\\t' / '\\n' 
+    space = ' ' / '\\t' / '\\n'
+
+    typeTokens
+        = 'TkNum'
+        / 'TkBool'
+
+    aditiveTokens
+        = 'TkPlus'
+        / 'TkMinus'
+
+    multiplicativeTokens
+        = 'TkMult'
+        / 'TkDiv'
+        / 'TkMod'
+        / 'TkPower'
+
+    relationalTokens
+        = 'TkEQ'
+        / 'TkNE'
+        / 'TkLT'
+        / 'TkLE'
+        / 'TkGT'
+        / 'TkGE'
+
+    booleanTokens
+        = 'TkAnd'
+        / 'TkOr'
 `
