@@ -25,12 +25,12 @@ const executeParser = (tokensString) => createParser.parse(tokensString)
  * @returns {Object} ast
  */
 const parser = (args) => {
-  // console.log(args)
+  console.log(args)
   const tokens = getTokens(args) 
   const tokensString = tokens2str(tokens)
-  console.log(`DEBUG* ast input -->  ${tokensString}`)
+  // console.log(`DEBUG* ast input -->  ${tokensString}`)
   const a = executeParser(tokensString)
-  console.log(a, tokensString)
+  // console.log(a, tokensString)
   return a
 }
 

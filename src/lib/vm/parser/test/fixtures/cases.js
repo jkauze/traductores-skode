@@ -1,10 +1,10 @@
 'use strict'
 
-const case1 = [ '1' ]
+const case1 = [ '1', '+', '2' ]
 
-const case2 = [ '1', '+', '1']
+const case2 = [ 'x','+','1' ]
 
-const case3 = [ 'x','+','1' ]
+const case3 = [ '1', '+', '1']
 
 module.exports = {
     case1,
