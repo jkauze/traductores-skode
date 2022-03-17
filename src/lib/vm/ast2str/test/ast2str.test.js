@@ -1,7 +1,23 @@
 'use strict'
 
 const { ast2str } = require('../index')
-const { case1, case2, case3, case4, case5, case6, case7, case8, case9, case10, case11, case12 } = require('./fixtures/cases')
+const {
+    case1,
+    case2,
+    case3,
+    case4,
+    case5,
+    case6,
+    case7,
+    case8,
+    case9,
+    case10,
+    case11,
+    case12,
+    case13,
+    case14,
+    case15
+} = require('./fixtures/cases')
 
 const assert = require('assert');
 
@@ -111,6 +127,33 @@ describe('#ast2str', () => {
         const actual = ast2str(input)
 
         const expected = '(y + (x - z))'
+        assert.equal(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 13: asg(x, [1+1,2])', () => {
+        const input = case13
+
+        const actual = ast2str(input)
+
+        const expected = 'asg(x, [(1 + 1),2])'
+        assert.equal(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 14: def(Boolean, x, [1,(2 + 1)])', () => {
+        const input = case14
+
+        const actual = ast2str(input)
+
+        const expected = 'def(Boolean, x, [1,(2 + 1)])'
+        assert.equal(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 15: def(Boolean, x, [1,2,3,4])', () => {
+        const input = case15
+
+        const actual = ast2str(input)
+
+        const expected = 'def(Boolean, x, [1,2,3,4])'
         assert.equal(actual, expected, 'should convert the correct ast');
     });
 });

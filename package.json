@@ -5,7 +5,10 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "mocha  src/**/test/*test.js --reporter spec"
+    "test": "mocha  src/**/test/*test.js --reporter spec",
+    "test:ast2str": "mocha  src/lib/vm/ast2str/**/*test.js --reporter spec",
+    "test:parser": "mocha  src/lib/vm/parser/**/*test.js --reporter spec",
+    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec"
   },
   "repository": {
     "type": "git",

@@ -123,6 +123,32 @@ const case12 = {
     operands: ['y', { op: '-', type: 'expression', operands: ['x', 'z'] }]
 }
 
+// asg(x, [1+1,2])
+const case13 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+        'x',
+        [{ op: '+', type: 'expression', operands: ['1', '1'] }, '2']
+    ]
+}
+
+const case14 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+        'x',
+        ['1', { op: '+', type: 'expression', operands: ['2', '1'] }],
+        'Boolean'
+    ]
+}
+
+const case15 = {
+    op: ':=',
+    type: 'instruction',
+    operands: ['x', ['1', '2', '3', '4'], 'Boolean']
+}
+
 module.exports = {
     case1,
     case2,
@@ -135,5 +161,8 @@ module.exports = {
     case9,
     case10,
     case11,
-    case12
+    case12,
+    case13,
+    case14,
+    case15
 }

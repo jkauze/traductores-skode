@@ -2,9 +2,7 @@
 
 const hasChild = require('./hasChild')
 
-const formatExpressionString = (leftOperand, op, rightOperand) => (
-    `(${leftOperand} ${op} ${rightOperand})`
-)
+const formatExpressionString = (leftOperand, op, rightOperand) => `(${leftOperand} ${op} ${rightOperand})`
 
 const formatUnaryExpressionString = (leftOperand, op) => `(${op}${leftOperand})`
 
@@ -12,10 +10,8 @@ const isObject = operand => typeof operand === 'object'
 
 const orderOperands = (l, r) => isObject(l) ? [r, l] : [l, r]
 
-/**
- * @param {Object} ast 
- * @returns {String} formatted ast expression to string
- */
+const isNode = item => typeof item === 'object'
+
 const ast2strExpression = ast => {
     const { op, operands } = ast
     const [originalLeftOperand, originalRightOperand] = operands
@@ -33,4 +29,14 @@ const ast2strExpression = ast => {
     }
 }
 
-module.exports = ast2strExpression
+const transformItem = item => isNode(item) ? ast2strExpression(item) : item
+
+const ast2strArrayExpression = ast => ast.map(transformItem);
+
+/**
+ * @param {Object} ast 
+ * @returns {String} formatted ast expression to string
+ */
+const executeAST2Expression = ast => Array.isArray(ast) ? ast2strArrayExpression(ast) : ast2strExpression(ast)
+
+module.exports = executeAST2Expression

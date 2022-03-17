@@ -5,7 +5,7 @@ const { case1, case2, case3 } = require('./fixtures/cases')
 
 const assert = require('assert');
 
-describe.only('#parser', () => {
+describe('#parser', () => {
     it("Case 1: ('1 + 2')", () => {
         const input = case1
 

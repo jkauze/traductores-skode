@@ -5,13 +5,11 @@ const hasChild = require('./hasChild')
 
 const isTypeDefinition = type => !!type
 
-const getAssignmentString = (id, expression) => (
-    `asg(${id}, ${expression})`
-)
+const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
-const getDefinitionString = (type, id, expression) => (
-    `def(${type}, ${id}, ${expression})`
-)
+const getAssignmentString = (id, expression) =>`asg(${id}, ${formatExpression(expression)})`
+
+const getDefinitionString = (type, id, expression) => `def(${type}, ${id}, ${formatExpression(expression)})`
 
 const formatInstructionString = (id, expression, type) => isTypeDefinition(type)
     ? getDefinitionString(type, id, expression)
