@@ -1,8 +1,19 @@
 'use strict'
 
-const case1 = [ '1', '+', '2' ]
+const removeUnnecesarySpaces = (input) => input.replace(/\s+/g,' ').trim()
 
-const case2 = [ 'x','+','1' ]
+const parseToArray = (input) => input.split(' ')
+
+const setupCase = (input) => {
+    const formatedArgs = removeUnnecesarySpaces(input)
+    return parseToArray(formatedArgs)
+  }
+  
+
+// const case1 = [ '1', '+', '2' ]
+const case1 = setupCase('1 + 2')
+
+const case2 = setupCase('x + 1')
 
 const case3 = [ '1', '+', '1']
 

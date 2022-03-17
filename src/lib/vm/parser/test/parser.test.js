@@ -6,7 +6,7 @@ const { case1, case2, case3 } = require('./fixtures/cases')
 const assert = require('assert');
 
 describe.only('#parser', () => {
-    it("Case 1: [ '1', '+', '2' ]", () => {
+    it("Case 1: ('1 + 2')", () => {
         const input = case1
 
         const actual = parser(input)
@@ -22,7 +22,7 @@ describe.only('#parser', () => {
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
 
-    it("Case 2: [ 'x','+','1' ]", () => {
+    it("Case 2: ('x + 1')", () => {
         const input = case2
 
         const actual = parser(input)
