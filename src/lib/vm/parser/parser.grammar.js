@@ -37,7 +37,7 @@ module.exports =
         = i:id space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
-        = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [t] }
+        = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [getTokenValue(t)] }
         / t:typeTokens { return getTokenValue(t) }
 
     arrayExpresion
