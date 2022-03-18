@@ -1,6 +1,6 @@
 'use strict'
 
-const hasChild = require('./hasChild')
+const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
 const formatExpressionString = (leftOperand, op, rightOperand) => `(${leftOperand} ${op} ${rightOperand})`
 
@@ -17,15 +17,17 @@ const ast2strExpression = ast => {
     const [originalLeftOperand, originalRightOperand] = operands
     const [leftOperand, rightOperand] = orderOperands(originalLeftOperand, originalRightOperand)
     let newRightOperand = rightOperand
+    let newLeftOperand = leftOperand
 
-    if (hasChild(operands)) newRightOperand = ast2strExpression(rightOperand)
+    if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
+    if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
 
     if (isObject(originalLeftOperand)) {
-        return formatExpressionString(newRightOperand, op, leftOperand)
+        return formatExpressionString(newRightOperand, op, newLeftOperand)
     } else if (!rightOperand) {
-        return formatUnaryExpressionString(leftOperand, op)
+        return formatUnaryExpressionString(newLeftOperand, op)
     } else {
-        return formatExpressionString(leftOperand, op, newRightOperand)
+        return formatExpressionString(newLeftOperand, op, newRightOperand)
     }
 }
 
@@ -37,6 +39,8 @@ const ast2strArrayExpression = ast => ast.map(transformItem);
  * @param {Object} ast 
  * @returns {String} formatted ast expression to string
  */
-const executeAST2Expression = ast => Array.isArray(ast) ? ast2strArrayExpression(ast) : ast2strExpression(ast)
+const executeAST2Expression = ast => (
+    Array.isArray(ast) ? formatExpression(ast2strArrayExpression(ast)) : ast2strExpression(ast)
+)
 
 module.exports = executeAST2Expression

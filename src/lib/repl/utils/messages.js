@@ -6,6 +6,7 @@ const { saveError } = require('./saveError');
 const okASTMessage = (input, tokens) => {
   const formatedMessage = `OK:ast("${input}") ==> ${tokens}`
   console.log(formatedMessage);
+  return formatedMessage
 }
 
 const okMessage = (input, tokens) => {
