@@ -11,7 +11,7 @@ describe('#parser', () => {
 
         const actual = parser(input)
 
-        const expected = '1'
+        const expected = 1
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 2: x", () => {
@@ -27,7 +27,7 @@ describe('#parser', () => {
 
       const actual = parser(input)
 
-      const expected = { op: '!', type: 'expression', operands: [ '1' ] }
+      const expected = { op: '!', type: 'expression', operands: [ 1 ] }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 4: !x", () => {
@@ -47,8 +47,8 @@ describe('#parser', () => {
         op: '+',
         type: 'expression',
         operands: [
-          { op: '+', type: 'expression', operands: [ '1' ] },
-          { op: '-', type: 'expression', operands: [ '1' ] }
+          { op: '+', type: 'expression', operands: [ 1 ] },
+          { op: '-', type: 'expression', operands: [ 1 ] }
         ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
@@ -73,7 +73,7 @@ describe('#parser', () => {
 
       const actual = parser(input)
 
-      const expected = { op: '+', type: 'expression', operands: [ '1', '2' ] }
+      const expected = { op: '+', type: 'expression', operands: [ 1, 2 ] }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 8: [1+2]", () => {
@@ -81,7 +81,7 @@ describe('#parser', () => {
 
       const actual = parser(input)
 
-      const expected = [ { op: '+', type: 'expression', operands: [ '1', '2' ] } ]
+      const expected = [ { op: '+', type: 'expression', operands: [ 1, 2 ] } ]
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 9: []", () => {
@@ -105,7 +105,7 @@ describe('#parser', () => {
 
       const actual = parser(input)
 
-      const expected = [ '1', '2', '3' ]
+      const expected = [ 1, 2, 3 ]
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 12: [!x,2+2]", () => {
@@ -115,7 +115,7 @@ describe('#parser', () => {
 
       const expected = [
         { op: '!', type: 'expression', operands: [ 'x' ] },
-        { op: '+', type: 'expression', operands: [ '2', '2' ] }
+        { op: '+', type: 'expression', operands: [ 2, 2 ] }
       ]
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
@@ -137,7 +137,7 @@ describe('#parser', () => {
         type: 'instruction',
         operands: [
           'x',
-          { op: '+', type: 'expression', operands: [ '20', '3' ] },
+          { op: '+', type: 'expression', operands: [ 20, 3 ] },
           'Num'
         ]
       }
@@ -151,7 +151,7 @@ describe('#parser', () => {
       const expected = {
         op: ':=',
         type: 'instruction',
-        operands: [ 'x', { op: '+', type: 'expression', operands: [ '20', '2' ] } ]
+        operands: [ 'x', { op: '+', type: 'expression', operands: [ 20, 2 ] } ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
@@ -164,23 +164,23 @@ describe('#parser', () => {
         op: '+',
         type: 'expression',
         operands: [
-          '1',
+          1,
           {
             op: '-',
             type: 'expression',
             operands: [
-              '2',
+              2,
               {
                 op: '*',
                 type: 'expression',
                 operands: [
-                  '3',
+                  3,
                   {
                     op: '/',
                     type: 'expression',
                     operands: [
-                      '4',
-                      { op: '^', type: 'expression', operands: [ '5', '6' ] }
+                      4,
+                      { op: '^', type: 'expression', operands: [ 5, 6 ] }
                     ]
                   }
                 ]
@@ -204,14 +204,14 @@ describe('#parser', () => {
             op: '*',
             type: 'expression',
             operands: [
-              { op: '+', type: 'expression', operands: [ '1', '2' ] },
-              { op: '^', type: 'expression', operands: [ '4', '6' ] }
+              { op: '+', type: 'expression', operands: [ 1, 2 ] },
+              { op: '^', type: 'expression', operands: [ 4, 6 ] }
             ]
           },
           {
             op: '/',
             type: 'expression',
-            operands: [ { op: '+', type: 'expression', operands: [ '4', '1' ] }, '5' ]
+            operands: [ { op: '+', type: 'expression', operands: [ 4, 1 ] }, 5 ]
           }
         ]
       }

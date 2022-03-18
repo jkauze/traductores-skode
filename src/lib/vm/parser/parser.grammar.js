@@ -57,12 +57,12 @@ module.exports =
         = string / aditive / primary
 
     string
-        = 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        = 'TkQuote space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
         / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
 
     stringExpresion
-        = ls:stringTransform space* rs:stringExpresion { return ls + rs }
-        / ls:stringTransform { return ls }   
+        = 'TkQuote space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        / ls:stringTransform { return ls }
 
     stringTransform
         = n:number { return n.toString() }
@@ -99,7 +99,13 @@ module.exports =
         = number / id
 
     number 
-        = 'TkNumber(' c:numberContent ')' { return parseFloat(c.join('')) }
+        = 'TkDot' space* d:numberArgs { return parseFloat('.' + d) }
+        / i:numberArgs space* 'TkDot' space* d:numberArgs { return parseFloat(i + '.' + d) }
+        / n:numberArgs space* 'TkDot' { return n }
+        / n:numberArgs { return n }
+
+    numberArgs
+        = 'TkNumber(' c:numberContent ')' { return parseInt(c.join('')) }
 
     numberContent
         = c:[0-9]+ { return c }
