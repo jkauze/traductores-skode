@@ -1,4 +1,0 @@
-1 + 2
-.lex @
-.comandoInvalido
-.lex 2 + +
