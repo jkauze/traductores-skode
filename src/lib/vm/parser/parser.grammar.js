@@ -24,7 +24,7 @@ module.exports =
 
     start
         = i:instruction { return i }
-        / e:expression { return e }
+        / e:arrayExpresion { return e }
 
     instruction
         = d:definition { return d }
@@ -41,7 +41,9 @@ module.exports =
         / t:typeTokens { return getTokenValue(t) }
 
     arrayExpresion
-        = 'TkOpenBracket' space* e:arrayContent space* 'TkCloseBracket' { return e }
+        = 'TkOpenBracket' space* ('TkComma')? space* 'TkCloseBracket' { return [] }
+        / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return [e] }
+        / 'TkOpenBracket' space* e:arrayContent space* 'TkCloseBracket' { return e }
         / arrayContent
 
     arrayContent
@@ -52,7 +54,20 @@ module.exports =
         = space* 'TkComma' space* e:arrayExpresion { return e }
 
     expression
-        = aditive / primary
+        = string / aditive / primary
+
+    string
+        = 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
+
+    stringExpresion
+        = ls:stringTransform space* rs:stringExpresion { return ls + rs }
+        / ls:stringTransform { return ls }   
+
+    stringTransform
+        = n:number { return n.toString() }
+        / i:id { return i }
+        / c:content { return getTokenValue(c) }
 
     aditive
         = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
@@ -84,12 +99,15 @@ module.exports =
         = number / id
 
     number 
-        = 'TkNumber(' n:content ')' { return n.join('') }
+        = 'TkNumber(' c:numberContent ')' { return parseFloat(c.join('')) }
+
+    numberContent
+        = c:[0-9]+ { return c }
 
     id
-        = 'TkId("' n:content '")' { return n.join('') }
+        = 'TkId("' c:content'")' { return c.join('') }
 
-    content 
+    content
         = c:[a-zA-Z0-9_]+ { return c }
 
     space = ' ' / '\\t' / '\\n'
