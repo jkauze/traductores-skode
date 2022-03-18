@@ -12,10 +12,10 @@ const okASTMessage = (input, tokens) => {
 const okMessage = (input, tokens) => {
   const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
   console.log(formatedMessage);
+  return formatedMessage
 }
 
-const ackMessage = (input) =>
-  console.log(`ACK: ${input}`);
+const ackMessage = (input) => console.log(`ACK: ${input}`);
 
 const errorMessage = ({ input, error = notImplemented, fileInfo }) => {
   const formatedError = `ERROR: "${input}" ==> ${error}`
@@ -30,7 +30,7 @@ const lexErrorMessage = ({ error, fileInfo }) => {
 }
 
 const fatalErrorMessage = ({ error, fileInfo }) => {
-  const formatedError = `ERROR: ha ocurrido un error inesperado: "${error}"`
+  const formatedError = `SyntaxError: "${error}"`
   console.log(formatedError)
   saveError({ fileInfo, error: formatedError })
 }

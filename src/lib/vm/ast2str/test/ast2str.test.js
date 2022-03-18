@@ -146,7 +146,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = ['(1 + 2)']
+        const expected = '[(1 + 2)]'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -155,7 +155,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = ['1']
+        const expected = '[1]'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -168,7 +168,7 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it.only('Case 19: [])', () => {
+    it('Case 19: [])', () => {
         const input = cases.case19
 
         const actual = ast2str(input)
