@@ -2,16 +2,20 @@
 
 const { errorMessage } = require('../utils/messages');
 const { fileReader } = require('../utils/fileReader')
-const { lex, failed, reset, help } = require('./commands')
+const { lex, testParser, failed, reset, help } = require('./commands')
 
 const isLexCommand = firstArg => firstArg === '.lex';
+const isTestParserCommand = firstArg => firstArg === '.ast';
 const isLoadCommand = firstArg => firstArg === '.load';
 const isFailedCommand = firstArg => firstArg === '.failed';
 const isResetCommand = firstArg => firstArg === '.reset';
 const isHelpCommand = firstArg => firstArg === '.help';
 const isExitCommand = firstArg => firstArg === '.';
 
-const getArgs = (input) => input.split(' ');
+const getArgs = (input) => {
+  const formatedArgs = input.replace(/\s+/g,' ').trim()
+  return formatedArgs.split(' ');
+}
 
 const getFirstArg = (input) => input.shift();
 
@@ -37,6 +41,9 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
     return 'break';
   } else if (isLexCommand(firstArg)) {
     lex({ args, fileInfo })
+    return;
+  } else if (isTestParserCommand(firstArg)) {
+    testParser({ args, fileInfo })
     return;
   } else if (isFailedCommand(firstArg)) {
     failed({ input, fileInfo })

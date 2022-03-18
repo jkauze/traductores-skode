@@ -40,6 +40,17 @@ OK:lex("2 + +") ==> [TkNum(2),TkPlus,TkPlus]
 ```
 
 ---
+- `.ast` - invoke parser (first invoke lexer, after this, create the AST with the parser, and convert AST to String with ast2str function)
+
+```sh
+<Stókhos> .ast 1 + 2 + 3
+OK:ast("1 + 2 + 3") ==> (1 + (2 + 3))
+
+<Stókhos> .ast num x := a
+OK:ast("num x := a") ==> def(Num, x, a)
+```
+
+---
 - `.` - Exit the REPL
 
 ```sh
