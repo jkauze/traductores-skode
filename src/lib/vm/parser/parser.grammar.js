@@ -57,11 +57,11 @@ module.exports =
         = string / aditive / primary
 
     string
-        = 'TkQuote space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        = 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
         / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
 
     stringExpresion
-        = 'TkQuote space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        = ls:stringTransform space* rs:stringExpresion { return ls + rs }
         / ls:stringTransform { return ls }
 
     stringTransform
