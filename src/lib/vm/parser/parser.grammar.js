@@ -19,6 +19,12 @@ module.exports =
             else if (token === 'TkAnd') return '&&'
             else if (token === 'TkOr') return '||'
             else if (token === 'TkNot') return '!'
+            else if (token === 'TkOpenPar') return '('
+            else if (token === 'TkClosePar') return ')'
+            else if (token === 'TkOpenBrace') return '{'
+            else if (token === 'TkCloseBrace') return '}'
+            else if (token === 'TkOpenBracket') return '['
+            else if (token === 'TkCloseBracket') return ']'
         }
     }}
 
@@ -57,8 +63,12 @@ module.exports =
         =  aditive / primary
 
     string
-        = 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
+        = 'TkQuote' space* 'TkQuote' { return '' }
+        / 'TkDoubleQuote' space* 'TkDoubleQuote' { return "" }
+        / 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
         / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
+        / 'TkDoubleQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkDoubleQuote' { return ls + rs }
+        / 'TkDoubleQuote' space* ls:stringTransform space* 'TkDoubleQuote' { return ls }
 
     stringExpresion
         = ls:stringTransform space* rs:stringExpresion { return ls + rs }
@@ -72,6 +82,7 @@ module.exports =
         / r:multiplicativeTokens { return getTokenValue(r) }
         / r:relationalTokens { return getTokenValue(r) }
         / r:booleanTokens { return getTokenValue(r) }
+        / r:capsuleTokens { return getTokenValue(r) }
 
     aditive
         = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
@@ -148,4 +159,12 @@ module.exports =
     booleanTokens
         = 'TkAnd'
         / 'TkOr'
+
+    capsuleTokens
+        = 'TkOpenPar'
+        / 'TkClosePar'
+        / 'TkOpenBrace'
+        / 'TkCloseBrace'
+        / 'TkOpenBracket'
+        / 'TkCloseBracket'
 `

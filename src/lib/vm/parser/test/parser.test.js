@@ -217,4 +217,60 @@ describe('#parser', () => {
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
+    it("Case 18: ''", () => {
+      const input = cases.case18
+
+      const actual = parser(input)
+
+      const expected = ''
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 19: '1'", () => {
+      const input = cases.case19
+
+      const actual = parser(input)
+
+      const expected = '1'
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 20: 'SKode'", () => {
+      const input = cases.case20
+
+      const actual = parser(input)
+
+      const expected = 'SKode'
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 21: '1+2'", () => {
+      const input = cases.case21
+
+      const actual = parser(input)
+
+      const expected = '1+2'
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 22: '2' + '1'", () => {
+      const input = cases.case22
+
+      const actual = parser(input)
+
+      const expected = { op: '+', type: 'expression', operands: [ '2', '1' ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 23: '{2+1}' = '(1+2)'", () => {
+      const input = cases.case23
+      
+      const actual = parser(input)
+      
+      const expected = { op: '=', type: 'expression', operands: [ '{2+1}', '(1+2)' ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 24: '()'", () => {
+      const input = cases.case24
+
+      const actual = parser(input)
+
+      const expected = '()'
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
 });

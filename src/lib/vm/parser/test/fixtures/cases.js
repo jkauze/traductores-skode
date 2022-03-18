@@ -43,6 +43,20 @@ const case16 = setupCase('1+2-3*4/5^6')
 
 const case17 = setupCase('(1 + 2) * 4^6 - {4+1}/5')
 
+const case18 = setupCase("''")
+
+const case19 = setupCase("'1'")
+
+const case20 = setupCase("'SKode'")
+
+const case21 = setupCase("'1+2'")
+
+const case22 = setupCase("'2' + '1'")
+
+const case23 = setupCase("'{2+1}' = '(1+2)'")
+
+const case24 = setupCase("'()'")
+
 
 module.exports = {
   case1,
@@ -61,5 +75,12 @@ module.exports = {
   case14,
   case15,
   case16,
-  case17
+  case17,
+  case18,
+  case19,
+  case20,
+  case21,
+  case22,
+  case23,
+  case24
 }
