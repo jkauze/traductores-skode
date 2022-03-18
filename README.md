@@ -66,7 +66,7 @@ npm run test:lexer
 npm run test:ast2str
 
 # Ejecutar los test del tesParser:
-npm run test:ast2str
+npm run test:tesParser
 ```
 
 # Documentacion
