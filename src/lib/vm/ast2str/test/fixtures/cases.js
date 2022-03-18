@@ -5,8 +5,8 @@ const case1 = {
     op: '+',
     type: 'expression',
     operands: [
-        '1',
-        '2',
+        1,
+        2,
     ]
 }
 
@@ -15,23 +15,23 @@ const case2 = {
     op: '+',
     type: 'expression',
     operands: [
-        '1',
+        1,
         {
             op: '*',
             type: 'expression',
             operands: [
-                '2',
+                2,
                 {
                     op: '*',
                     type: 'expression',
                     operands: [
-                        '2',
+                        2,
                         {
                             op: '*',
                             type: 'expression',
                             operands: [
-                                '2',
-                                '3'
+                                2,
+                                3
                             ]
                         }
                     ]
@@ -129,7 +129,7 @@ const case13 = {
     type: 'instruction',
     operands: [
         'x',
-        [{ op: '+', type: 'expression', operands: ['1', '1'] }, '2']
+        [{ op: '+', type: 'expression', operands: [1, 1] }, 2]
     ]
 }
 
@@ -138,7 +138,7 @@ const case14 = {
     type: 'instruction',
     operands: [
         'x',
-        ['1', { op: '+', type: 'expression', operands: ['2', '1'] }],
+        ['1', { op: '+', type: 'expression', operands: [2, 1] }],
         'Boolean'
     ]
 }
@@ -146,11 +146,11 @@ const case14 = {
 const case15 = {
     op: ':=',
     type: 'instruction',
-    operands: ['x', ['1', '2', '3', '4'], 'Boolean']
+    operands: ['x', [1, 2, 3, 4], 'Boolean']
 }
 
 const case16 = [{
-    op: '+', type: 'expression', operands: ['1', '2']
+    op: '+', type: 'expression', operands: [1, 2]
 }]
 
 const case17 = ['1']
