@@ -37,10 +37,10 @@ module.exports =
         / a:assignation { return a }
 
     definition
-        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
+        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     assignation
-        = i:id space* 'TkAssign' space* e:arrayExpresion { return { op: ':=', type: 'instruction', operands: [i, e] } }
+        = i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
         = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [getTokenValue(t)] }
