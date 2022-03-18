@@ -54,7 +54,7 @@ module.exports =
         = space* 'TkComma' space* e:arrayExpresion { return e }
 
     expression
-        = string / aditive / primary
+        =  aditive / primary
 
     string
         = 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
@@ -67,7 +67,11 @@ module.exports =
     stringTransform
         = n:number { return n.toString() }
         / i:id { return i }
-        / c:content { return getTokenValue(c) }
+        / r:typeTokens { return getTokenValue(r) }
+        / r:aditiveTokens { return getTokenValue(r) }
+        / r:multiplicativeTokens { return getTokenValue(r) }
+        / r:relationalTokens { return getTokenValue(r) }
+        / r:booleanTokens { return getTokenValue(r) }
 
     aditive
         = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
@@ -94,6 +98,7 @@ module.exports =
         / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return e }
         / 'TkOpenBrace' space* e:expression space* 'TkCloseBrace' { return e }
         / value
+        / string
     
     value
         = number / id
