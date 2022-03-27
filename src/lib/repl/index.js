@@ -20,6 +20,7 @@ const startREPL = () => {
     const input = prompt(promptStokhos);
     const formatedInput = formatInput(input);
 
+    if (!formatedInput) continue
     const result = REPLHandler(formatedInput);
     if (result === 'break') break;
     prompt.history.save();

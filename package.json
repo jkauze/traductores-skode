@@ -9,7 +9,9 @@
     "test:ast2str": "mocha  src/lib/vm/ast2str/**/*test.js --reporter spec",
     "test:parser": "mocha  src/lib/vm/parser/**/*test.js --reporter spec",
     "test:testParser": "mocha  src/lib/repl/test/commands/testParser.test.js --reporter spec",
-    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec"
+    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec",
+    "test:execute": "mocha  src/lib/vm/execute/**/*test.js --reporter spec",
+    "test:evaluate": "mocha  src/lib/vm/evaluate/**/*test.js --reporter spec"
   },
   "repository": {
     "type": "git",

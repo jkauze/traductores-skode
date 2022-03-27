@@ -1,8 +1,10 @@
 'use strict';
 
+const print = require('./print')
 const { errorMessage } = require('../utils/messages');
 const { fileReader } = require('../utils/fileReader')
-const { lex, testParser, failed, reset, help } = require('./commands')
+const { lex, testParser, failed, reset, help, env } = require('./commands')
+const { process } = require('../../vm')
 
 const isLexCommand = firstArg => firstArg === '.lex';
 const isTestParserCommand = firstArg => firstArg === '.ast';
@@ -11,9 +13,10 @@ const isFailedCommand = firstArg => firstArg === '.failed';
 const isResetCommand = firstArg => firstArg === '.reset';
 const isHelpCommand = firstArg => firstArg === '.help';
 const isExitCommand = firstArg => firstArg === '.';
+const isEnvCommand = firstArg => firstArg === '.env';
 
 const getArgs = (input) => {
-  const formatedArgs = input.replace(/\s+/g,' ').trim()
+  const formatedArgs = input.replace(/\s+/g, ' ').trim()
   return formatedArgs.split(' ');
 }
 
@@ -41,6 +44,9 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
     return 'break';
   } else if (isLexCommand(firstArg)) {
     lex({ args, fileInfo })
+    return;
+  } else if (isEnvCommand(firstArg)) {
+    env()
     return;
   } else if (isTestParserCommand(firstArg)) {
     testParser({ args, fileInfo })
@@ -78,12 +84,13 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
  * @param {String} input
  */
 const REPLHandler = (input, fileInfo) => {
+  const args = getArgs(input);
   if (validateSpecialCall(input)) {
-    const args = getArgs(input);
     const firstArg = getFirstArg(args);
     return evalSpecialCall({ firstArg, args, input, fileInfo })
   } else {
-    printError({ input, fileInfo })
+    const response = process(args)
+    print(input, response, fileInfo)
     return;
   }
 };
