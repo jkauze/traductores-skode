@@ -45,7 +45,7 @@ const case4 = {
     op: ':=',
     type: 'instruction',
     operands: [
-        'id',
+        'executefail1',
         sample,
         'Boolean',
     ]
