@@ -60,44 +60,34 @@ module.exports =
         = space* 'TkComma' space* e:arrayExpresion { return e }
 
     expression
-        =  aditive / primary
+        =  or / primary
 
-    string
-        = 'TkQuote' space* 'TkQuote' { return '' }
-        / 'TkDoubleQuote' space* 'TkDoubleQuote' { return "" }
-        / 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
-        / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
-        / 'TkDoubleQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkDoubleQuote' { return ls + rs }
-        / 'TkDoubleQuote' space* ls:stringTransform space* 'TkDoubleQuote' { return ls }
+    or
+        = l:and space* op:('TkOr') space* r:or { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / and
 
-    stringExpresion
-        = ls:stringTransform space* rs:stringExpresion { return ls + rs }
-        / ls:stringTransform { return ls }
+    and
+        = l:comparison space* op:('TkAnd') space* r:and { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / comparison
 
-    stringTransform
-        = n:number { return n.toString() }
-        / i:id { return i }
-        / r:typeTokens { return getTokenValue(r) }
-        / r:aditiveTokens { return getTokenValue(r) }
-        / r:multiplicativeTokens { return getTokenValue(r) }
-        / r:relationalTokens { return getTokenValue(r) }
-        / r:booleanTokens { return getTokenValue(r) }
-        / r:capsuleTokens { return getTokenValue(r) }
+    comparison
+        = l:relational space* op:comparisonTokens space* r:comparison { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / relational
+
+    relational
+        = l:aditive space* op:relationalTokens space* r:relational { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / aditive
 
     aditive
         = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
         / multiplicative
 
     multiplicative
-        = l:relational space* op:multiplicativeTokens space* r:multiplicative { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / relational
+        = l:power space* op:multiplicativeTokens space* r:multiplicative { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / power
 
-    relational
-        = l:boolean space* op:relationalTokens space* r:relational { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / boolean
-
-    boolean
-        = l:unary space* op:booleanTokens space* r:boolean { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+    power
+        = l:unary space* op:('TkPower') space* r:power { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
         / unary
 
     unary
@@ -105,14 +95,14 @@ module.exports =
         / primary
 
     primary
-        = 'TkOpenPar' space* e:expression space* 'TkClosePar' { return e }
+        = 'TkQuote' space* e:expression space* 'TkQuote' { return { op:'quote', type: 'expression', operands:[e] } }
+        / 'TkOpenPar' space* e:expression space* 'TkClosePar' { return e }
         / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return e }
         / 'TkOpenBrace' space* e:expression space* 'TkCloseBrace' { return e }
         / value
-        / string
     
     value
-        = number / id
+        = number / reserved / id
 
     number 
         = 'TkDot' space* d:numberArgs { return parseFloat('.' + d) }
@@ -125,6 +115,10 @@ module.exports =
 
     numberContent
         = c:[0-9]+ { return c }
+
+    reserved
+        = 'TkTrue' { return true }
+        / 'TkFalse' { return false }
 
     id
         = 'TkId("' c:content'")' { return c.join('') }
@@ -146,19 +140,16 @@ module.exports =
         = 'TkMult'
         / 'TkDiv'
         / 'TkMod'
-        / 'TkPower'
 
-    relationalTokens
+    comparisonTokens
         = 'TkEQ'
         / 'TkNE'
-        / 'TkLT'
+
+    relationalTokens
+        = 'TkLT'
         / 'TkLE'
         / 'TkGT'
         / 'TkGE'
-
-    booleanTokens
-        = 'TkAnd'
-        / 'TkOr'
 
     capsuleTokens
         = 'TkOpenPar'
