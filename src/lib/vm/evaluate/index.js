@@ -18,7 +18,7 @@ const isExpressionValue = ast => {
     return result || data[ast]['value']
 }
 
-const formatValue = ast => `${ast} ==> ${isExpressionValue(ast)}`
+const formatValue = ast => `${isExpressionValue(ast)}`
 
 const findValue = ast => data[ast] && formatResponse(formatValue(ast), statusTypes.OK)
 

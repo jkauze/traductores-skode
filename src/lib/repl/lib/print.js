@@ -5,7 +5,7 @@ const { ackMessage, okMessage, errorMessage, fatalErrorMessage } = require('../u
 
 const sendProcessMessage = (input, { status, message }, fileInfo) => {
     if (status === statusTypes.ACK) ackMessage(message)
-    if (status === statusTypes.OK) okMessage(message)
+    if (status === statusTypes.OK) okMessage(input, message)
     if (status === statusTypes.ERROR) errorMessage({input, error: message, fileInfo})
 }
 
@@ -17,6 +17,6 @@ const sendProcessMessage = (input, { status, message }, fileInfo) => {
  */
 const print = (input, response, fileInfo) => typeof response === 'object' ?
     sendProcessMessage(input, response, fileInfo) :
-    fatalErrorMessage({error: response}, fileInfo)
+    fatalErrorMessage({error: response, fileInfo, input})
 
 module.exports = print
