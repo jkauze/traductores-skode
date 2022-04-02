@@ -176,4 +176,41 @@ describe('#ast2str', () => {
         const expected = '[]'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
+
+    it('Case 20: x := 3 = 3 && true', () => {
+        const input = cases.case20
+
+        const actual = ast2str(input)
+
+        const expected = 'def(Boolean, x, (((3 = 3) && true) || (!true)))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 21: x < y + 3 = 35', () => {
+        const input = cases.case21
+
+        const actual = ast2str(input)
+
+        const expected = '((x < (y + 3)) = 35)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 22: y / w', () => {
+        const input = cases.case22
+
+        const actual = ast2str(input)
+
+        const expected = '"(y / w)"'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    //
+    it('Case 23: z = x + "y / w"', () => {
+        const input = cases.case23
+
+        const actual = ast2str(input)
+
+        const expected = '(z = (x + "(y / w)"))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
 });
