@@ -26,6 +26,18 @@ module.exports =
             else if (token === 'TkOpenBracket') return '['
             else if (token === 'TkCloseBracket') return ']'
         }
+
+        function getLast(left) {
+            const last = left.pop()
+            const formatedLast = last.filter( v => { return v[0] !== ' ' } )
+            return formatedLast
+        }
+
+        function leftAssoc(left, val) {
+            if (!left.length) return val
+            const last = getLast(left)
+            return { op: getTokenValue(last[1]), type: 'expression', operands: [leftAssoc(left, last[0]), val] }
+        }
     }}
 
     start
@@ -63,12 +75,10 @@ module.exports =
         =  or / primary
 
     or
-        = l:and space* op:('TkOr') space* r:or { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / and
+        = l:(and space* 'TkOr' space*)* r:and { return leftAssoc(l, r) }
 
     and
-        = l:comparison space* op:('TkAnd') space* r:and { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / comparison
+        = l:(comparison space* 'TkAnd' space*)* r:comparison { return leftAssoc(l, r) }
 
     comparison
         = l:relational space* op:comparisonTokens space* r:comparison { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
@@ -79,12 +89,10 @@ module.exports =
         / aditive
 
     aditive
-        = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / multiplicative
+        = l:(multiplicative space* aditiveTokens space*)* r:multiplicative { return leftAssoc(l, r) }
 
     multiplicative
-        = l:power space* op:multiplicativeTokens space* r:multiplicative { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / power
+        = l:(power space* multiplicativeTokens space*)* r:power { return leftAssoc(l, r) }
 
     power
         = l:unary space* op:('TkPower') space* r:power { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
