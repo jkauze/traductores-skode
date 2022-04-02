@@ -3,7 +3,7 @@
 const { parser } = require('../parser')
 const { execute } = require('../execute')
 const { evaluate } = require('../evaluate')
-// const logger = require('../../../shared/logger')
+const logger = require('../../../shared/logger')
 
 const isActionAst = ({ type }) => type === 'instruction'
 

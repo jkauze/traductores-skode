@@ -17,7 +17,7 @@
     - [x] Agregar gramatica para acotaciones con formato de ast
     - [x] Limpiar el lexer con todo lo que no va
     - [x] Actualizar test de ast2str cos casos 18 a 21 de parser
-    - [XXX] Agregar caso recursivo en ast2str para acotaciones,incluye formateo de texto (que significa formateo de texto?)
+    - [x] Agregar caso recursivo en ast2str para acotaciones,incluye formateo de texto (que significa formateo de texto?)
     - [x] Agregar caso recursivo en evalExpression para acotaciones
     - [] Agregar caso de gurdado en memoria en execute para acotaciones
     - [] Actualizar grammar.md con acotaciones, funciones, palabras reservadas y precedencias ajustadas. Recordar eliminar strings.
@@ -47,3 +47,7 @@
 
     - a = [1,2,3]; a[0] = 9
 
+### Casos de prueba por hacer
+    - num lol := x
+    - num lol := 'x' y luego cambiar el valor de x
+    

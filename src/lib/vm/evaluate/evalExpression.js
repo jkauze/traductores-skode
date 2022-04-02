@@ -39,7 +39,7 @@ let quoted = false
  */
 const evaluateExpression = (ast, option = false) => {
     quoted = option
-    if (!isAst(ast)) return ast
+    if (!isAst(ast)) return getValue(ast)
     const { op, operands } = ast
     const [lvalue, rvalue] = operands
     let tmpLvalue = getValue(lvalue)
