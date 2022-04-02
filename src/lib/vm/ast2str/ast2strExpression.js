@@ -12,6 +12,8 @@ const orderOperands = (l, r) => isObject(l) ? [r, l] : [l, r]
 
 const isNode = item => typeof item === 'object'
 
+const isQuote = op => op === 'quote'
+
 const ast2strExpression = ast => {
     const { op, operands } = ast
     const [originalLeftOperand, originalRightOperand] = operands
@@ -19,13 +21,20 @@ const ast2strExpression = ast => {
     let newRightOperand = rightOperand
     let newLeftOperand = leftOperand
 
-    if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
-    if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
+    if (isQuote(op)) {
+        newRightOperand = `"${ast2strExpression(newRightOperand)}"`
+    }
+    else {
+        if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
+        if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
+    }
 
-    if (isObject(originalLeftOperand)) {
+    if (isObject(originalLeftOperand) && !isQuote(op)) {
         return formatExpressionString(newRightOperand, op, newLeftOperand)
     } else if (!rightOperand) {
         return formatUnaryExpressionString(newLeftOperand, op)
+    } else if (!leftOperand && isQuote(op)) {
+        return newRightOperand
     } else {
         return formatExpressionString(newLeftOperand, op, newRightOperand)
     }

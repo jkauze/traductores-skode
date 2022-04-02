@@ -166,6 +166,71 @@ const case18 = {
 
 const case19 = []
 
+
+// x := 3 = 3 && true
+const case20 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+        'x',
+        {
+            op: '||',
+            type: 'expression',
+            operands: [
+                {
+                    op: '&&',
+                    type: 'expression',
+                    operands: [{ op: '=', type: 'expression', operands: [3, 3] }, true]
+                },
+                { op: '!', type: 'expression', operands: [true] }
+            ]
+        },
+        'Boolean'
+    ]
+}
+
+// x < y + 3 = 35
+const case21 = {
+    op: '=',
+    type: 'expression',
+    operands: [
+        {
+            op: '<',
+            type: 'expression',
+            operands: ['x', { op: '+', type: 'expression', operands: ['y', 3] }]
+        },
+        35
+    ]
+}
+
+// y / w
+const case22 = {
+    op: 'quote',
+    type: 'expression',
+    operands: [{ op: '/', type: 'expression', operands: ['y', 'w'] }]
+}
+
+// z = x + 'y / w'
+const case23 = {
+    op: '=',
+    type: 'expression',
+    operands: [
+        'z',
+        {
+            op: '+',
+            type: 'expression',
+            operands: [
+                'x',
+                {
+                    op: 'quote',
+                    type: 'expression',
+                    operands: [{ op: '/', type: 'expression', operands: ['y', 'w'] }]
+                }
+            ]
+        }
+    ]
+}
+
 module.exports = {
     case1,
     case2,
@@ -185,5 +250,9 @@ module.exports = {
     case16,
     case17,
     case18,
-    case19
+    case19,
+    case20,
+    case21,
+    case22,
+    case23
 }

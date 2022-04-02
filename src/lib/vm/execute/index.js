@@ -61,7 +61,4 @@ const execute = ast => {
 
 }
 
-// console.log(execute(ast3))
-// console.log(data)
-
 module.exports = { execute }
