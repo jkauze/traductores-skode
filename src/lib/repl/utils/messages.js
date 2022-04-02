@@ -9,13 +9,15 @@ const okASTMessage = (input, tokens) => {
   return formatedMessage
 }
 
-const okMessage = (input, tokens) => {
+const okLexMessage = (input, tokens) => {
   const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
   console.log(formatedMessage);
   return formatedMessage
 }
 
-const ackMessage = (input) => console.log(`ACK: ${input}`);
+const ackMessage = (message) => console.log(`ACK: ${message}`);
+
+const okMessage = (message) => console.log(`OK: ${message}`);
 
 const errorMessage = ({ input, error = notImplemented, fileInfo }) => {
   const formatedError = `ERROR: "${input}" ==> ${error}`
@@ -37,6 +39,7 @@ const fatalErrorMessage = ({ error, fileInfo }) => {
 
 module.exports = {
   okMessage,
+  okLexMessage,
   okASTMessage,
   ackMessage,
   errorMessage,

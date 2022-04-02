@@ -1,7 +1,7 @@
 'use strict'
 
 const { parser, ast2str } = require('../../../vm')
-const logger = require('../../../../utils/logger')
+const logger = require('../../../../shared/logger')
 const { fatalErrorMessage, okASTMessage } = require('../../utils/messages')
 
 /**

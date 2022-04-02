@@ -1,7 +1,7 @@
 'use strict'
 
 const { lexer } = require('../../../vm')
-const { lexErrorMessage, okMessage } = require('../../utils/messages')
+const { lexErrorMessage, okLexMessage } = require('../../utils/messages')
 
 const tokenize = (arg) => lexer(arg)
 
@@ -17,7 +17,7 @@ const lex = ({ args, fileInfo }) => {
     console.log(args)
     try {
         tokens = args.map(tokenize)
-        okMessage(formatedArgs, tokens)
+        okLexMessage(formatedArgs, tokens)
     } catch (error) {
         lexErrorMessage({ error: error.found, fileInfo })
     }
