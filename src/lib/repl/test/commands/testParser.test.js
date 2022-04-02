@@ -5,7 +5,7 @@ const cases = require('./fixtures/testParserCases')
 
 const assert = require('assert');
 
-describe('#parser', () => {
+describe('#testParser', () => {
     it("Case 1: 1", () => {
         const input = cases.case1
 
@@ -131,7 +131,7 @@ describe('#parser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("1+2-3*4/5^6") ==> (1 + (2 - (3 * (4 / (5 ^ 6)))))'
+      const expected = 'OK:ast("1+2-3*4/5^6") ==> ((1 + 2) - ((3 * 4) / (5 ^ 6)))'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 17: (1 + 2) * 4^6 - {4+1}/5", () => {
