@@ -4,7 +4,7 @@ const data = require('../data')
 
 const isAst = ast => typeof ast === 'object'
 
-const getStringExpression = (tmpLvalue, op, tmpRvalue) => `${tmpLvalue} ${op} ${tmpRvalue}`
+const getStringExpressionBinary = (tmpLvalue, op, tmpRvalue) => `${tmpLvalue} ${op} ${tmpRvalue}`
 
 const getStringExpressionUnary = (value, op) => `${op} ${value}`
 
@@ -12,15 +12,23 @@ const isBinary = (tmpLvalue, tmpRvalue) => !!tmpLvalue && !!tmpRvalue
 
 const isIdentifier = value => typeof value === 'string'
 
-const findValue = ast => data[ast] && data[ast]['value']
+const isQuoteOp = op => op === 'quote'
 
-const getIdValue = value => (
-    findValue(value) || null
-)
+const isExpressionValue = value => typeof data[value]['value'] === 'object' ? evalExpression(data[value]['value']) : data[value]['value']
+
+const findValue = value => data[value] && isExpressionValue(value)
+
+const getIdValue = value => findValue(value) || null
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
 const getValue = value => isIdentifier(value) ? getIdValue(value) : value
+
+const getExpressionString = (lvalue, op, rvalue) => (
+    isBinary(lvalue, rvalue) ? getStringExpressionBinary(lvalue, op, rvalue) : getStringExpressionUnary(lvalue, op)
+)
+
+let quoted = false
 
 /**
  * @param {Object || String} ast
@@ -29,13 +37,14 @@ const getValue = value => isIdentifier(value) ? getIdValue(value) : value
  * @param {String} ast.type
  * @returns {Object}
  */
-const evaluateExpression = ast => {
+const evaluateExpression = (ast, option = false) => {
+    quoted = option
     if (!isAst(ast)) return ast
     const { op, operands } = ast
     const [lvalue, rvalue] = operands
     let tmpLvalue = getValue(lvalue)
     let tmpRvalue = getValue(rvalue)
-
+    let stringExpression
     if (!tmpLvalue && !!lvalue) throw new Error(referenceError(lvalue))
     if (!tmpRvalue && !!rvalue) throw new Error(referenceError(rvalue))
 
@@ -47,9 +56,13 @@ const evaluateExpression = ast => {
      * no se pueden operar variables no definidas
      * definir cuales operadores binarios/unarios son para los Boolean
      */
-    if (isAst(tmpLvalue)) tmpLvalue = evaluateExpression(tmpLvalue)
-    if (isAst(tmpRvalue)) tmpRvalue = evaluateExpression(tmpRvalue)
-    const stringExpression = isBinary(tmpLvalue, tmpRvalue) ? getStringExpression(tmpLvalue, op, tmpRvalue) : getStringExpressionUnary(tmpLvalue, op)
+    if (isAst(tmpLvalue)) tmpLvalue = evaluateExpression(tmpLvalue, quoted)
+    if (isAst(tmpRvalue)) tmpRvalue = evaluateExpression(tmpRvalue, quoted)
+    if (isQuoteOp(op)) {
+        stringExpression = tmpLvalue
+        quoted = true
+    }
+    else stringExpression = getExpressionString(tmpLvalue, op, tmpRvalue)
     return eval(stringExpression)
 }
 
@@ -59,8 +72,8 @@ const transformItem = item => isAst(item) ? evaluateExpression(item) : item
 
 const evalArray = ast => ast.map(transformItem)
 
-const evalExpression = ast => Array.isArray(ast) ? formatExpression(evalArray(ast)) : evaluateExpression(ast)
-
-// console.log(evaluateExpression(ast2))
+const evalExpression = ast => Array.isArray(ast)
+    ? { result: formatExpression(evalArray(ast)), quoted }
+    : { result: evaluateExpression(ast), quoted }
 
 module.exports = { evalExpression }

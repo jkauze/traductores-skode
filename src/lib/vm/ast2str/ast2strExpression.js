@@ -22,7 +22,7 @@ const ast2strExpression = ast => {
     let newLeftOperand = leftOperand
 
     if (isQuote(op)) {
-        newRightOperand = `"${ast2strExpression(newRightOperand)}"`
+        newRightOperand = isNode(newRightOperand) ? `"${ast2strExpression(newRightOperand)}"` : `"${newLeftOperand}"`
     }
     else {
         if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
@@ -31,10 +31,10 @@ const ast2strExpression = ast => {
 
     if (isObject(originalLeftOperand) && !isQuote(op)) {
         return formatExpressionString(newRightOperand, op, newLeftOperand)
-    } else if (!rightOperand) {
+    } else if (!rightOperand && !isQuote(op)) {
         return formatUnaryExpressionString(newLeftOperand, op)
-    } else if (!leftOperand && isQuote(op)) {
-        return newRightOperand
+    } else if (isQuote(op)) {
+        return newRightOperand || newLeftOperand
     } else {
         return formatExpressionString(newLeftOperand, op, newRightOperand)
     }

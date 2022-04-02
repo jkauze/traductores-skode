@@ -46,17 +46,18 @@ const typeError = (rvalue, type) => (
 const execute = ast => {
     const { operands, op } = ast
     const [lvalue, rvalue, type] = operands
-    const resultRvalue = evalExpression(rvalue)
+    const { result, quoted } = evalExpression(rvalue)
+    const resultExpression = quoted ? rvalue : result
 
     if (isAssignation(type)) {
         if (isNotDefined(lvalue)) return referenceError(lvalue)
-        if (hasNotValidType(resultRvalue, dataType(lvalue))) return typeError(resultRvalue, dataType(lvalue))
-        updateMem(lvalue, resultRvalue)
-        return formatResponse(`${lvalue} ${op} ${resultRvalue}`, statusTypes.ACK);
+        if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
+        updateMem(lvalue, resultExpression)
+        return formatResponse(`${lvalue} ${op} ${result}`, statusTypes.ACK);
     } else {
-        if (hasNotValidType(resultRvalue, type)) return typeError(resultRvalue, type)
-        updateMem(lvalue, resultRvalue, type)
-        return formatResponse(`${type} ${lvalue} ${op} ${resultRvalue}`, statusTypes.ACK);
+        if (hasNotValidType(result, type)) return typeError(result, type)
+        updateMem(lvalue, resultExpression, type)
+        return formatResponse(`${type} ${lvalue} ${op} ${result}`, statusTypes.ACK);
     }
 
 }

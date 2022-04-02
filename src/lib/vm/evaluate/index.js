@@ -13,13 +13,17 @@ const referenceError = ast => (
     formatResponse(`Uncaught ReferenceError: "${ast}" is not defined`, statusTypes.ERROR)
 )
 
-const formatValue = ast => `${ast} ==> ${data[ast]['value']}`
+const isExpressionValue = ast => {
+    const { result } = evalExpression(data[ast]['value'])
+    return result || data[ast]['value']
+}
 
-const findValue = ast => data[ast] && formatResponse(formatValue(ast), statusTypes.OK) 
+const formatValue = ast => `${ast} ==> ${isExpressionValue(ast)}`
 
-const getIdValue = ast => (
-    findValue(ast) || referenceError(ast)
-)
+const findValue = ast => data[ast] && formatResponse(formatValue(ast), statusTypes.OK)
+
+const getIdValue = ast => findValue(ast) || referenceError(ast)
+
 
 /**
  * @param {Object || String} ast
@@ -31,10 +35,10 @@ const getIdValue = ast => (
 const evaluate = ast => {
     try {
         if (isNotAst(ast)) return isIdentifier(ast) ? getIdValue(ast) : ast
-        const result = evalExpression(ast)
+        const { result } = evalExpression(ast)
         return formatResponse(result, statusTypes.OK)
     } catch (error) {
-        return formatResponse(error.message, statusTypes.ERROR)        
+        return formatResponse(error.message, statusTypes.ERROR)
     }
 
 }

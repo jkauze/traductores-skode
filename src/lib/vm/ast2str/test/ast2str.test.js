@@ -204,13 +204,21 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    //
     it('Case 23: z = x + "y / w"', () => {
         const input = cases.case23
 
         const actual = ast2str(input)
 
         const expected = '(z = (x + "(y / w)"))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 24: "y" + 1', () => {
+        const input = cases.case24
+
+        const actual = ast2str(input)
+
+        const expected = '("y" + 1)'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 });
