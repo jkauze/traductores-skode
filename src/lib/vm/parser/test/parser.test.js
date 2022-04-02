@@ -161,30 +161,16 @@ describe('#parser', () => {
       const actual = parser(input)
 
       const expected = {
-        op: '+',
+        op: '-',
         type: 'expression',
         operands: [
-          1,
+          { op: '+', type: 'expression', operands: [ 1, 2 ] },
           {
-            op: '-',
+            op: '/',
             type: 'expression',
             operands: [
-              2,
-              {
-                op: '*',
-                type: 'expression',
-                operands: [
-                  3,
-                  {
-                    op: '/',
-                    type: 'expression',
-                    operands: [
-                      4,
-                      { op: '^', type: 'expression', operands: [ 5, 6 ] }
-                    ]
-                  }
-                ]
-              }
+              { op: '*', type: 'expression', operands: [ 3, 4 ] },
+              { op: '^', type: 'expression', operands: [ 5, 6 ] }
             ]
           }
         ]
