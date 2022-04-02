@@ -10,6 +10,8 @@ const mapType = {
     boolean: 'Boolean'
 }
 
+const isNotAst = ast => typeof ast !== 'object'
+
 const getType = (rvalue) => mapType[typeof rvalue]
 
 const hasNotValidType = (rvalue, type) => getType(rvalue) !== type

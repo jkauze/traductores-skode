@@ -2,7 +2,7 @@
 
 const { parser, ast2str } = require('../../../vm')
 const logger = require('../../../../shared/logger')
-const { fatalErrorMessage, okASTMessage } = require('../../utils/messages')
+const { astErrorMessage, okASTMessage } = require('../../utils/messages')
 
 /**
  * @param {Object} options 
@@ -18,7 +18,7 @@ const testParser = ({ args, fileInfo }) => {
         const aststr = ast2str(ast)
         return okASTMessage(formatedArgs, aststr)
     } catch (error) {
-        return fatalErrorMessage({ error: error.message, fileInfo })
+        return astErrorMessage({ error: error.message, fileInfo, input: formatedArgs })
     }
 }
 
