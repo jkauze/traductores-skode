@@ -231,6 +231,13 @@ const case23 = {
     ]
 }
 
+// "y" + 1
+const case24 = {
+    op: '+',
+    type: 'expression',
+    operands: [{ op: 'quote', type: 'expression', operands: ['y'] }, 1]
+}
+
 module.exports = {
     case1,
     case2,
@@ -254,5 +261,6 @@ module.exports = {
     case20,
     case21,
     case22,
-    case23
+    case23,
+    case24
 }
