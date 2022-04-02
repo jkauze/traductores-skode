@@ -8,9 +8,9 @@
         - si es una expression = llama a evalExpression (hace validaciones y retorna el valor)
 
 # TODO
-    - [] Definir el ast de las funciones y dar el mock de sample para el ast2str
+    - [x] Definir el ast de las funciones y dar el mock de sample para el ast2str
     - [] Montar todas la gramaticas de las funciones
-    - [] adaptar ast2str para soportar las funciones nuevas
+    - [x] adaptar ast2str para soportar las funciones nuevas
     - [x] Quitar los strings del parser/grammar
     - [x] arreglar el parser para aceptar definiciones con Boolean
     - [x] Arregar precedencias en el parser
