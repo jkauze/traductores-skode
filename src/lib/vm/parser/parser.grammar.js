@@ -42,23 +42,48 @@ module.exports =
 
     start
         = i:instruction { return i }
-        / e:arrayExpresion { return e }
+        / f:function { return f }
+        / e:generalExpression { return e }
 
     instruction
         = d:definition { return d }
         / a:assignation { return a }
 
     definition
-        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
+        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpression space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     assignation
-        = i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
+        = i:id space* 'TkAssign' space* e:arrayExpression space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     typeDef
         = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [getTokenValue(t)] }
         / t:typeTokens { return getTokenValue(t) }
 
-    arrayExpresion
+    function
+        = 'TkId("type")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'type', type: 'expression', operands: [e] } }
+        / 'TkId("itype")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'itype', type: 'expression', operands: [e] } }
+        / 'TkId("reset")' space* 'TkOpenPar' space* 'TkClosePar' { return { op: 'reset', type: 'expression' } }
+        / 'TkId("uniform")' space* 'TkOpenPar' space* 'TkClosePar' { return { op: 'uniform', type: 'expression' } }
+        / 'TkId("floor")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'floor', type: 'expression', operands: [e] } }
+        / 'TkId("length")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'length', type: 'expression', operands: [e] } }
+        / 'TkId("sum")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'sum', type: 'expression', operands: [e] } }
+        / 'TkId("avg")' space* 'TkOpenPar' space* e:generalExpression space* 'TkClosePar' { return { op: 'avg', type: 'expression', operands: [e] } }
+        / 'TkId("pi")' space* 'TkOpenPar' space* 'TkClosePar' { return { op: 'reset', type: 'expression' } }
+        / 'TkId("now")' space* 'TkOpenPar' space* 'TkClosePar' { return { op: 'reset', type: 'expression' } }
+        / 'TkId("if")' space* 'TkOpenPar' space* i:ifArgs space* 'TkClosePar' { return i }
+
+    ifArgs
+        = c:alternativeExpression space* 'TkComma' space* t:alternativeExpression space* 'TkComma' space* f:alternativeExpression { return {op: 'if', type:'expresion', operands: [c,t,f] } }
+
+    generalExpression
+        = arrayExpression
+        / expression
+
+    alternativeExpression
+        = expression
+        / arrayExpression
+
+    arrayExpression
         = 'TkOpenBracket' space* ('TkComma')? space* 'TkCloseBracket' { return [] }
         / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return [e] }
         / 'TkOpenBracket' space* e:arrayContent space* 'TkCloseBracket' { return e }
@@ -69,7 +94,7 @@ module.exports =
         / expression
 
     arrayItem
-        = space* 'TkComma' space* e:arrayExpresion { return e }
+        = space* 'TkComma' space* e:arrayExpression { return e }
 
     expression
         =  or / primary
@@ -129,7 +154,7 @@ module.exports =
         / 'TkFalse' { return false }
 
     id
-        = 'TkId("' c:content'")' { return c.join('') }
+        = 'TkId("' c:content '")' { return c.join('') }
 
     content
         = c:[a-zA-Z0-9_]+ { return c }
