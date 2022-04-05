@@ -74,8 +74,8 @@ module.exports =
         / 'TkId("length")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'length', type: 'expression', operands: [e] } }
         / 'TkId("sum")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'sum', type: 'expression', operands: [e] } }
         / 'TkId("avg")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'avg', type: 'expression', operands: [e] } }
-        / 'TkId("pi")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'reset', type: 'expression' } }
-        / 'TkId("now")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'reset', type: 'expression' } }
+        / 'TkId("pi")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'pi', type: 'expression' } }
+        / 'TkId("now")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'now', type: 'expression' } }
         / 'TkId("if")' __ 'TkOpenPar' __ i:IfFunctionArguments __ 'TkClosePar' { return i }
 
     IfFunctionArguments
