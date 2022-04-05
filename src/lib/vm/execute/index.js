@@ -10,8 +10,6 @@ const mapType = {
     boolean: 'Boolean'
 }
 
-const isNotAst = ast => typeof ast !== 'object'
-
 const getType = (rvalue) => mapType[typeof rvalue]
 
 const hasNotValidType = (rvalue, type) => getType(rvalue) !== type
@@ -50,7 +48,7 @@ const execute = ast => {
     const [lvalue, rvalue, type] = operands
     const { result, quoted } = evalExpression(rvalue)
     const resultExpression = quoted ? rvalue : result
-
+    
     if (isAssignation(type)) {
         if (isNotDefined(lvalue)) return referenceError(lvalue)
         if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
