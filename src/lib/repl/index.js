@@ -8,7 +8,7 @@ const { formatInput } = require('./utils/formatInput');
 
 const promptStokhos = '<Stókhos> ';
 
-const welcomeMessage = `Welcome to stokhos ${version}`
+const welcomeMessage = `Welcome to stokhos ${version} (Phase 3 at 85%)`
 const helpMessage = 'Type ".help" for more information'
 
 const infinityLoop = true
@@ -20,6 +20,7 @@ const startREPL = () => {
     const input = prompt(promptStokhos);
     const formatedInput = formatInput(input);
 
+    if (!formatedInput) continue
     const result = REPLHandler(formatedInput);
     if (result === 'break') break;
     prompt.history.save();

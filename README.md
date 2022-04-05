@@ -42,9 +42,30 @@ npm start
 
 - Una vez iniciado el parser podra ejecutar el nuevo comando `.ast <valid input>`
 ```sh
-Welcome to stokhos 2.0.0
+Welcome to stokhos 3.0.0
 <Stókhos> .ast num x := a
 OK:ast("num x := a") ==> def(Num, x, a)
+```
+
+# Instrucciones etapa 3: Validaciones estatics && Ambiente de ejecucion
+
+- Ejecutar el REPL
+```sh
+# en la carpeta raiz del proyecto 
+npm start
+```
+
+- Una vez iniciado el parser podra ejecutar expresiones/instrucciones al repl para procesarlas
+```sh
+Welcome to stokhos 3.0.0
+<Stókhos> num prueba := 12 + 13
+ACK: Num prueba := 25
+<Stókhos> prueba
+OK: prueba ==> 25
+<Stókhos> prueba + 10
+OK: 35
+<Stókhos> xxxxx + 2
+ERROR: "xxxxx + 2" ==> Uncaught ReferenceError: "xxxxx" is not defined
 ```
 
 #  Ejecutar el suite de tests
@@ -67,6 +88,12 @@ npm run test:ast2str
 
 # Ejecutar los test del tesParser:
 npm run test:tesParser
+
+# Ejecutar los test del execute:
+npm run test:execute
+
+# Ejecutar los test del evaluate:
+npm run test:evaluate
 ```
 
 # Documentacion

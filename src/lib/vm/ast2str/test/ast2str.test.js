@@ -176,4 +176,103 @@ describe('#ast2str', () => {
         const expected = '[]'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
+
+    it('Case 20: x := 3 = 3 && true', () => {
+        const input = cases.case20
+
+        const actual = ast2str(input)
+
+        const expected = 'def(Boolean, x, (((3 = 3) && true) || (!true)))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 21: x < y + 3 = 35', () => {
+        const input = cases.case21
+
+        const actual = ast2str(input)
+
+        const expected = '((x < (y + 3)) = 35)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 22: y / w', () => {
+        const input = cases.case22
+
+        const actual = ast2str(input)
+
+        const expected = '"(y / w)"'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 23: z = x + "y / w"', () => {
+        const input = cases.case23
+
+        const actual = ast2str(input)
+
+        const expected = '(z = (x + "(y / w)"))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 24: "y" + 1', () => {
+        const input = cases.case24
+
+        const actual = ast2str(input)
+
+        const expected = '("y" + 1)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 25: if(x,a[0],1)', () => {
+        const input = cases.case25
+
+        const actual = ast2str(input)
+
+        const expected = 'if(x,a[0],1)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 26: reset()', () => {
+        const input = cases.case26
+
+        const actual = ast2str(input)
+
+        const expected = 'reset()'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 27: [1,2,3][1]', () => {
+        const input = cases.case27
+
+        const actual = ast2str(input)
+
+        const expected = '[1,2,3][1]'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 28: [1,2,3][1] * x', () => {
+        const input = cases.case28
+
+        const actual = ast2str(input)
+
+        const expected = '([1,2,3][1] * x)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 29: [1,2,3][1*2^6] * a[]', () => {
+        const input = cases.case29
+
+        const actual = ast2str(input)
+
+        const expected = '([1,2,3][(1 * (2 ^ 6))] * a[])'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 30: ltype(2<=3 && false)', () => {
+        const input = cases.case30
+
+        const actual = ast2str(input)
+
+        const expected = 'ltype(((2 <= 3) && false))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
 });
