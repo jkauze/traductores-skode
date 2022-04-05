@@ -51,6 +51,18 @@ const case20 = setupCase("'y / w'")
 
 const case21 = setupCase("z = x + 'y / w'")
 
+const case22 = setupCase('if(x,a[0],1)')
+
+const case23 = setupCase('reset()')
+
+const case24 = setupCase('[1,2,3][1]')
+
+const case25 = setupCase('[1,2,3][1] * x')
+
+const case26 = setupCase('[1,2,3][1*2^6] * a[]')
+
+const case27 = setupCase('ltype(2<=3 && false)')
+
 module.exports = {
   case1,
   case2,
@@ -72,5 +84,11 @@ module.exports = {
   case18,
   case19,
   case20,
-  case21
+  case21,
+  case22,
+  case23,
+  case24,
+  case25,
+  case26,
+  case27
 }

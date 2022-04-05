@@ -238,6 +238,63 @@ const case24 = {
     operands: [{ op: 'quote', type: 'expression', operands: ['y'] }, 1]
 }
 
+// if(x,a[0],1)
+const case25 = {
+    op: 'if',
+    type: 'expresion',
+    operands: [ 'x', { op: 'index', type: 'expression', operands: [ 'a', 0 ] }, 1 ]
+}
+
+// reset()
+const case26 = { op: 'reset', type: 'expression' }
+
+// [1,2,3][1]
+const case27 = { op: 'index', type: 'expression', operands: [ [ 1, 2, 3 ], 1 ] }
+
+// [1,2,3][1] * x
+const case28 = {
+    op: '*',
+    type: 'expression',
+    operands: [
+        { op: 'index', type: 'expression', operands: [ [ 1, 2, 3 ], 1 ] },
+        'x'
+    ]
+}
+
+// [1,2,3][1*2^6] * a[]
+const case29 = {
+    op: '*',
+    type: 'expression',
+    operands: [
+        {
+        op: 'index',
+        type: 'expression',
+        operands: [
+            [ 1, 2, 3 ],
+            {
+            op: '*',
+            type: 'expression',
+            operands: [ 1, { op: '^', type: 'expression', operands: [ 2, 6 ] } ]
+            }
+        ]
+        },
+        { op: 'index', type: 'expression', operands: [ 'a', [] ] }
+    ]
+}
+
+// ltype(2<=3 && false)
+const case30 = {
+    op: 'ltype',
+    type: 'expression',
+    operands: [
+        {
+        op: '&&',
+        type: 'expression',
+        operands: [ { op: '<=', type: 'expression', operands: [ 2, 3 ] }, false ]
+        }
+    ]
+}
+
 module.exports = {
     case1,
     case2,
@@ -262,5 +319,11 @@ module.exports = {
     case21,
     case22,
     case23,
-    case24
+    case24,
+    case25,
+    case26,
+    case27,
+    case28,
+    case29,
+    case30
 }

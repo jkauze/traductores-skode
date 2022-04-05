@@ -67,7 +67,7 @@ module.exports =
 
     FunctionExpression
         = 'TkId("type")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'type', type: 'expression', operands: [e] } }
-        / 'TkId("itype")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'itype', type: 'expression', operands: [e] } }
+        / 'TkId("ltype")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'ltype', type: 'expression', operands: [e] } }
         / 'TkId("reset")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'reset', type: 'expression' } }
         / 'TkId("uniform")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'uniform', type: 'expression' } }
         / 'TkId("floor")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'floor', type: 'expression', operands: [e] } }

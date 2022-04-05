@@ -24,7 +24,7 @@ const isQuote = op => op === 'quote'
 
 const isIndex = op => op ==='index'
 
-const mapperFunction = {if:true, type:true, itype:true, reset:true, uniform:true, floor:true, length:true, sum:true, avg:true, pi:true, now:true}
+const mapperFunction = {if:true, type:true, ltype:true, reset:true, uniform:true, floor:true, length:true, sum:true, avg:true, pi:true, now:true}
 
 const isFunction = op => mapperFunction[op] || false
 
