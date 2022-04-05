@@ -15,7 +15,7 @@ const isActionAst = ({ type }) => type === 'instruction'
 const process = args => {
     try {
         const ast = parser(args)
-        // logger(ast) // only for debug
+        logger(ast) // only for debug
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
         return error.message
