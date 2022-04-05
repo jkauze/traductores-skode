@@ -287,4 +287,91 @@ describe('#parser', () => {
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
+    it("Case 22: if(x,a[0],1)", () => {
+      const input = cases.case22
+
+      const actual = parser(input)
+
+      const expected = {
+        op: 'if',
+        type: 'expresion',
+        operands: [ 'x', { op: 'index', type: 'expression', operands: [ 'a', 0 ] }, 1 ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 23: reset()", () => {
+      const input = cases.case23
+
+      const actual = parser(input)
+
+      const expected = { op: 'reset', type: 'expression' }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 24: [1,2,3][1]", () => {
+      const input = cases.case24
+
+      const actual = parser(input)
+
+      const expected = { op: 'index', type: 'expression', operands: [ [ 1, 2, 3 ], 1 ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 25: [1,2,3][1] * x", () => {
+      const input = cases.case25
+
+      const actual = parser(input)
+
+      const expected = {
+        op: '*',
+        type: 'expression',
+        operands: [
+          { op: 'index', type: 'expression', operands: [ [ 1, 2, 3 ], 1 ] },
+          'x'
+        ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 26: [1,2,3][1*2^6] * a[]", () => {
+      const input = cases.case26
+
+      const actual = parser(input)
+
+      const expected = {
+        op: '*',
+        type: 'expression',
+        operands: [
+          {
+            op: 'index',
+            type: 'expression',
+            operands: [
+              [ 1, 2, 3 ],
+              {
+                op: '*',
+                type: 'expression',
+                operands: [ 1, { op: '^', type: 'expression', operands: [ 2, 6 ] } ]
+              }
+            ]
+          },
+          { op: 'index', type: 'expression', operands: [ 'a', [] ] }
+        ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 27: ltype(2<=3 && false)", () => {
+      const input = cases.case27
+
+      const actual = parser(input)
+
+      const expected = {
+        op: 'ltype',
+        type: 'expression',
+        operands: [
+          {
+            op: '&&',
+            type: 'expression',
+            operands: [ { op: '<=', type: 'expression', operands: [ 2, 3 ] }, false ]
+          }
+        ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
 });

@@ -1,24 +1,30 @@
 'use strict'
 
+const logger = require('../../../shared/logger')
+
 const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
 const formatExpressionString = (leftOperand, op, rightOperand) => `(${leftOperand} ${op} ${rightOperand})`
 
 const formatUnaryExpressionString = (leftOperand, op) => `(${op}${leftOperand})`
 
-const formatFunctionString = (op, operands) => (operands) ? `${op}(${formatFunctionArgsString(operands)})` : `${op}()`
+const formatFunctionString = (op, operands) => (operands) ? `${op}(${reduceFunctionArgs(operands)})` : `${op}()`
 
-const formatFunctionArgsString = (operands) => operands.reduce((formatedString, String) => { return `${formatedString}, ${String}` })
+const reduceFunctionArgs = (operands) => formatFunctionArgsString(operands.map(operand => isNode(operand) ? executeAST2Expression(operand) : operand ))
+    
+const formatFunctionArgsString = (operands) => operands.reduce((strings, string) => `${strings},${string}`)
 
-const isObject = operand => typeof operand === 'object'
-
-const orderOperands = (l, r) => isObject(l) ? [r, l] : [l, r]
+const orderOperands = (l, r) => isNode(l) ? isArray(l) ? [l, r] : [r, l] : [l, r]
 
 const isNode = item => typeof item === 'object'
 
+const isArray = item => Array.isArray(item)
+
 const isQuote = op => op === 'quote'
 
-const mapperFunction = {if:true, type:true, itype:true, reset:true, uniform:true, floor:true, length:true, sum:true, avg:true, pi:true, now:true}
+const isIndex = op => op ==='index'
+
+const mapperFunction = {if:true, type:true, ltype:true, reset:true, uniform:true, floor:true, length:true, sum:true, avg:true, pi:true, now:true}
 
 const isFunction = op => mapperFunction[op] || false
 
@@ -35,7 +41,12 @@ const ast2strExpression = ast => {
         if (isFunction(op)) {
             return formatFunctionString(op, operands)
         }
-        if (isQuote(op)) {
+        else if (isIndex(op)){
+            if (isNode(newRightOperand)) newRightOperand = executeAST2Expression(rightOperand)
+            if (isNode(newLeftOperand)) newLeftOperand = executeAST2Expression(leftOperand)
+            return `${newLeftOperand}[${newRightOperand}]`
+        }
+        else if (isQuote(op)) {
             newRightOperand = isNode(newRightOperand) ? `"${ast2strExpression(newRightOperand)}"` : `"${newLeftOperand}"`
         }
         else {
@@ -43,7 +54,7 @@ const ast2strExpression = ast => {
             if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
         }
 
-        if (isObject(originalLeftOperand) && !isQuote(op)) {
+        if (isNode(originalLeftOperand) && !isQuote(op) && !isIndex(op)) {
             return formatExpressionString(newRightOperand, op, newLeftOperand)
         } else if (!rightOperand && !isQuote(op)) {
             return formatUnaryExpressionString(newLeftOperand, op)
@@ -67,7 +78,7 @@ const ast2strArrayExpression = ast => ast.map(transformItem);
  * @returns {String} formatted ast expression to string
  */
 const executeAST2Expression = ast => (
-    Array.isArray(ast) ? formatExpression(ast2strArrayExpression(ast)) : ast2strExpression(ast)
+    isArray(ast) ? formatExpression(ast2strArrayExpression(ast)) : ast2strExpression(ast)
 )
 
 module.exports = executeAST2Expression

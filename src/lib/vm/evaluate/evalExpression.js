@@ -1,6 +1,15 @@
 'use strict'
 
 const data = require('../data')
+const { reset } = require('../reset')
+const { pi } = require('../pi')
+const { now } = require('../now')
+const { uniform } = require('../uniform')
+const { sum } = require('../sum')
+const { avg } = require('../avg')
+const { length } = require('../length')
+const { floor } = require('../floor')
+const { type } = require('../type')
 
 const isAst = ast => typeof ast === 'object'
 
@@ -28,6 +37,16 @@ const getExpressionString = (lvalue, op, rvalue) => (
     isBinary(lvalue, rvalue) ? getStringExpressionBinary(lvalue, op, rvalue) : getStringExpressionUnary(lvalue, op)
 )
 
+const isResetFunction = op => op === 'reset'
+const isPIFunction = op => op === 'pi'
+const isNowFunction = op => op === 'now'
+const isUniformFunction = op => op === 'uniform'
+const isSumFunction = op => op === 'sum'
+const isTypeFunction = op => op === 'type'
+const isAvgFunction = op => op === 'avg'
+const isLengthFunction = op => op === 'length'
+const isFloorFunction = op => op === 'floor'
+
 let quoted = false
 
 /**
@@ -41,7 +60,28 @@ const evaluateExpression = (ast, option = false) => {
     quoted = option
     if (!isAst(ast)) return getValue(ast)
     const { op, operands } = ast
+    if (isResetFunction(op)) return reset()
+    if (isPIFunction(op)) return pi()
+    if (isNowFunction(op)) return now()
+    if (isUniformFunction(op)) return uniform()
+    if (isLengthFunction(op)) return length(operands[0])
+    if (isFloorFunction(op)) return floor(operands[0])
+    if (isSumFunction(op)) {
+        const operandsValue = operands[0].map(getValue)
+        return sum(operandsValue)
+    }
+    if (isTypeFunction(op)) {
+        const { result } = evalExpression(operands[0])
+        const isArray = Array.isArray(operands[0])
+        return type(result, isArray)
+    }
+    if (isAvgFunction(op)) {
+        const operandsValue = operands[0].map(getValue)
+        return avg(operandsValue)
+    }
     const [lvalue, rvalue] = operands
+    
+
     let tmpLvalue = getValue(lvalue)
     let tmpRvalue = getValue(rvalue)
     let stringExpression
