@@ -9,13 +9,20 @@ const okASTMessage = (input, tokens) => {
   return formatedMessage
 }
 
-const okMessage = (input, tokens) => {
+const okLexMessage = (input, tokens) => {
   const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
   console.log(formatedMessage);
   return formatedMessage
 }
 
-const ackMessage = (input) => console.log(`ACK: ${input}`);
+const ackMessage = (message) => console.log(`ACK: ${message}`);
+
+// const okMessage = (message) => console.log(`OK: ${message}`);
+const okMessage = (input, message) => {
+  const formatedMessage = `OK:${input} ==> ${message}`
+  console.log(formatedMessage);
+  return formatedMessage
+}
 
 const errorMessage = ({ input, error = notImplemented, fileInfo }) => {
   const formatedError = `ERROR: "${input}" ==> ${error}`
@@ -29,17 +36,26 @@ const lexErrorMessage = ({ error, fileInfo }) => {
   saveError({ fileInfo, error: formatedError })
 }
 
-const fatalErrorMessage = ({ error, fileInfo }) => {
-  const formatedError = `SyntaxError: "${error}"`
+const astErrorMessage = ({ error, fileInfo, input }) => {
+  const formatedError = `ERROR: ast(${input}) ==> SyntaxError "${error}"`
+  console.log(formatedError)
+  saveError({ fileInfo, error: formatedError })
+
+}
+
+const fatalErrorMessage = ({ error, fileInfo, input }) => {
+  const formatedError = `ERROR ${input} ==> FatalError "${error}"`
   console.log(formatedError)
   saveError({ fileInfo, error: formatedError })
 }
 
 module.exports = {
   okMessage,
+  okLexMessage,
   okASTMessage,
   ackMessage,
   errorMessage,
   lexErrorMessage,
-  fatalErrorMessage
+  fatalErrorMessage,
+  astErrorMessage
 };

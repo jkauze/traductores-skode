@@ -5,11 +5,13 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "mocha  src/**/test/*test.js --reporter spec",
+    "test": "mocha  src/**/test/**/*test.js --reporter spec",
     "test:ast2str": "mocha  src/lib/vm/ast2str/**/*test.js --reporter spec",
     "test:parser": "mocha  src/lib/vm/parser/**/*test.js --reporter spec",
     "test:testParser": "mocha  src/lib/repl/test/commands/testParser.test.js --reporter spec",
-    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec"
+    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec",
+    "test:execute": "mocha  src/lib/vm/execute/**/*test.js --reporter spec",
+    "test:evaluate": "mocha  src/lib/vm/evaluate/**/*test.js --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -28,8 +30,8 @@
     "prompt-sync-history": "^1.0.1"
   },
   "engines": {
-    "npm": "8.5.0",
-    "node": "14.15.0"
+    "npm": "8.5.3",
+    "node": "17.6.0"
   },
   "devDependencies": {
     "eslint": "^8.9.0"

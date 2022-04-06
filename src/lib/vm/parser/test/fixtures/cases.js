@@ -43,20 +43,25 @@ const case16 = setupCase('1+2-3*4/5^6')
 
 const case17 = setupCase('(1 + 2) * 4^6 - {4+1}/5')
 
-const case18 = setupCase("''")
+const case18 = setupCase('bool x := 3 = 3 && true || !true')
 
-const case19 = setupCase("'1'")
+const case19 = setupCase('x < y + 3 = 35')
 
-const case20 = setupCase("'SKode'")
+const case20 = setupCase("'y / w'")
 
-const case21 = setupCase("'1+2'")
+const case21 = setupCase("z = x + 'y / w'")
 
-const case22 = setupCase("'2' + '1'")
+const case22 = setupCase('if(x,a[0],1)')
 
-const case23 = setupCase("'{2+1}' = '(1+2)'")
+const case23 = setupCase('reset()')
 
-const case24 = setupCase("'()'")
+const case24 = setupCase('[1,2,3][1]')
 
+const case25 = setupCase('[1,2,3][1] * x')
+
+const case26 = setupCase('[1,2,3][1*2^6] * a[]')
+
+const case27 = setupCase('ltype(2<=3 && false)')
 
 module.exports = {
   case1,
@@ -82,5 +87,8 @@ module.exports = {
   case21,
   case22,
   case23,
-  case24
+  case24,
+  case25,
+  case26,
+  case27
 }

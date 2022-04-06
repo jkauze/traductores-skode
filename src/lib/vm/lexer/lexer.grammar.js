@@ -5,27 +5,11 @@ module.exports =
             / Char
                 / TkNumber
                 / TkId
-                / Extra
-                    / TkLComment
-                    / TkOpenBComment
-                    / TkCloseBComment
                 / Reserved
                     / TkNum
                     / TkBool
                     / TkTrue
                     / TkFalse
-                    / TkType
-                    / TkIf
-                    / TkElse
-                    / TkSwitch
-                    / TkCase
-                    / TkDefault
-                    / TkWhile
-                    / TkFor
-                    / TkBreak
-                    / TkContinue
-                    / TkTry
-                    / TkCatch
                 / Operator
                     / TkOpenPar
                     / TkClosePar
@@ -54,9 +38,6 @@ module.exports =
                     / TkAssign
                     / TkSemicolon
                     / TkColon
-                    / TkYields
-                    / TkRArrow
-                    / TkLArrow
                     / TkDot
 
     Primary = 
@@ -65,7 +46,6 @@ module.exports =
         Char =
             TkNumber
             / TkId
-            / Extra
             / Reserved
             / Operator
 
@@ -73,49 +53,16 @@ module.exports =
 
             TkId "id" = (Reserved)?([_a-zA-Z]i [_a-zA-Z0-9]i*) { return 'TkId("' + text() + '")' }
 
-            Extra = 
-                TkLComment
-                / TkOpenBComment
-                / TkCloseBComment
-
-                TkLComment = '//' { return 'TkLComment' }
-                TkOpenBComment = '/*' { return 'TkOpenBComment' }
-                TkCloseBComment = '*/' { return 'TkCloseBComment' }
-
             Reserved = 
                 TkNum
                 / TkBool
                 / TkTrue
                 / TkFalse
-                / TkType
-                / TkIf
-                / TkElse
-                / TkSwitch
-                / TkCase
-                / TkDefault
-                / TkWhile
-                / TkFor
-                / TkBreak
-                / TkContinue
-                / TkTry
-                / TkCatch
 
                 TkNum = 'num' { return 'TkNum' }
                 TkBool = 'bool' { return 'TkBool' }
                 TkTrue = 'true' { return 'TkTrue' }
                 TkFalse = 'false' { return 'TkFalse' }
-                TkType = 'type' { return 'TkType' }
-                TkIf = 'if' { return 'TkIf' }
-                TkElse = 'else' { return 'TkElse' }
-                TkSwitch = 'switch' { return 'TkSwitch' }
-                TkCase = 'case' { return 'TkCase' }
-                TkDefault = 'default' { return 'TkDefault' }
-                TkWhile = 'while' { return 'TkWhile' }
-                TkFor = 'for' { return 'TkFor' }
-                TkBreak = 'break' { return 'TkBreak' }
-                TkContinue = 'continue' { return 'TkContinue' }
-                TkTry = 'try' { return 'TkTry' }
-                TkCatch = 'catch' { return 'TkCatch' }
 
             Operator = 
                 TkOpenPar
@@ -145,9 +92,6 @@ module.exports =
                 / TkAssign
                 / TkSemicolon
                 / TkColon
-                / TkYields
-                / TkRArrow
-                / TkLArrow
                 / TkDot
 
                 TkOpenPar = '(' { return 'TkOpenPar' }
@@ -177,8 +121,5 @@ module.exports =
                 TkAssign = ':=' { return 'TkAssign' }
                 TkSemicolon = ';' { return 'TkSemicolon' }
                 TkColon = ':' { return 'TkColon' }
-                TkYields = '=>' { return 'TkYields' }
-                TkRArrow = '->' { return 'TkRArrow' }
-                TkLArrow = '<-' { return 'TkLArrow' }
                 TkDot = '.' { return 'TkDot' }
 `;

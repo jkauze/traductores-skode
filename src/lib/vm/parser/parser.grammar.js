@@ -26,145 +26,176 @@ module.exports =
             else if (token === 'TkOpenBracket') return '['
             else if (token === 'TkCloseBracket') return ']'
         }
+
+        function getLast(left) {
+            const last = left.pop()
+            const formatedLast = last.filter( v => { return v[0] !== ' ' } )
+            return formatedLast
+        }
+
+        function leftAssoc(left, val) {
+            if (!left.length) return val
+            const last = getLast(left)
+            return { op: getTokenValue(last[1]), type: 'expression', operands: [leftAssoc(left, last[0]), val] }
+        }
     }}
 
     start
-        = i:instruction { return i }
-        / e:arrayExpresion { return e }
-
-    instruction
-        = d:definition { return d }
-        / a:assignation { return a }
-
-    definition
-        = t:typeDef space* i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
-
-    assignation
-        = i:id space* 'TkAssign' space* e:arrayExpresion space* 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
-
-    typeDef
-        = 'TkOpenBracket' space* t:typeTokens space* 'TkCloseBracket' { return [getTokenValue(t)] }
-        / t:typeTokens { return getTokenValue(t) }
-
-    arrayExpresion
-        = 'TkOpenBracket' space* ('TkComma')? space* 'TkCloseBracket' { return [] }
-        / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return [e] }
-        / 'TkOpenBracket' space* e:arrayContent space* 'TkCloseBracket' { return e }
-        / arrayContent
-
-    arrayContent
-        = h:expression t:(arrayItem)* { return t.length > 0 ? [h].concat(t[0]) : h }
-        / expression
-
-    arrayItem
-        = space* 'TkComma' space* e:arrayExpresion { return e }
-
-    expression
-        =  aditive / primary
-
-    string
-        = 'TkQuote' space* 'TkQuote' { return '' }
-        / 'TkDoubleQuote' space* 'TkDoubleQuote' { return "" }
-        / 'TkQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkQuote' { return ls + rs }
-        / 'TkQuote' space* ls:stringTransform space* 'TkQuote' { return ls }
-        / 'TkDoubleQuote' space* ls:stringTransform space* rs:stringExpresion space* 'TkDoubleQuote' { return ls + rs }
-        / 'TkDoubleQuote' space* ls:stringTransform space* 'TkDoubleQuote' { return ls }
-
-    stringExpresion
-        = ls:stringTransform space* rs:stringExpresion { return ls + rs }
-        / ls:stringTransform { return ls }
-
-    stringTransform
-        = n:number { return n.toString() }
-        / i:id { return i }
-        / r:typeTokens { return getTokenValue(r) }
-        / r:aditiveTokens { return getTokenValue(r) }
-        / r:multiplicativeTokens { return getTokenValue(r) }
-        / r:relationalTokens { return getTokenValue(r) }
-        / r:booleanTokens { return getTokenValue(r) }
-        / r:capsuleTokens { return getTokenValue(r) }
-
-    aditive
-        = l:multiplicative space* op:aditiveTokens space* r:aditive { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / multiplicative
-
-    multiplicative
-        = l:relational space* op:multiplicativeTokens space* r:multiplicative { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / relational
-
-    relational
-        = l:boolean space* op:relationalTokens space* r:relational { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / boolean
-
-    boolean
-        = l:unary space* op:booleanTokens space* r:boolean { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
-        / unary
-
-    unary
-        = op:(aditiveTokens/'TkNot') space* v:primary { return { op: getTokenValue(op), type: 'expression', operands: [v] } }
-        / primary
-
-    primary
-        = 'TkOpenPar' space* e:expression space* 'TkClosePar' { return e }
-        / 'TkOpenBracket' space* e:expression space* 'TkCloseBracket' { return e }
-        / 'TkOpenBrace' space* e:expression space* 'TkCloseBrace' { return e }
-        / value
-        / string
+        = i:Instruccion { return i }
+        / f:FunctionExpression { return f }
+        / e:BinaryExpression { return e }
     
-    value
-        = number / id
 
-    number 
-        = 'TkDot' space* d:numberArgs { return parseFloat('.' + d) }
-        / i:numberArgs space* 'TkDot' space* d:numberArgs { return parseFloat(i + '.' + d) }
-        / n:numberArgs space* 'TkDot' { return n }
-        / n:numberArgs { return n }
+    Instruccion
+        = d:Definition { return d }
+        / a:Assignation { return a }
 
-    numberArgs
-        = 'TkNumber(' c:numberContent ')' { return parseInt(c.join('')) }
+    Definition
+        = t:DefinitionType __ i:Id __ 'TkAssign' __ e:BinaryExpression __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
-    numberContent
-        = c:[0-9]+ { return c }
+    Assignation
+        = i:Id __ 'TkAssign' __ e:BinaryExpression __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
-    id
-        = 'TkId("' c:content'")' { return c.join('') }
+    DefinitionType
+        = 'TkOpenBracket' __ t:ReserverdTypes __ 'TkCloseBracket' { return [getTokenValue(t)] }
+        / t:ReserverdTypes { return getTokenValue(t) }
 
-    content
-        = c:[a-zA-Z0-9_]+ { return c }
-
-    space = ' ' / '\\t' / '\\n'
-
-    typeTokens
+    ReserverdTypes
         = 'TkNum'
         / 'TkBool'
 
-    aditiveTokens
-        = 'TkPlus'
-        / 'TkMinus'
 
-    multiplicativeTokens
-        = 'TkMult'
-        / 'TkDiv'
-        / 'TkMod'
-        / 'TkPower'
+    FunctionExpression
+        = 'TkId("type")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'type', type: 'expression', operands: [e] } }
+        / 'TkId("ltype")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'ltype', type: 'expression', operands: [e] } }
+        / 'TkId("reset")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'reset', type: 'expression' } }
+        / 'TkId("uniform")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'uniform', type: 'expression' } }
+        / 'TkId("floor")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'floor', type: 'expression', operands: [e] } }
+        / 'TkId("length")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'length', type: 'expression', operands: [e] } }
+        / 'TkId("sum")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'sum', type: 'expression', operands: [e] } }
+        / 'TkId("avg")' __ 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return { op: 'avg', type: 'expression', operands: [e] } }
+        / 'TkId("pi")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'pi', type: 'expression' } }
+        / 'TkId("now")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'now', type: 'expression' } }
+        / 'TkId("if")' __ 'TkOpenPar' __ i:IfFunctionArguments __ 'TkClosePar' { return i }
 
-    relationalTokens
+    IfFunctionArguments
+        = c:BinaryExpression __ 'TkComma' __ t:BinaryExpression __ 'TkComma' __ f:BinaryExpression { return {op: 'if', type:'expresion', operands: [c,t,f] } }
+
+
+    PrimaryExpression
+        = IdLiteral
+        / ReservedLiteral
+        / NumberLiteral
+        / ArrayExpression
+        / BlockExpression
+
+    IdLiteral
+        = i:Id __ a:(EmptyArrayExpression / SingleArrayExpression) { return { op: 'index', type: 'expression', operands:[i,a] } }
+        / Id
+    
+    Id
+        = 'TkId("' c:TkIdArgument '")' { return c.join('') }
+
+    TkIdArgument
+        = c:[a-zA-Z0-9_]+ { return c }
+
+
+    ReservedLiteral
+        = 'TkTrue' { return true }
+        / 'TkFalse' { return false }
+
+
+    NumberLiteral 
+        = 'TkDot' __ d:Digit { return parseFloat('.' + d) }
+        / i:Digit __ 'TkDot' __ d:Digit { return parseFloat(i + '.' + d) }
+        / n:Digit __ 'TkDot' { return n }
+        / n:Digit { return n }
+
+    Digit
+        = 'TkNumber(' c:TkNumArgument ')' { return parseInt(c.join('')) }
+
+    TkNumArgument
+        = c:[0-9]+ { return c }
+
+    
+    ArrayExpression
+        = EmptyArrayExpression
+        / 'TkOpenBracket' __ e:ArrayElements __ 'TkCloseBracket' __ a:(EmptyArrayExpression / SingleArrayExpression) { return { op: 'index', type: 'expression', operands:[e,a] } }
+        / 'TkOpenBracket' __ e:ArrayElements __ 'TkCloseBracket' { return e }
+
+    SingleArrayExpression
+        = 'TkOpenBracket' __ e:BinaryExpression __ 'TkCloseBracket' { return e }
+
+    EmptyArrayExpression
+        = 'TkOpenBracket' __ ('TkComma')? __ 'TkCloseBracket' { return [] }
+
+    ArrayElements
+        = p:BinaryExpression e:(ArrayElement)* { return e.length > 0 ? [p].concat(e[0]) : [p] }
+
+    ArrayElement
+        = __ 'TkComma' __ e:ArrayElements { return e }
+
+
+    BinaryExpression
+        = LogicalOrExpression
+
+    LogicalOrExpression
+        = l:(LogicalAndExpression __ 'TkOr' __)* r:LogicalAndExpression { return leftAssoc(l, r) }
+
+    LogicalAndExpression
+        = l:(ComparisonExpression __ 'TkAnd' __)* r:ComparisonExpression { return leftAssoc(l, r) }
+
+    ComparisonExpression
+        = l:RelationalExpression __ op:ComparisonOperator __ r:ComparisonExpression { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / RelationalExpression
+
+    ComparisonOperator
         = 'TkEQ'
         / 'TkNE'
-        / 'TkLT'
+
+    RelationalExpression
+        = l:AditiveExpression __ op:RelationalOperator __ r:RelationalExpression { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / AditiveExpression
+
+    RelationalOperator
+        = 'TkLT'
         / 'TkLE'
         / 'TkGT'
         / 'TkGE'
 
-    booleanTokens
-        = 'TkAnd'
-        / 'TkOr'
+    AditiveExpression
+        = l:(MultiplicativeExpression __ AditiveOperator __)* r:MultiplicativeExpression { return leftAssoc(l, r) }
 
-    capsuleTokens
-        = 'TkOpenPar'
-        / 'TkClosePar'
-        / 'TkOpenBrace'
-        / 'TkCloseBrace'
-        / 'TkOpenBracket'
-        / 'TkCloseBracket'
+    AditiveOperator
+        = 'TkPlus'
+        / 'TkMinus'
+
+    MultiplicativeExpression
+        = l:(PowerExpression __ MultiplicativeOperator __)* r:PowerExpression { return leftAssoc(l, r) }
+
+    MultiplicativeOperator
+        = 'TkMult'
+        / 'TkDiv'
+        / 'TkMod'
+
+    PowerExpression
+        = l:UnaryExpression __ op:('TkPower') __ r:PowerExpression { return { op: getTokenValue(op), type: 'expression', operands: [l, r] } }
+        / UnaryExpression
+
+    UnaryExpression
+        = op:UnaryOperator __ e:PrimaryExpression { return { op: getTokenValue(op), type: 'expression', operands: [e] } }
+        / PrimaryExpression
+
+    UnaryOperator
+        = 'TkPlus'
+        / 'TkMinus'
+        / 'TkNot'
+
+    BlockExpression
+        = 'TkQuote' __ e:BinaryExpression __ 'TkQuote' { return { op:'quote', type: 'expression', operands:[e] } }
+        / 'TkOpenPar' __ e:BinaryExpression __ 'TkClosePar' { return e }
+        / 'TkOpenBrace' __ e:BinaryExpression __ 'TkCloseBrace' { return e }
+
+   
+    __ = (' ' / '\\t' / '\\n')*
 `
