@@ -15,12 +15,14 @@ const validateArrayItemsBool = array => array.reduce((prev, act) => {
 
 const getArrayType = array => validateArrayItemsInt(array) ? 'int' : validateArrayItemsBool(array) ? 'bool' : undefined
 
+const getIdType = (lvalue, isId) => isId ? typeMapper[typeof lvalue] : 'NOT_ASSIGNABLE_ERROR'
+
 /**
- * get type of exp
- * @param {Any} value
- * @param {Boolean} isArray
+ * get ltype of assignable lvalue
+ * @param {Any}
+ * @param {Boolean}
  * @returns {Number}
  */
-const type = (value, isArray) => isArray ? `[${getArrayType(JSON.parse(value))}]` : typeMapper[typeof value]
+const ltype = (lvalue, isArray, isId) => isArray ? `[${getArrayType(JSON.parse(lvalue))}]` : getIdType(lvalue, isId)
 
-module.exports = { type }
+module.exports = { ltype }

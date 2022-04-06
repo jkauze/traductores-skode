@@ -10,6 +10,7 @@ const { avg } = require('../avg')
 const { length } = require('../length')
 const { floor } = require('../floor')
 const { type } = require('../type')
+const { ltype } = require('../ltype')
 
 const isAst = ast => typeof ast === 'object'
 
@@ -31,6 +32,8 @@ const getIdValue = value => findValue(value) || null
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
+const notLvalueError = () => "la expresion no tiene LVALUE"
+
 const getValue = value => isIdentifier(value) ? getIdValue(value) : value
 
 const getExpressionString = (lvalue, op, rvalue) => (
@@ -43,6 +46,7 @@ const isNowFunction = op => op === 'now'
 const isUniformFunction = op => op === 'uniform'
 const isSumFunction = op => op === 'sum'
 const isTypeFunction = op => op === 'type'
+const isLtypeFunction = op => op === 'ltype'
 const isAvgFunction = op => op === 'avg'
 const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
@@ -74,13 +78,22 @@ const evaluateExpression = (ast, option = false) => {
         const { result } = evalExpression(operands[0])
         const isArray = Array.isArray(operands[0])
         return type(result, isArray)
+
+    }
+    if (isLtypeFunction(op)) {
+        const { result } = evalExpression(operands[0])
+        const isArray = Array.isArray(operands[0])
+        const isAssignable = isIdentifier(operands[0]) && !!result
+        const ltypeResult = ltype(result, isArray, isAssignable)
+        if (ltypeResult === 'NOT_ASSIGNABLE_ERROR') throw new Error(notLvalueError())
+        return ltypeResult
     }
     if (isAvgFunction(op)) {
         const operandsValue = operands[0].map(getValue)
         return avg(operandsValue)
     }
     const [lvalue, rvalue] = operands
-    
+
 
     let tmpLvalue = getValue(lvalue)
     let tmpRvalue = getValue(rvalue)

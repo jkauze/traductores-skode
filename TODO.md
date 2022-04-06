@@ -1,6 +1,6 @@
 # TODO
     - [] *Crear funcion if y crear caso en process
-    - [] Crear funcion ltype y crear caso en process
+    - [x] Crear funcion ltype y crear caso en process
     - [] Quitar caso en gramatica de a[]
     - [] Manejo de errores de type y ltype
     - [] *Expandir Evaluate para considerar casor de ast con index
