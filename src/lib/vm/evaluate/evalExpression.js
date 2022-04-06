@@ -32,13 +32,23 @@ const getIdValue = value => findValue(value) || null
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
-const notLvalueError = () => "la expresion no tiene LVALUE"
+const notLvalueError = () => "La expresion no tiene LVALUE"
+
+const invalidTypeConditionError = (guard) => `La condicion "${guard}" no es de tipo Booleana`
 
 const getValue = value => isIdentifier(value) ? getIdValue(value) : value
 
 const getExpressionString = (lvalue, op, rvalue) => (
     isBinary(lvalue, rvalue) ? getStringExpressionBinary(lvalue, op, rvalue) : getStringExpressionUnary(lvalue, op)
 )
+
+const isNotBooleanType = guard => typeof guard !== 'boolean'
+
+const evaluateIf = (guard, expT, expF) => {
+    const { result: guardCondition } = evalExpression(guard)
+    if (isNotBooleanType(guardCondition)) throw new Error(invalidTypeConditionError(guard))
+    return guardCondition ? evalExpression(expT) : evalExpression(expF)
+}
 
 const isResetFunction = op => op === 'reset'
 const isPIFunction = op => op === 'pi'
@@ -50,6 +60,7 @@ const isLtypeFunction = op => op === 'ltype'
 const isAvgFunction = op => op === 'avg'
 const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
+const isIfFunction = op => op === 'if'
 
 let quoted = false
 
@@ -70,6 +81,10 @@ const evaluateExpression = (ast, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isLengthFunction(op)) return length(operands[0])
     if (isFloorFunction(op)) return floor(operands[0])
+    if (isIfFunction(op)) {
+        const { result } = evaluateIf(operands[0], operands[1], operands[2])
+        return result
+    }
     if (isSumFunction(op)) {
         const operandsValue = operands[0].map(getValue)
         return sum(operandsValue)
