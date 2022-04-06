@@ -44,6 +44,8 @@ const getExpressionString = (lvalue, op, rvalue) => (
 
 const isNotBooleanType = guard => typeof guard !== 'boolean'
 
+const isNotValidIndex = value => typeof value !== 'number' || value < 0
+
 const evaluateIf = (guard, expT, expF) => {
     const { result: guardCondition } = evalExpression(guard)
     if (isNotBooleanType(guardCondition)) throw new Error(invalidTypeConditionError(guard))
@@ -61,6 +63,7 @@ const isAvgFunction = op => op === 'avg'
 const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
 const isIfFunction = op => op === 'if'
+const isIndexArray = op => op === 'index'
 
 let quoted = false
 
@@ -84,6 +87,15 @@ const evaluateExpression = (ast, option = false) => {
     if (isIfFunction(op)) {
         const { result } = evaluateIf(operands[0], operands[1], operands[2])
         return result
+    }
+    if (isIndexArray(op)) {
+        const { result: indexExpression } = evaluateExpression(operands[1])
+        const index = indexExpression || operands[1]
+        if (isNotValidIndex(index)) return undefined
+        const indexOfArray = operands[0][index]
+        const { result } = evalExpression(indexOfArray)
+        return result
+
     }
     if (isSumFunction(op)) {
         const operandsValue = operands[0].map(getValue)
