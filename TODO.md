@@ -2,7 +2,7 @@
     - [] *Crear funcion if y crear caso en process
     - [x] Crear funcion ltype y crear caso en process
     - [] Quitar caso en gramatica de a[]
-    - [] Manejo de errores de type y ltype
+    - [x] Manejo de errores de type y ltype
     - [] *Expandir Evaluate para considerar casor de ast con index
     - [] Ajustar funcion length, sum y avg en gramatica para solo aceptar arreglos
     - [] Revisar funciones length, sum y avg para validad que aceptan arreglos
