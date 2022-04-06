@@ -15,6 +15,7 @@ const { avg } = require('./avg');
 const { length } = require('./length');
 const { floor } = require('./floor');
 const { type } = require('./type');
+const { ltype } = require('./ltype');
 
 module.exports = {
     lexer,
@@ -31,5 +32,6 @@ module.exports = {
     avg,
     length,
     floor,
-    type
+    type,
+    ltype
 }
