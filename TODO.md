@@ -1,14 +1,5 @@
 # TODO
-    - [x] *Crear funcion if y crear caso en process
-    - [x] Crear funcion ltype y crear caso en process
-    - [x] Manejo de errores de type y ltype
-    - [x] *Expandir Evaluate para considerar casor de ast con index
-    - [x] Expandir Data para soportar arreglos y funciones
-    - [x] Quitar caso en gramatica de a[]
-    - [] Ajustar funcion length, sum y avg en gramatica para solo aceptar arreglos
-    - [] Revisar funciones length, sum y avg para validad que aceptan arreglos
+    - [] Ajustar funcion length, sum y avg en evaluate para solo aceptar arreglos
     - [] Verificar recursion en EvaluateExpression
     - [] Agregar caso -> num lol := x
     - [] Agregar caso -> num lol := 'x' y luego cambiar el valor de x
-    - [] Revisar error de lineas vacias en .load
-    - [] Agregar caso valor[i + 1] := true;
