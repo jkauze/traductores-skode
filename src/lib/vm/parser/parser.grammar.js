@@ -120,7 +120,7 @@ module.exports =
     
     ArrayExpression
         = EmptyArrayExpression
-        / 'TkOpenBracket' __ e:ArrayElements __ 'TkCloseBracket' __ a:(EmptyArrayExpression / SingleArrayExpression) { return { op: 'index', type: 'expression', operands:[e,a] } }
+        / 'TkOpenBracket' __ e:ArrayElements __ 'TkCloseBracket' __ a:(SingleArrayExpression) { return { op: 'index', type: 'expression', operands:[e,a] } }
         / 'TkOpenBracket' __ e:ArrayElements __ 'TkCloseBracket' { return e }
 
     SingleArrayExpression

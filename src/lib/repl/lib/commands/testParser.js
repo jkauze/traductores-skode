@@ -18,7 +18,7 @@ const testParser = ({ args, fileInfo }) => {
         const aststr = ast2str(ast)
         return okASTMessage(formatedArgs, aststr)
     } catch (error) {
-        return astErrorMessage({ error: error.message, fileInfo, input: formatedArgs })
+        return astErrorMessage({ error: error.found, fileInfo, input: formatedArgs })
     }
 }
 
