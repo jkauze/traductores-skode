@@ -258,12 +258,12 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it.skip('Case 29: [1,2,3][1*2^6] * a[]', () => {
+    it('Case 29: [1,2,3][1*2^6] * a[1]', () => {
         const input = cases.case29
 
         const actual = ast2str(input)
 
-        const expected = '([1,2,3][(1 * (2 ^ 6))] * a[])'
+        const expected = '([1,2,3][(1 * (2 ^ 6))] * a[1])'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
