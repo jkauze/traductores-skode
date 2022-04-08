@@ -1,7 +1,7 @@
 {
   "name": "stokhos",
   "version": "3.0.0",
-  "description": "proyecto de traductores e interpretadores. Equipo: xxxxxxxx",
+  "description": "proyecto de traductores e interpretadores. Equipo: SKode",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
