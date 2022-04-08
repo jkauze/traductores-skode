@@ -278,7 +278,7 @@ const case29 = {
             }
         ]
         },
-        { op: 'index', type: 'expression', operands: [ 'a', [] ] }
+        { op: 'index', type: 'expression', operands: [ 'a', 1 ] }
     ]
 }
 
