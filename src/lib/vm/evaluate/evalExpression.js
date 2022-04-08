@@ -32,6 +32,8 @@ const getIdValue = value => findValue(value) || null
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
+const invalidFunctionError = id => `Uncaught ReferenceError: "function ${id}" is not implemented`
+
 const notLvalueError = () => "La expresion no tiene LVALUE"
 
 const invalidTypeConditionError = (guard) => `La condicion "${guard}" no es de tipo Booleana`
@@ -64,6 +66,7 @@ const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
 const isIfFunction = op => op === 'if'
 const isIndexArray = op => op === 'index'
+const isErrorFunction = op => op === 'function'
 
 let quoted = false
 
@@ -82,6 +85,7 @@ const evaluateExpression = (ast, option = false) => {
     if (isPIFunction(op)) return pi()
     if (isNowFunction(op)) return now()
     if (isUniformFunction(op)) return uniform()
+    if (isErrorFunction(op)) throw new Error(invalidFunctionError(operands[0]))
     if (isLengthFunction(op)) return length(operands[0])
     if (isFloorFunction(op)) return floor(operands[0])
     if (isIfFunction(op)) {

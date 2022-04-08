@@ -51,10 +51,10 @@ module.exports =
         / a:Assignation { return a }
 
     Definition
-        = t:DefinitionType __ i:Id __ 'TkAssign' __ e:BinaryExpression __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
+        = t:DefinitionType __ i:IdLiteral __ 'TkAssign' __ e:(FunctionExpression / BinaryExpression) __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i,e,t] } }
 
     Assignation
-        = i:Id __ 'TkAssign' __ e:BinaryExpression __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
+        = i:IdLiteral __ 'TkAssign' __ e:(FunctionExpression / BinaryExpression) __ 'TkSemicolon'* { return { op: ':=', type: 'instruction', operands: [i, e] } }
 
     DefinitionType
         = 'TkOpenBracket' __ t:ReserverdTypes __ 'TkCloseBracket' { return [getTokenValue(t)] }
@@ -77,6 +77,7 @@ module.exports =
         / 'TkId("pi")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'pi', type: 'expression' } }
         / 'TkId("now")' __ 'TkOpenPar' __ 'TkClosePar' { return { op: 'now', type: 'expression' } }
         / 'TkId("if")' __ 'TkOpenPar' __ i:IfFunctionArguments __ 'TkClosePar' { return i }
+        / i:Id __ 'TkOpenPar' __ e:(ArrayElements)* __ 'TkClosePar' { return { op: "function", type: "error", operands: [i, (e.length > 0) ? e[0] : e] } }
 
     IfFunctionArguments
         = c:BinaryExpression __ 'TkComma' __ t:BinaryExpression __ 'TkComma' __ f:BinaryExpression { return {op: 'if', type:'expresion', operands: [c,t,f] } }

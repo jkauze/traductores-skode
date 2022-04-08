@@ -18,7 +18,7 @@ const process = args => {
         // logger(ast) // only for debug
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
-        return error.found
+        return error.found || error.message
     }
 }
 
