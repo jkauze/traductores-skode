@@ -27,6 +27,7 @@ const validateSpecialCall = (input) => input && input[0] === '.';
 const printError = ({ input, error, fileInfo }) => input ? errorMessage({ input, error, fileInfo }) : null;
 
 const executeLine = fileName => (data, line) => {
+  if (!data) return
   const result = REPLHandler(data, { fileName, line });
   if (result === 'break') process.exit(0);
 }
