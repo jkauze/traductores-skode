@@ -275,4 +275,13 @@ describe('#ast2str', () => {
         const expected = 'ltype(((2 <= 3) && false))'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
+
+    it('Case 31: valor[i + 1] := true;', () => {
+        const input = cases.case31
+
+        const actual = ast2str(input)
+
+        const expected = 'asg(valor[(i + 1)], true)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
 });

@@ -295,6 +295,26 @@ const case30 = {
     ]
 }
 
+// valor[i + 1] := true;
+const case31 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+        {
+        op: 'index',
+        type: 'expression',
+        operands: [
+            'valor',
+            { op: '+', type: 'expression', operands: [ 'i', 1 ] }
+        ]
+        },
+        true
+    ]
+}
+
+// func(1,2,3);
+const case32 = { op: 'function', type: 'error', operands: [ 'func', [ 1, 2, 3 ] ] }
+
 module.exports = {
     case1,
     case2,
@@ -325,5 +345,7 @@ module.exports = {
     case27,
     case28,
     case29,
-    case30
+    case30,
+    case31,
+    case32
 }

@@ -38,6 +38,8 @@ const ast2strExpression = ast => {
         let newRightOperand = rightOperand
         let newLeftOperand = leftOperand
 
+        if (op === "function") throw new Error(`Funcion no implementada: ${leftOperand}`)
+
         if (isFunction(op)) {
             return formatFunctionString(op, operands)
         }

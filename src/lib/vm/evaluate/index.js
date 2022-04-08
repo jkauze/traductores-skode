@@ -38,7 +38,7 @@ const evaluate = ast => {
         const { result } = evalExpression(ast)
         return formatResponse(result, statusTypes.OK)
     } catch (error) {
-        return formatResponse(error.message, statusTypes.ERROR)
+        return formatResponse(error.found || error.message, statusTypes.ERROR)
     }
 
 }

@@ -1,5 +1,7 @@
 'use strict'
 
+const { debug } = process.env
+
 const { parser } = require('../parser')
 const { execute } = require('../execute')
 const { evaluate } = require('../evaluate')
@@ -12,14 +14,14 @@ const isActionAst = ({ type }) => type === 'instruction'
  * @param {Array<String>} options.args
  * @param {Object} options.fileInfo
  */
-const process = args => {
+const processVM = args => {
     try {
         const ast = parser(args)
-        // logger(ast) // only for debug
+        if (debug) logger(ast)
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
-        return error.found
+        return error.found || error.message
     }
 }
 
-module.exports = { process }
+module.exports = { process: processVM }
