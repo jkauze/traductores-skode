@@ -1,4 +1,5 @@
 # TODO ETAPA 3
+    - [] falta adaptar las funciones para que se permitan entre quotes, ejemplo 'uniform()' -  gramatica
     - [] Ajustar funcion length, sum y avg en evaluate para solo aceptar arreglos - gramatica
     - [] Funciones, pueden tener funciones adentro - gramatica, ejemplo: floor(uniform()) da error en la gramatica
     - [x] Agregar caso -> num lol := x
