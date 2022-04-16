@@ -1,6 +1,7 @@
 'use strict'
 
 const data = require('../data')
+
 const { reset } = require('../reset')
 const { pi } = require('../pi')
 const { now } = require('../now')
@@ -11,6 +12,11 @@ const { length } = require('../length')
 const { floor } = require('../floor')
 const { type } = require('../type')
 const { ltype } = require('../ltype')
+const { inFunction } = require('../in')
+const { sin } = require('../sin')
+const { cos } = require('../cos')
+const { exp } = require('../exp')
+const { formula } = require('../formula')
 
 const isResetFunction = op => op === 'reset'
 const isPIFunction = op => op === 'pi'
@@ -22,6 +28,11 @@ const isLtypeFunction = op => op === 'ltype'
 const isAvgFunction = op => op === 'avg'
 const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
+const isInFunction = op => op === 'in'
+const isSinFunction = op => op === 'sin'
+const isCosFunction = op => op === 'cos'
+const isExpFunction = op => op === 'exp'
+const isFormulaFunction = op => op === 'formula'
 const isIfFunction = op => op === 'if'
 const isIndexArray = op => op === 'index'
 const isErrorFunction = op => op === 'function'
@@ -90,6 +101,15 @@ const evaluateExpression = (ast, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(invalidFunctionError(operands[0]))
     if (isLengthFunction(op)) return length(operands[0])
+    if (isFormulaFunction(op)) return formula(operands[0])
+
+    // etapa 4
+    if (isInFunction(op)) return inFunction(evaluateExpression(operands[0]))
+    if (isSinFunction(op)) return sin(evaluateExpression(operands[0]))
+    if (isCosFunction(op)) return cos(evaluateExpression(operands[0]))
+    if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
+    //
+
     if (isFloorFunction(op)) return floor(evaluateExpression(operands[0]))
     if (isIfFunction(op)) {
         const { result } = evaluateIf(operands[0], operands[1], operands[2])
