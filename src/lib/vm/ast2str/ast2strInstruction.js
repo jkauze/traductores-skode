@@ -1,9 +1,12 @@
 'use strict'
 
+const { logger } = require('../../../shared')
 const ast2strExpression = require('./ast2strExpression')
 const hasChild = require('./hasChild')
 
 const isTypeDefinition = type => !!type
+
+const isObject = operand => typeof operand === 'object'
 
 const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
@@ -25,9 +28,12 @@ const ast2strInstruction = ast => {
     const [id, expression, type] = operands
     let newExpression = expression
 
-    if (hasChild(operands)) newExpression = ast2strExpression(expression)
+    if (hasChild(operands)) {
+        if (!isObject(id)) newExpression = ast2strExpression(expression)
+        if (isObject(expression)) newExpression = ast2strExpression(expression)
+    }
 
-    return formatInstructionString(id, newExpression, type)
+    return formatInstructionString(isObject(id) ? ast2strExpression(id): id, newExpression, type)
 }
 
 module.exports = ast2strInstruction

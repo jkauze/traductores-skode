@@ -63,6 +63,10 @@ const case26 = setupCase('[1,2,3][1*2^6] * a[]')
 
 const case27 = setupCase('ltype(2<=3 && false)')
 
+const case28 = setupCase('valor[i + 1] := true;')
+
+const case29 = setupCase('func(1,2,3)')
+
 module.exports = {
   case1,
   case2,
@@ -90,5 +94,7 @@ module.exports = {
   case24,
   case25,
   case26,
-  case27
+  case27,
+  case28,
+  case29
 }

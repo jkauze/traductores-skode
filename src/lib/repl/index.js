@@ -8,7 +8,7 @@ const { formatInput } = require('./utils/formatInput');
 
 const promptStokhos = '<Stókhos> ';
 
-const welcomeMessage = `Welcome to stokhos ${version} (Phase 3 at 85%)`
+const welcomeMessage = `Welcome to stokhos ${version}`
 const helpMessage = 'Type ".help" for more information'
 
 const infinityLoop = true

@@ -374,4 +374,34 @@ describe('#parser', () => {
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
+    it("Case 28: valor[i + 1] := true;", () => {
+      const input = cases.case28
+
+      const actual = parser(input)
+
+      const expected = {
+        op: ':=',
+        type: 'instruction',
+        operands: [
+          {
+            op: 'index',
+            type: 'expression',
+            operands: [
+              'valor',
+              { op: '+', type: 'expression', operands: [ 'i', 1 ] }
+            ]
+          },
+          true
+        ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 29: func(1,2,3)", () => {
+      const input = cases.case29
+
+      const actual = parser(input)
+
+      const expected = { op: 'function', type: 'error', operands: [ 'func', [ 1, 2, 3 ] ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
 });

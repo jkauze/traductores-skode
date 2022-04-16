@@ -44,7 +44,7 @@ const astErrorMessage = ({ error, fileInfo, input }) => {
 }
 
 const fatalErrorMessage = ({ error, fileInfo, input }) => {
-  const formatedError = `ERROR ${input} ==> FatalError "${error}"`
+  const formatedError = error ? `ERROR ${input} ==> FatalError "${error}"` : `ERROR ${input} ==> FatalError`
   console.log(formatedError)
   saveError({ fileInfo, error: formatedError })
 }
