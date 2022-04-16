@@ -10,18 +10,33 @@
 
 # TODO ETAPA 4
     - boceto del ast de las funciones:
-        - in
-        - exp
-        - sin
-        - cos
-        - formula
-        - tick
-        - array
+        - [] in
+        - [] exp
+        - [] sin
+        - [] cos
+        - [] formula
+        - [] tick
+        - [] array
     - hacer la gramatica de las funciones anteriores
+        - [] in
+        - [] exp
+        - [] sin
+        - [] cos
+        - [] formula
+        - [] tick
+        - [] array
+    - hacer las funciones en el process.
+        - [x] in
+        - [x] exp
+        - [x] sin
+        - [x] cos
+        - [x] formula
+        - [] tick
+        - [] array
+    - buscar como manejar lo del histogram
     - agregar una nueva propiedad a las variables quoted ( en la memoria ) para poder utilizar tick, 
     aqui vamos a guardar el ast original (sin ningun valor evaluado)
-    - hacer las funciones en el process.
-    - buscar como manejar lo del histogram
+
 
 dudas por revisar en la gramatica
 - pi(1) la gramatica lo retorna como error, deberia dar error? o ignorar los parametros
