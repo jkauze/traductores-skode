@@ -15,7 +15,7 @@ const sendProcessMessage = (input, { status, message }, fileInfo) => {
  * @param {Object} fileInfo 
  * @returns 
  */
-const print = (input, response, fileInfo) => typeof response === 'object' ?
+const print = (input, response, fileInfo) => typeof response === 'object' && response !== null ?
     sendProcessMessage(input, response, fileInfo) :
     fatalErrorMessage({error: response, fileInfo, input})
 

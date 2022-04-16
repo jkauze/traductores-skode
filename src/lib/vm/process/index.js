@@ -9,6 +9,8 @@ const logger = require('../../../shared/logger')
 
 const isActionAst = ({ type }) => type === 'instruction'
 
+const getErrorMessage = (error) => Object.getOwnPropertyDescriptor(error, 'found') ? error.found || '' : error.message
+
 /**
  * @param {Object} options
  * @param {Array<String>} options.args
@@ -20,7 +22,8 @@ const processVM = args => {
         if (debug) logger(ast)
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
-        return error.found || error.message
+        const errorMessage = getErrorMessage(error)
+        return errorMessage
     }
 }
 

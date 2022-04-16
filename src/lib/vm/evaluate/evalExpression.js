@@ -28,11 +28,14 @@ const isExpressionValue = value => typeof data[value]['value'] === 'object' ? ev
 
 const findValue = value => data[value] && isExpressionValue(value)
 
-const getIdValue = value => findValue(value) || null
+const getIdValue = value => {
+    if (findValue(value)) return findValue(value) 
+    else throw new Error(referenceError(value))
+}
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
-const invalidFunctionError = id => `Uncaught ReferenceError: "function ${id}" is not implemented`
+const invalidFunctionError = id => `Uncaught ReferenceError: "function ${id}" is not implemented or has invalid parameters. Type ".help" to get functions guide`
 
 const notLvalueError = () => "La expresion no tiene LVALUE"
 
@@ -87,7 +90,7 @@ const evaluateExpression = (ast, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(invalidFunctionError(operands[0]))
     if (isLengthFunction(op)) return length(operands[0])
-    if (isFloorFunction(op)) return floor(operands[0])
+    if (isFloorFunction(op)) return floor(evaluateExpression(operands[0]))
     if (isIfFunction(op)) {
         const { result } = evaluateIf(operands[0], operands[1], operands[2])
         return result
@@ -102,11 +105,15 @@ const evaluateExpression = (ast, option = false) => {
 
     }
     if (isSumFunction(op)) {
-        const operandsValue = operands[0].map(getValue)
+        const operandsValue = operands[0].map(item => {
+            const { result } = evalExpression(item)
+            return result
+        })
         return sum(operandsValue)
     }
     if (isTypeFunction(op)) {
         const { result } = evalExpression(operands[0])
+        console.log(result)
         const isArray = Array.isArray(operands[0])
         return type(result, isArray)
 
@@ -120,7 +127,10 @@ const evaluateExpression = (ast, option = false) => {
         return ltypeResult
     }
     if (isAvgFunction(op)) {
-        const operandsValue = operands[0].map(getValue)
+        const operandsValue = operands[0].map(item => {
+            const { result } = evalExpression(item)
+            return result
+        })
         return avg(operandsValue)
     }
     const [lvalue, rvalue] = operands
@@ -152,7 +162,7 @@ const evaluateExpression = (ast, option = false) => {
 
 const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
-const transformItem = item => isAst(item) ? evaluateExpression(item) : item
+const transformItem = item => isAst(item) ? evaluateExpression(item) : getValue(item)
 
 const evalArray = ast => ast.map(transformItem)
 
