@@ -51,9 +51,25 @@ const case4 = {
     ]
 }
 
+// num lol := x
+const case5 = { op: ':=', type: 'instruction', operands: [ 'lol', 'x', 'Num' ] }
+
+// num lol2 := 'lol'
+const case6 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+      'lol2',
+      { op: 'quote', type: 'expression', operands: [ 'lol' ] },
+      'Num'
+    ]
+  }
+
 module.exports = {
     case1,
     case2,
     case3,
-    case4
+    case4,
+    case5,
+    case6
 }

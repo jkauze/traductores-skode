@@ -12,6 +12,22 @@ const { floor } = require('../floor')
 const { type } = require('../type')
 const { ltype } = require('../ltype')
 
+const isResetFunction = op => op === 'reset'
+const isPIFunction = op => op === 'pi'
+const isNowFunction = op => op === 'now'
+const isUniformFunction = op => op === 'uniform'
+const isSumFunction = op => op === 'sum'
+const isTypeFunction = op => op === 'type'
+const isLtypeFunction = op => op === 'ltype'
+const isAvgFunction = op => op === 'avg'
+const isLengthFunction = op => op === 'length'
+const isFloorFunction = op => op === 'floor'
+const isIfFunction = op => op === 'if'
+const isIndexArray = op => op === 'index'
+const isErrorFunction = op => op === 'function'
+
+let quoted = false
+
 const isAst = ast => typeof ast === 'object'
 
 const getStringExpressionBinary = (tmpLvalue, op, tmpRvalue) => `${tmpLvalue} ${op} ${tmpRvalue}`
@@ -37,9 +53,9 @@ const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
 const invalidFunctionError = id => `Uncaught ReferenceError: "function ${id}" is not implemented or has invalid parameters. Type ".help" to get functions guide`
 
-const notLvalueError = () => "La expresion no tiene LVALUE"
+const notLvalueError = () => "The expression has no LVALUE"
 
-const invalidTypeConditionError = (guard) => `La condicion "${guard}" no es de tipo Booleana`
+const invalidTypeConditionError = (guard) => `The guard "${guard}" is not boolean type`
 
 const getValue = value => isIdentifier(value) ? getIdValue(value) : value
 
@@ -56,22 +72,6 @@ const evaluateIf = (guard, expT, expF) => {
     if (isNotBooleanType(guardCondition)) throw new Error(invalidTypeConditionError(guard))
     return guardCondition ? evalExpression(expT) : evalExpression(expF)
 }
-
-const isResetFunction = op => op === 'reset'
-const isPIFunction = op => op === 'pi'
-const isNowFunction = op => op === 'now'
-const isUniformFunction = op => op === 'uniform'
-const isSumFunction = op => op === 'sum'
-const isTypeFunction = op => op === 'type'
-const isLtypeFunction = op => op === 'ltype'
-const isAvgFunction = op => op === 'avg'
-const isLengthFunction = op => op === 'length'
-const isFloorFunction = op => op === 'floor'
-const isIfFunction = op => op === 'if'
-const isIndexArray = op => op === 'index'
-const isErrorFunction = op => op === 'function'
-
-let quoted = false
 
 /**
  * @param {Object || String} ast
