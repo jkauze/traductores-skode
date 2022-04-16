@@ -101,13 +101,13 @@ const evaluateExpression = (ast, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(invalidFunctionError(operands[0]))
     if (isLengthFunction(op)) return length(operands[0])
-    if (isFormulaFunction(op)) return formula(operands[0])
 
     // etapa 4
     if (isInFunction(op)) return inFunction(evaluateExpression(operands[0]))
     if (isSinFunction(op)) return sin(evaluateExpression(operands[0]))
     if (isCosFunction(op)) return cos(evaluateExpression(operands[0]))
     if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
+    if (isFormulaFunction(op)) return formula(operands[0])
     //
 
     if (isFloorFunction(op)) return floor(evaluateExpression(operands[0]))
