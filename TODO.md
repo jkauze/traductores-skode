@@ -4,19 +4,17 @@
         - [] tick
         - [] array
     - [] Buscar como manejar lo del histogram
-    - [] Agregar una nueva propiedad a las variables quoted ( en la memoria ) para poder utilizar tick, 
-    aqui vamos a guardar el ast original (sin ningun valor evaluado)
+    - [] Agregar una nueva propiedad a las variables quoted
+
 
 # Planteamientos
 
 ## Buscar como manejar lo del histogram
 
-
 ## Agregar una nueva propiedad a las variables quoted
 
 En la memoria se va a agregar una propiedad para poder utilizar tick, la idea es 
 guardar el ast original sin ningun valor evaluado.
-
 
 ## Boceto de funciones
 
