@@ -67,6 +67,14 @@ const case28 = setupCase('valor[i + 1] := true;')
 
 const case29 = setupCase('func(1,2,3)')
 
+const case30 = setupCase("num k := 'floor(100 * uniform())'")
+
+const case31 = setupCase('-( 1+2 )')
+
+const case32 = setupCase('true && false')
+
+const case33 = setupCase('-pi() + pi()')
+
 module.exports = {
   case1,
   case2,
@@ -96,5 +104,9 @@ module.exports = {
   case26,
   case27,
   case28,
-  case29
+  case29,
+  case30,
+  case31,
+  case32,
+  case33
 }

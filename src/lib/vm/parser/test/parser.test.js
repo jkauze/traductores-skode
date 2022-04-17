@@ -294,7 +294,7 @@ describe('#parser', () => {
 
       const expected = {
         op: 'if',
-        type: 'expresion',
+        type: 'expression',
         operands: [ 'x', { op: 'index', type: 'expression', operands: [ 'a', 0 ] }, 1 ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
@@ -402,6 +402,77 @@ describe('#parser', () => {
       const actual = parser(input)
 
       const expected = { op: 'function', type: 'error', operands: [ 'func', [ 1, 2, 3 ] ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 30: num k := 'floor(100 * uniform())'", () => {
+      const input = cases.case30
+
+      const actual = parser(input)
+
+      const expected = {
+        op: ':=',
+        type: 'instruction',
+        operands: [
+          'k',
+          {
+            op: 'quote',
+            type: 'expression',
+            operands: [
+              {
+                op: 'floor',
+                type: 'expression',
+                operands: [
+                  {
+                    op: '*',
+                    type: 'expression',
+                    operands: [ 100, { op: 'uniform', type: 'expression' } ]
+                  }
+                ]
+              }
+            ]
+          },
+          'Num'
+        ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 31: -( 1+2 )", () => {
+      const input = cases.case31
+
+      const actual = parser(input)
+
+      const expected = {
+        op: '-',
+        type: 'expression',
+        operands: [ { op: '+', type: 'expression', operands: [ 1, 2 ] } ]
+      }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 32: true && false", () => {
+      const input = cases.case32
+
+      const actual = parser(input)
+
+      const expected = { op: '&&', type: 'expression', operands: [ true, false ] }
+      assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 33: -pi() + pi()", () => {
+      const input = cases.case33
+
+      const actual = parser(input)
+
+      const expected = {
+        op: '+',
+        type: 'expression',
+        operands: [
+          {
+            op: '-',
+            type: 'expression',
+            operands: [ { op: 'pi', type: 'expression' } ]
+          },
+          { op: 'pi', type: 'expression' }
+        ]
+      }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
 });

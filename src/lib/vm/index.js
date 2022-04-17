@@ -16,6 +16,11 @@ const { length } = require('./length');
 const { floor } = require('./floor');
 const { type } = require('./type');
 const { ltype } = require('./ltype');
+const { lnFunction } = require('./ln');
+const { sin } = require('./sin');
+const { cos } = require('./cos');
+const { exp } = require('./exp');
+const { formula } = require('./formula');
 
 module.exports = {
     lexer,
@@ -33,5 +38,10 @@ module.exports = {
     length,
     floor,
     type,
-    ltype
+    ltype,
+    lnFunction,
+    sin,
+    cos,
+    exp,
+    formula
 }

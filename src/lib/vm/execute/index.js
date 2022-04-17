@@ -7,12 +7,19 @@ const statusTypes = require('../../../shared/statusTypes')
 
 const mapType = {
     number: 'Num',
-    boolean: 'Boolean'
+    boolean: 'Boolean',
+    object: 'Array'
 }
 
 const getType = (rvalue) => mapType[typeof rvalue]
 
-const hasNotValidType = (rvalue, type) => getType(rvalue) !== type
+const checkArrayItemsType = (array, type) => array.reduce((prev, act) =>
+    mapType[typeof act] === type && prev,
+    true)
+
+const validateArrayType = (type, rvalue) => Array.isArray(rvalue) && checkArrayItemsType(rvalue, type[0])
+
+const hasNotValidType = (rvalue, type) => Array.isArray(type) ? validateArrayType(type, rvalue) : getType(rvalue) !== type
 
 const isAssignation = type => !type
 
@@ -34,6 +41,8 @@ const typeError = (rvalue, type) => (
     formatResponse(`TypeError: "${rvalue}" is not "${type}" type`, statusTypes.ERROR)
 )
 
+const formatType = type => Array.isArray(type) ? `[${type}]` : type
+
 /**
  * @param {Object} ast
  * @param {String} ast.op
@@ -48,7 +57,7 @@ const execute = ast => {
     const [lvalue, rvalue, type] = operands
     const { result, quoted } = evalExpression(rvalue)
     const resultExpression = quoted ? rvalue : result
-    
+
     if (isAssignation(type)) {
         if (isNotDefined(lvalue)) return referenceError(lvalue)
         if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
@@ -57,7 +66,7 @@ const execute = ast => {
     } else {
         if (hasNotValidType(result, type)) return typeError(result, type)
         updateMem(lvalue, resultExpression, type)
-        return formatResponse(`${type} ${lvalue} ${op} ${result}`, statusTypes.ACK);
+        return formatResponse(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
     }
 
 }

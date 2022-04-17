@@ -1,7 +1,7 @@
 'use strict';
 
 const print = require('./print')
-const { errorMessage } = require('../utils/messages');
+const { errorMessage, fatalErrorMessage } = require('../utils/messages');
 const { fileReader } = require('../utils/fileReader')
 const { lex, testParser, failed, reset, help, env } = require('./commands')
 const { process } = require('../../vm')
@@ -85,14 +85,19 @@ const evalSpecialCall = ({ firstArg, args, input, fileInfo }) => {
  * @param {String} input
  */
 const REPLHandler = (input, fileInfo) => {
-  const args = getArgs(input);
-  if (validateSpecialCall(input)) {
-    const firstArg = getFirstArg(args);
-    return evalSpecialCall({ firstArg, args, input, fileInfo })
-  } else {
-    const response = process(args)
-    print(input, response, fileInfo)
-    return;
+  try {
+    const args = getArgs(input);
+    if (validateSpecialCall(input)) {
+      const firstArg = getFirstArg(args);
+      return evalSpecialCall({ firstArg, args, input, fileInfo })
+    } else {
+      const response = process(args)
+      print(input, response, fileInfo)
+      return;
+    }
+  } catch (error) {
+    console.log(error)
+    return fatalErrorMessage({error: error.message, fileInfo, input})
   }
 };
 

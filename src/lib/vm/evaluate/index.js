@@ -24,7 +24,6 @@ const findValue = ast => data[ast] && formatResponse(formatValue(ast), statusTyp
 
 const getIdValue = ast => findValue(ast) || referenceError(ast)
 
-
 /**
  * @param {Object || String} ast
  * @param {String} ast.op
@@ -34,7 +33,7 @@ const getIdValue = ast => findValue(ast) || referenceError(ast)
  */
 const evaluate = ast => {
     try {
-        if (isNotAst(ast)) return isIdentifier(ast) ? getIdValue(ast) : ast
+        if (isNotAst(ast)) return isIdentifier(ast) ? getIdValue(ast) : formatResponse(ast, statusTypes.OK)
         const { result } = evalExpression(ast)
         return formatResponse(result, statusTypes.OK)
     } catch (error) {

@@ -284,4 +284,40 @@ describe('#ast2str', () => {
         const expected = 'asg(valor[(i + 1)], true)'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
+
+    it("Case 32: num k := 'floor(100 * uniform())'", () => {
+        const input = cases.case32
+
+        const actual = ast2str(input)
+
+        const expected = 'def(Num, k, "floor((100 * uniform()))")'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 33: -( 1+2 )', () => {
+        const input = cases.case33
+
+        const actual = ast2str(input)
+
+        const expected = '(-(1 + 2))'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 34: true && false', () => {
+        const input = cases.case34
+
+        const actual = ast2str(input)
+
+        const expected = '(true && false)'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
+
+    it('Case 35: -pi() + pi()', () => {
+        const input = cases.case35
+
+        const actual = ast2str(input)
+
+        const expected = '((-pi()) + pi())'
+        assert.deepEqual(actual, expected, 'should convert the correct ast');
+    });
 });

@@ -42,4 +42,35 @@ describe('#execute', () => {
         const expected = setupExpected('TypeError: "3" is not "Boolean" type', 'ERROR')
         assert.deepEqual(actual, expected, 'should return TypeError');
     });
+
+    it("Case 5: num lol := x", () => {
+        const input = cases.case5
+
+        const actual = execute(input)
+
+        const expected = setupExpected('Num lol := 6')
+        assert.deepEqual(actual, expected, 'should return correct value response');
+    });
+
+    it("Case 6: num lol := 'lol'", () => {
+        const input = cases.case6
+
+        const actual = execute(input)
+
+        const expected = setupExpected('Num lol2 := 6')
+        assert.deepEqual(actual, expected, 'should return correct value response');
+
+        execute({
+            op: ':=',
+            type: 'instruction',
+            operands: [
+                'lol',
+                20,
+            ]
+        })
+        const actualChanged = execute(input)
+        const expectedChanged = setupExpected('Num lol2 := 20')
+        assert.deepEqual(actualChanged, expectedChanged, 'should return correct value response');
+
+    });
 });

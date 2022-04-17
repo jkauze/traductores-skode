@@ -1,12 +1,12 @@
 'use strict'
 
 const data = { 
-    x: { value: 6, type: 'Num' },
-    y: {
+    xdebug: { value: 6, type: 'Num' },
+    ydebug: {
         value: {
           op: '+',
           type: 'expression',
-          operands: [ { op: 'quote', type: 'expression', operands: [ 'x' ] }, 1 ]
+          operands: [ { op: 'quote', type: 'expression', operands: [ 'xdebug' ] }, 1 ]
         },
         type: 'Num'
       }
