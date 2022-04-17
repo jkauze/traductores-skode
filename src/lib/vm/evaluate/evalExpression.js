@@ -120,8 +120,8 @@ const evaluateExpression = (astInput, option = false) => {
         return result
     }
     if (isIndexArray(op)) {
-        const { result: indexExpression } = evaluateExpression(operands[1])
-        const index = indexExpression || operands[1]
+        const { result: indexExpression } = evalExpression(operands[1])
+        const index = indexExpression ?? operands[1]
         if (isNotValidIndex(index)) return undefined
         const indexOfArray = operands[0][index]
         const { result } = evalExpression(indexOfArray)

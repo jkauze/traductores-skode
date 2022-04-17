@@ -43,6 +43,7 @@ const case16 = setupCase('1+2-3*4/5^6')
 
 const case17 = setupCase('(1 + 2) * 4^6 - (4+1)/5')
 
+const case18 = setupCase("num xdebug2 := 'xdebug'")
 
 module.exports = {
     case1,
@@ -61,5 +62,6 @@ module.exports = {
     case14,
     case15,
     case16,
-    case17
+    case17,
+    case18
 }
