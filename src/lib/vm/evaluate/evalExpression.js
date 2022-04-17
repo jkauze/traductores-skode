@@ -46,7 +46,7 @@ const getStringExpressionBinary = (tmpLvalue, op, tmpRvalue) => `${tmpLvalue} ${
 
 const getStringExpressionUnary = (value, op) => `${op} ${value}`
 
-const isBinary = (tmpLvalue, tmpRvalue) => !!tmpLvalue && !!tmpRvalue
+const isBinary = (tmpLvalue, tmpRvalue) => tmpLvalue !== undefined && tmpRvalue !== undefined
 
 const isIdentifier = value => typeof value === 'string'
 
@@ -82,8 +82,9 @@ const evaluateIf = (guard, expT, expF) => {
  * @param {String} ast.type
  * @returns {Object}
  */
-const evaluateExpression = (ast, option = false) => {
+const evaluateExpression = (astInput, option = false) => {
     quoted = option
+    const ast = astInput.result ?? astInput
     if (isNotAst(ast)) return getIdValue(ast)
     const { op, operands } = ast
     if (isResetFunction(op)) return reset()
@@ -128,7 +129,6 @@ const evaluateExpression = (ast, option = false) => {
     }
     if (isTypeFunction(op)) {
         const { result } = evalExpression(operands[0])
-        console.log(result)
         const isArray = Array.isArray(operands[0])
         return type(result, isArray)
     }

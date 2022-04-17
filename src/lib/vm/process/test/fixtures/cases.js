@@ -5,8 +5,8 @@ const removeUnnecesarySpaces = (input) => input.replace(/\s+/g, ' ').trim()
 const parseToArray = (input) => input.split(' ')
 
 const setupCase = (input) => {
-  const formatedArgs = removeUnnecesarySpaces(input)
-  return { args: parseToArray(formatedArgs) }
+    const formatedArgs = removeUnnecesarySpaces(input)
+    return parseToArray(formatedArgs)
 }
 
 const case1 = setupCase('1')
@@ -45,21 +45,21 @@ const case17 = setupCase('(1 + 2) * 4^6 - {4+1}/5')
 
 
 module.exports = {
-  case1,
-  case2,
-  case3,
-  case4,
-  case5,
-  case6,
-  case7,
-  case8,
-  case9,
-  case10,
-  case11,
-  case12,
-  case13,
-  case14,
-  case15,
-  case16,
-  case17
+    case1,
+    case2,
+    case3,
+    case4,
+    case5,
+    case6,
+    case7,
+    case8,
+    case9,
+    case10,
+    case11,
+    case12,
+    case13,
+    case14,
+    case15,
+    case16,
+    case17
 }

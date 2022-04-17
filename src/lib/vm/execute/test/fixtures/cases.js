@@ -52,7 +52,7 @@ const case4 = {
 }
 
 // num lol := x
-const case5 = { op: ':=', type: 'instruction', operands: [ 'lol', 'x', 'Num' ] }
+const case5 = { op: ':=', type: 'instruction', operands: [ 'lol', 'xdebug', 'Num' ] }
 
 // num lol2 := 'lol'
 const case6 = {

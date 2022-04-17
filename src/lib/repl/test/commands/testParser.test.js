@@ -19,7 +19,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("x") ==> x'
+      const expected = 'OK:ast("xdebug") ==> xdebug'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 3: !1", () => {
@@ -35,7 +35,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("!x") ==> (!x)'
+      const expected = 'OK:ast("!xdebug") ==> (!xdebug)'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 5: +1 + -1", () => {
@@ -51,7 +51,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("!x && -y") ==> ((!x) && (-y))'
+      const expected = 'OK:ast("!xdebug && -ydebug") ==> ((!xdebug) && (-ydebug))'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 7: (1+2)", () => {
@@ -99,7 +99,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("[!x,2+2]") ==> [(!x),(2 + 2)]'
+      const expected = 'OK:ast("[!xdebug,2+2]") ==> [(!xdebug),(2 + 2)]'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 13: [num] x := []", () => {
@@ -107,7 +107,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("[num] x := []") ==> def(Num, x, [])'
+      const expected = 'OK:ast("[num] xdebug := []") ==> def(Num, xdebug, [])'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 14: num x := 20+3", () => {
@@ -115,7 +115,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("num x := 20+3") ==> def(Num, x, (20 + 3))'
+      const expected = 'OK:ast("num xdebug := 20+3") ==> def(Num, xdebug, (20 + 3))'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 15: x := 20 + 2", () => {
@@ -123,7 +123,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK:ast("x := 20 + 2") ==> asg(x, (20 + 2))'
+      const expected = 'OK:ast("xdebug := 20 + 2") ==> asg(xdebug, (20 + 2))'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 16: 1+2-3*4/5^6", () => {
