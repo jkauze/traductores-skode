@@ -49,11 +49,11 @@ module.exports =
     }}
 
     start
-        = i:Instruccion { return i }
+        = i:Instruction { return i }
         / e:GeneralExpression { return e }
     
 
-    Instruccion
+    Instruction
         = d:Definition { return d }
         / a:Assignation { return a }
 
