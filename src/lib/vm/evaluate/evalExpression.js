@@ -64,6 +64,8 @@ const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
 const invalidFunctionError = id => `Uncaught ReferenceError: "function ${id}" is not implemented or has invalid parameters. Type ".help" to get functions guide`
 
+const objectIsNotIterable = (func, arg) => `Uncaught SyntaxError: Invalid or unexpected token ${arg} in function ${func}`
+
 const notLvalueError = () => "The expression has no LVALUE"
 
 const invalidTypeConditionError = (guard) => `The guard "${guard}" is not boolean type`
@@ -100,7 +102,10 @@ const evaluateExpression = (ast, option = false) => {
     if (isNowFunction(op)) return now()
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(invalidFunctionError(operands[0]))
-    if (isLengthFunction(op)) return length(operands[0])
+    if (isLengthFunction(op)) {
+        if (!Array.isArray(operands[0])) return objectIsNotIterable(op, operands[0])
+        return length(operands[0])
+    } 
     if (isFormulaFunction(op)) return formula(operands[0])
 
     // etapa 4
@@ -125,11 +130,13 @@ const evaluateExpression = (ast, option = false) => {
 
     }
     if (isSumFunction(op)) {
+        if (!Array.isArray(operands[0])) return objectIsNotIterable(op, operands[0])
         const operandsValue = operands[0].map(item => {
             const { result } = evalExpression(item)
             return result
         })
         return sum(operandsValue)
+        
     }
     if (isTypeFunction(op)) {
         const { result } = evalExpression(operands[0])
@@ -147,6 +154,7 @@ const evaluateExpression = (ast, option = false) => {
         return ltypeResult
     }
     if (isAvgFunction(op)) {
+        if (!Array.isArray(operands[0])) return objectIsNotIterable(op, operands[0])
         const operandsValue = operands[0].map(item => {
             const { result } = evalExpression(item)
             return result
