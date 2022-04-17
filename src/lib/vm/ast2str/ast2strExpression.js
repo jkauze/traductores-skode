@@ -44,31 +44,26 @@ const ast2strExpression = ast => {
 
         if (op === "function") throw new Error(`Funcion no implementada: ${leftOperand}`)
 
-        if (isFunction(op)) {
-            return formatFunctionString(op, operands)
-        }
-        else if (isIndex(op)){
+        if (isFunction(op)) return formatFunctionString(op, operands)
+
+        if (isIndex(op)){
             if (isNode(newRightOperand)) newRightOperand = executeAST2Expression(rightOperand)
             if (isNode(newLeftOperand)) newLeftOperand = executeAST2Expression(leftOperand)
             return `${newLeftOperand}[${newRightOperand}]`
         }
-        else if (isQuote(op)) {
-            newRightOperand = isNode(newRightOperand) ? `"${ast2strExpression(newRightOperand)}"` : `"${newLeftOperand}"`
-        }
-        else {
-            if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
-            if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
-        }
 
-        if (isNode(originalLeftOperand) && !isQuote(op) && !isIndex(op)) {
-            return formatExpressionString(newRightOperand, op, newLeftOperand)
-        } else if (!rightOperand && !isQuote(op)) {
-            return formatUnaryExpressionString(newLeftOperand, op)
-        } else if (isQuote(op)) {
+        if (isQuote(op)) {
+            newRightOperand = isNode(newRightOperand) ? `"${ast2strExpression(newRightOperand)}"` : `"${newLeftOperand}"`
             return newRightOperand || newLeftOperand
-        } else {
-            return formatExpressionString(newLeftOperand, op, newRightOperand)
         }
+        
+        if (isNode(newRightOperand)) newRightOperand = ast2strExpression(rightOperand)
+        if (isNode(newLeftOperand)) newLeftOperand = ast2strExpression(leftOperand)
+
+        if (originalRightOperand === undefined) return formatUnaryExpressionString(newLeftOperand ? newLeftOperand : newRightOperand, op)
+        
+        if (isNode(originalLeftOperand)) return formatExpressionString(newRightOperand, op, newLeftOperand)
+        else return formatExpressionString(newLeftOperand, op, newRightOperand)
     }
     else {
         return formatFunctionString(op)

@@ -85,11 +85,13 @@ module.exports =
 
 
     PrimaryExpression
-        = IdLiteral
+        = FunctionExpression
+        / IdLiteral
         / ReservedLiteral
         / NumberLiteral
         / ArrayExpression
         / BlockExpression
+    
 
     IdLiteral
         = i:Id __ a:(EmptyArrayExpression / SingleArrayExpression) { return { op: 'index', type: 'expression', operands:[i,a] } }

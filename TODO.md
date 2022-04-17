@@ -5,6 +5,7 @@
         - [] array
     - [] Buscar como manejar lo del histogram
     - [] Agregar una nueva propiedad a las variables quoted
+    - [] Agregar caso de ast2str -(1+2) Error
 
 
 # Planteamientos
