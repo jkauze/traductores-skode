@@ -6,14 +6,14 @@
   "scripts": {
     "start": "node src/index.js",
     "start:dev": "export debug=true; node src/index.js",
-    "test": "mocha  src/**/test/**/*test.js --reporter spec",
-    "test:ast2str": "mocha  src/lib/vm/ast2str/**/*test.js --reporter spec",
-    "test:parser": "mocha  src/lib/vm/parser/**/*test.js --reporter spec",
-    "test:testParser": "mocha  src/lib/repl/test/commands/testParser.test.js --reporter spec",
-    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec",
-    "test:execute": "mocha  src/lib/vm/execute/**/*test.js --reporter spec",
-    "test:evaluate": "mocha  src/lib/vm/evaluate/**/*test.js --reporter spec",
-    "test:process": "mocha  src/lib/vm/process/**/*test.js --reporter spec"
+    "test": "mocha  src/**/test/**/*test.js --reporter spec --timeout 5000",
+    "test:ast2str": "mocha  src/lib/vm/ast2str/**/*test.js --reporter spec --timeout 5000",
+    "test:parser": "mocha  src/lib/vm/parser/**/*test.js --reporter spec --timeout 5000",
+    "test:testParser": "mocha  src/lib/repl/test/commands/testParser.test.js --reporter spec --timeout 5000",
+    "test:lexer": "mocha  src/lib/vm/lexer/**/*test.js --reporter spec --timeout 5000",
+    "test:execute": "mocha  src/lib/vm/execute/**/*test.js --reporter spec --timeout 5000",
+    "test:evaluate": "mocha  src/lib/vm/evaluate/**/*test.js --reporter spec --timeout 5000",
+    "test:process": "mocha  src/lib/vm/process/**/*test.js --reporter spec --timeout 5000"
   },
   "repository": {
     "type": "git",

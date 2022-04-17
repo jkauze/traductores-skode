@@ -5,7 +5,7 @@ const functionsCases = require('./fixtures/functionsCases')
 
 const assert = require('assert');
 
-describe('#process - functions cases - success', () => {
+describe('#process - functions cases (phase 3) - success', () => {
     it("Case 1: uniform()", () => {
         const input = functionsCases.case1
 

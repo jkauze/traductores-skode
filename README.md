@@ -47,7 +47,7 @@ Welcome to stokhos 3.0.0
 OK:ast("num x := a") ==> def(Num, x, a)
 ```
 
-# Instrucciones etapa 3: Validaciones estatics && Ambiente de ejecucion
+# Instrucciones etapa 3: Validaciones estaticas && Ambiente de ejecucion
 
 - Ejecutar el REPL
 ```sh
@@ -94,6 +94,9 @@ npm run test:execute
 
 # Ejecutar los test del evaluate:
 npm run test:evaluate
+
+# Ejecutar los test del process:
+npm run test:process
 ```
 
 # Documentacion

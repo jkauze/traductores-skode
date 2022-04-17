@@ -7,10 +7,10 @@ const invalidLogarithm = () => 'Has not logarithm'
  * @param {Number}
  * @returns {Number}
  */
-const inFunction = value => {
+const lnFunction = value => {
     const result = Math.log(value)
     if (!isNaN(result) && typeof result === 'number') return result
     else throw new Error(invalidLogarithm())
 }
 
-module.exports = { inFunction }
+module.exports = { lnFunction }

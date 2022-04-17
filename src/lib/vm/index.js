@@ -16,7 +16,7 @@ const { length } = require('./length');
 const { floor } = require('./floor');
 const { type } = require('./type');
 const { ltype } = require('./ltype');
-const { inFunction } = require('./in');
+const { lnFunction } = require('./ln');
 const { sin } = require('./sin');
 const { cos } = require('./cos');
 const { exp } = require('./exp');
@@ -39,7 +39,7 @@ module.exports = {
     floor,
     type,
     ltype,
-    inFunction,
+    lnFunction,
     sin,
     cos,
     exp,

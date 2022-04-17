@@ -14,7 +14,7 @@ const { length } = require('../length')
 const { floor } = require('../floor')
 const { type } = require('../type')
 const { ltype } = require('../ltype')
-const { inFunction } = require('../in')
+const { lnFunction } = require('../ln')
 const { sin } = require('../sin')
 const { cos } = require('../cos')
 const { exp } = require('../exp')
@@ -30,7 +30,7 @@ const isLtypeFunction = op => op === 'ltype'
 const isAvgFunction = op => op === 'avg'
 const isLengthFunction = op => op === 'length'
 const isFloorFunction = op => op === 'floor'
-const isInFunction = op => op === 'in'
+const isLnFunction = op => op === 'ln'
 const isSinFunction = op => op === 'sin'
 const isCosFunction = op => op === 'cos'
 const isExpFunction = op => op === 'exp'
@@ -105,7 +105,7 @@ const evaluateExpression = (astInput, option = false) => {
         return length(operands[0])
     } 
     // etapa 4
-    if (isInFunction(op)) return inFunction(evaluateExpression(operands[0]))
+    if (isLnFunction(op)) return lnFunction(evaluateExpression(operands[0]))
     if (isSinFunction(op)) return sin(evaluateExpression(operands[0]))
     if (isCosFunction(op)) return cos(evaluateExpression(operands[0]))
     if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
