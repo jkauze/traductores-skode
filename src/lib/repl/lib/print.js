@@ -1,7 +1,7 @@
 'use strict'
 
 const { statusTypes } = require('../../../shared')
-const { ackMessage, okMessage, errorMessage, fatalErrorMessage } = require('../utils/messages')
+const { ackMessage, okMessage, errorMessage } = require('../utils/messages')
 
 const sendProcessMessage = (input, { status, message }, fileInfo) => {
     if (status === statusTypes.ACK) ackMessage(message)
@@ -17,6 +17,6 @@ const sendProcessMessage = (input, { status, message }, fileInfo) => {
  */
 const print = (input, response, fileInfo) => typeof response === 'object' && response !== null ?
     sendProcessMessage(input, response, fileInfo) :
-    fatalErrorMessage({error: response, fileInfo, input})
+    okMessage(input, response)
 
 module.exports = print

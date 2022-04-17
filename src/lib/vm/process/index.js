@@ -5,25 +5,28 @@ const { debug } = process.env
 const { parser } = require('../parser')
 const { execute } = require('../execute')
 const { evaluate } = require('../evaluate')
+const { statusTypes } = require('../../../shared')
 const logger = require('../../../shared/logger')
+const formatResponse = require('../utils/formatResponse')
 
 const isActionAst = ({ type }) => type === 'instruction'
 
-const getErrorMessage = (error) => Object.getOwnPropertyDescriptor(error, 'found') ? error.found || '' : error.message
+const sendErrorMessage = (error) => Object.getOwnPropertyDescriptor(error, 'found')
+    ? formatResponse('SyntaxError', statusTypes.ERROR)
+    : formatResponse(error.message, statusTypes.ERROR)
 
 /**
  * @param {Object} options
  * @param {Array<String>} options.args
- * @param {Object} options.fileInfo
+ * @param {Object}
  */
-const processVM = args => {
+const processVM = (args) => {
     try {
         const ast = parser(args)
         if (debug) logger(ast)
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
-        const errorMessage = getErrorMessage(error)
-        return errorMessage
+        return sendErrorMessage(error)
     }
 }
 
