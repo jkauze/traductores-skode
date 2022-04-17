@@ -10,7 +10,7 @@ describe('#process - basic cases - success', () => {
         const input = cases.case1
 
         const actual = process(input)
-        
+
         const expected = { status: 'OK', message: 1 }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
@@ -54,63 +54,63 @@ describe('#process - basic cases - success', () => {
         const expected = { status: 'OK', message: 0 }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
-    // it("Case 7: (1+2)", () => {
-    //   const input = cases.case7
+    it("Case 7: (1+2)", () => {
+        const input = cases.case7
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("(1+2)") ==> (1 + 2)'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
-    // it("Case 8: [1+2]", () => { // aqui
-    //   const input = cases.case8
+        const expected = { status: 'OK', message: 3 }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 8: [1+2]", () => {
+        const input = cases.case8
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("[1+2]") ==> [(1 + 2)]'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
-    // it("Case 9: []", () => { // aqui
-    //   const input = cases.case9
+        const expected = { status: 'OK', message: "[3]" }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 9: []", () => {
+        const input = cases.case9
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("[]") ==> []'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
-    // it("Case 10: [,]", () => {
-    //   const input = cases.case10
+        const expected = { status: 'OK', message: "[]" }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 10: [,]", () => {
+        const input = cases.case10
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("[,]") ==> []'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
-    // it("Case 11: [1,2,3]", () => {
-    //   const input = cases.case11
+        const expected = { status: 'OK', message: "[]" }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 11: [1,2,3]", () => {
+        const input = cases.case11
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("[1,2,3]") ==> [1,2,3]'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
-    // it("Case 12: [!x,2+2]", () => {
-    //   const input = cases.case12
+        const expected = { status: 'OK', message: "[1,2,3]" }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
+    it("Case 12: [!xdebug,2+2]", () => {
+        const input = cases.case12
 
-    //   const actual = process(input)
+        const actual = process(input)
 
-    //   const expected = 'OK:ast("[!x,2+2]") ==> [(!x),(2 + 2)]'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
-    // });
+        const expected = { status: 'OK', message: "[false,4]" }
+        assert.deepEqual(actual, expected, 'should generate the ast');
+    });
     // it("Case 13: [num] x := []", () => {
     //   const input = cases.case13
 
     //   const actual = process(input)
 
-    //   const expected = 'OK:ast("[num] x := []") ==> def(Num, x, [])'
-    //   assert.deepEqual(actual, expected, 'should generate the ast');
+    //     const expected = { status: 'ACK', message: "[false,4]" }
+    //     assert.deepEqual(actual, expected, 'should generate the ast');
     // });
-    // it("Case 14: num x := 20+3", () => {
+    // // it("Case 14: num x := 20+3", () => {
     //   const input = cases.case14
 
     //   const actual = process(input)

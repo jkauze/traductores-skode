@@ -61,6 +61,13 @@ const findIdValue = value => {
     else throw new Error(errors.reference(value))
 }
 
+const mapOpRelationals = {
+    '=': '==',
+    '<>': '!='
+}
+
+const formatOp = op => mapOpRelationals[op] || op
+
 const getIdValue = value => isIdentifier(value) ? findIdValue(value) : value
 
 const getExpressionString = (lvalue, op, rvalue) => (
@@ -161,7 +168,7 @@ const evaluateExpression = (astInput, option = false) => {
         stringExpression = tmpLvalue
         quoted = true
     }
-    else stringExpression = getExpressionString(tmpLvalue, op, tmpRvalue)
+    else stringExpression = getExpressionString(tmpLvalue, formatOp(op), tmpRvalue)
     return eval(stringExpression)
 }
 
