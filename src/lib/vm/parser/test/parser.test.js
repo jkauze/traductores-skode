@@ -294,7 +294,7 @@ describe('#parser', () => {
 
       const expected = {
         op: 'if',
-        type: 'expresion',
+        type: 'expression',
         operands: [ 'x', { op: 'index', type: 'expression', operands: [ 'a', 0 ] }, 1 ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
