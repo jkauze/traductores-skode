@@ -1,11 +1,9 @@
 # TODO ETAPA 4
-    - [] Revisar casos 1 = 2 y 1 <> 2 en process. Error
     - [] Hacer las funciones en el process.
         - [] tick
         - [] array
     - [] Buscar como manejar lo del histogram
     - [] Agregar una nueva propiedad a las variables quoted
-    - [] Agregar caso de ast2str -(1+2) Error
 
 
 # Planteamientos
