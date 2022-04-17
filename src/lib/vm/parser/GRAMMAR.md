@@ -7,57 +7,67 @@ This parser function invoke `lexer` to get tokens from the input, to create the 
 ## Stókhos Grammar:
 ```js
 
-<entrada>
-    -> <instrucción> | <expresión base>
-<instrucción>
-    -> <definición> | <asignación>
-<definición>
-    -> <tipo> <identificador> := <expresión base> ;
-<asignación>
-    -> <identificador> := <expresión base> ;
-<tipo>
-    -> Número | Booleano | Error
+<entrada> -> <instrucción> | <expresión generica>
 
-<expresión base>
-    -> <expresión arreglo> | <expresión simple>
+<instrucción> -> <definición> | <asignación>
 
-<expresión arreglo>
-    -> [] | [<expresión simple>] | [<cuerpo arreglo>]
-<cuerpo arreglo>
-    -> <expresión simple>, | <expresión simple>
+<definición> -> <tipo> <identificador generico> := <expresión generica> ;
 
-<expresión simple>
-    -> <expresion aditiva> | <expresión primaria>
-<expresion aditiva> 
-    -> <expresión multiplicativa> <operador aditivo> <expresión aditiva>
-<expresion multiplicativa> 
-    -> <expresión relacional> <operador multiplicativo> <expresión multiplicativa>
-<expresion relacional> 
-    -> <expresión boolana> <operador relacional> <expresión relacional>
-<expresion boolana> 
-    -> <expresión unaria> <operador boolano> <expresión boolana>
-<expresion unaria> 
-    -> <operador unario> <expresión primaria>
+<asignación> -> <identificador generico> := <expresión generica> ;
 
-<expresión primaria> 
-    -> ( <expresión simple> )
-    | { <expresión simple> }
-    | [ <expresión simple> ]
-    | <caracater>
-    | <cadena>
+<tipo> -> [ <tipos reservados> ] | <tipos reservados>
 
-<caracater>
-    -> <caracter numerico> | <identificador>
-<cadena>
-    -> '' | "" | '<secuencia caracateres>' | "<secuencia caracateres>"
+<tipos reservados> -> Número | Booleano
 
-<caracter numerico> -> Valores numericos punto flotante
-<secuencia caracateres> -> Secuencia de caracteres para tipo cadena
-<identificador> -> Secuencia de caracteres
+<expresión generica> -> <expresión función> | <expresión binaria>
+
+<expresión función> -> <identificador> ( <expresion lista> )
+
+<expresión primaria> -> <identificador generico> | <palabra reservada> | 
+                        <número> | <expresión arreglo> | <expresión bloque>
+
+<identificador generico> -> <identificador> [ <expresión generica> ] | 
+                            <identificador>
+
+<identificador> -> Cadena de caracteres
+
+<palabra reservada> -> true | false
+
+<número> -> Dígitos numéricos con o sin decimales
+
+<expresión arreglo> -> [ ] | [ <expresion lista> ] [ <expresión generica> ] | 
+                        [ <expresion lista> ]
+
+<expresion lista> -> <expresión generica> <elemento lista>
+
+<elemento lista> -> , <expresion lista>
+
+<expresión binaria> -> <expresión or lógico>
+
+<expresión or lógico> -> <expresión and lógico> || <expresión and lógico>
+
+<expresión and lógico> -> <expresión comparación> && <expresión comparación>
+
+<expresión comparación> -> <expresión relacional> <operador comparación> <expresión comparación> |
+                            <expresión relacional>
+<operador comparación> -> = | <>
+
+<expresión relacional> -> <expresión aditiva> <operador relacional> <expresión relacional> |
+                            <expresión aditiva>
+<operador relacional> -> < | <= | > | >=
+
+<expresión aditiva> -> <expresión multiplicativa> <operador aditivo> <expresión multiplicativa>
 <operador aditivo> -> + | -
-<operador multiplicativo> -> * | / | % | ^
-<operador relacional> -> = | <> | < | <= | > | >=
-<operador boolano> -> && | ||
+
+<expresión multiplicativa> -> <expresión potencia> <operador multiplicativo> <expresión potencia>
+<operador multiplicativo> -> * | / | %
+
+<expresión potencia> -> <expresión unaria> ^ <expresión potencia> | <expresión unaria>
+
+<expresión unaria> -> <operador unario> <expresión primaria> | <expresión primaria>
 <operador unario> -> + | - | !
+
+<expresión bloque> -> ' <expresión generica> ' | ( <expresión generica> ) | 
+                        { <expresión generica> }
 
 ```
