@@ -312,8 +312,56 @@ const case31 = {
     ]
 }
 
-// func(1,2,3);
-const case32 = { op: 'function', type: 'error', operands: [ 'func', [ 1, 2, 3 ] ] }
+// num k := 'floor(100 * uniform())'
+const case32 = {
+    op: ':=',
+    type: 'instruction',
+    operands: [
+      'k',
+      {
+        op: 'quote',
+        type: 'expression',
+        operands: [
+          {
+            op: 'floor',
+            type: 'expression',
+            operands: [
+              {
+                op: '*',
+                type: 'expression',
+                operands: [ 100, { op: 'uniform', type: 'expression' } ]
+              }
+            ]
+          }
+        ]
+      },
+      'Num'
+    ]
+  } 
+
+// -( 1+2 )
+const case33 = {
+    op: '-',
+    type: 'expression',
+    operands: [ { op: '+', type: 'expression', operands: [ 1, 2 ] } ]
+  }
+
+// true && false
+const case34 = { op: '&&', type: 'expression', operands: [ true, false ] }
+
+// -pi() + pi()
+const case35 = {
+    op: '+',
+    type: 'expression',
+    operands: [
+      {
+        op: '-',
+        type: 'expression',
+        operands: [ { op: 'pi', type: 'expression' } ]
+      },
+      { op: 'pi', type: 'expression' }
+    ]
+  }
 
 module.exports = {
     case1,
@@ -347,5 +395,8 @@ module.exports = {
     case29,
     case30,
     case31,
-    case32
+    case32,
+    case33,
+    case34,
+    case35
 }
