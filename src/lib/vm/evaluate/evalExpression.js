@@ -63,7 +63,8 @@ const findIdValue = value => {
 
 const mapOpRelationals = {
     '=': '==',
-    '<>': '!='
+    '<>': '!=',
+    '^': '**'
 }
 
 const formatOp = op => mapOpRelationals[op] || op
