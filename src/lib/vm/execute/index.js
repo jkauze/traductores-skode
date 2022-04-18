@@ -65,6 +65,9 @@ const execute = ast => {
     const { operands, op } = ast
     const [lvalue, cvalue, type] = operands
     const { result, quoted } = evalExpression(cvalue)
+    // aqui hay que poner un if, para los asignable array, si el lvalue es obj, entonces 
+    // guardar tomar el id/array como lvalue, pasar las validaciones, reemplazar el index de id/array
+    // y guardar ese resultado con updateMem
 
     if (isAssignation(type)) {
         if (isNotDefined(lvalue)) return referenceError(lvalue)

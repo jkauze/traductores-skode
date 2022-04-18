@@ -16,6 +16,11 @@ ltype(<exp>)                  Return the type (number or boolean) of the <exp> i
 pi()                          Return a pi aproximated. Return a number
 now()                         Return a date in ms from statict checkpoint. Return a number
 uniform()                     Return a random number between 0 and 1. Return a number
+floor(<exp>)                  Return int rounded of <exp>. Return a number
+sin(<exp>)                    Return sin of <exp>. Return a number
+cos(<exp>)                    Return cos of <exp>. Return a number
+formula(<id>)                 Return the cvalue of the <id>
+array(<size>, <exp>)          Return an array with <size> length and <exp> items.
 if(<exp>, <expT>, <expF>)     Return a <expT> if <exp> is true, else return <expF>
 .                             Exit the REPL
 `

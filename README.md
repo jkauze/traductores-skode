@@ -55,7 +55,7 @@ OK:ast("num x := a") ==> def(Num, x, a)
 npm start
 ```
 
-- Una vez iniciado el parser podra ejecutar expresiones/instrucciones al repl para procesarlas
+- Una vez iniciado el REPL podra ejecutar expresiones/instrucciones al repl para procesarlas
 ```sh
 Welcome to stokhos 3.0.0
 <Stókhos> num prueba := 12 + 13
@@ -66,6 +66,56 @@ OK: prueba ==> 25
 OK: 35
 <Stókhos> xxxxx + 2
 ERROR: "xxxxx + 2" ==> Uncaught ReferenceError: "xxxxx" is not defined
+```
+
+# Instrucciones etapa 4: Manejo de memoria && nuevas funciones
+
+- Ejecutar el REPL
+```sh
+# en la carpeta raiz del proyecto 
+npm start
+```
+- Una vez iniciado el REPL consulte todas las funciones disponible y sintaxis implementadas
+```sh
+<Stókhos> .help
+.reset                        Clear error logs
+.failed                       Show error logs
+.help                         Print this help message
+.load <file>                  Load a <file> and execute each line
+.lex <input>                  Invoke lexer to analyze lexicographically the <input>
+.ast <input>                  Invoke parser to create ast of the <input> and print in a string
+.env                          Print all defined variables in mem
+sum([<exp>])                  Sum all <exp> array items. Return a number
+avg([<exp>])                  Return average of all <exp> array items. Return a number
+length([<exp>])               Return the length of the array. Return a number
+type(<exp>)                   Return the type (number or boolean) of the <exp>, also works with arrays. Return a string
+ltype(<exp>)                  Return the type (number or boolean) of the <exp> if the exp is assignable. Return a string
+pi()                          Return a pi aproximated. Return a number
+now()                         Return a date in ms from statict checkpoint. Return a number
+uniform()                     Return a random number between 0 and 1. Return a number
+floor(<exp>)                  Return int rounded of <exp>. Return a number
+sin(<exp>)                    Return sin of <exp>. Return a number
+cos(<exp>)                    Return cos of <exp>. Return a number
+formula(<id>)                 Return the cvalue of the <id>
+array(<size>, <exp>)          Return an array with <size> length and <exp> items.
+if(<exp>, <expT>, <expF>)     Return a <expT> if <exp> is true, else return <expF>
+.                             Exit the REPL
+```
+
+- Empiece a usar STOKHOS!  \o/ :) ;) <3
+```sh
+Welcome to stokhos 4.0.0
+Type ".help" for more information
+<Stókhos> [num] x := array(3, 'uniform()')
+ACK: [Num] x := [0.14094696300881182,0.2027306015287298,0.9622381784248013]
+<Stókhos> x[1]
+OK:x[1] ==> 0.2027306015287298
+<Stókhos> num koz := 'uniform()'
+ACK: Num koz := 0.3935482015587848
+<Stókhos> koz
+OK:koz ==> 0.3935482015587848
+<Stókhos> sin(koz)
+OK:sin(koz) ==> 0.383467778771942
 ```
 
 #  Ejecutar el suite de tests

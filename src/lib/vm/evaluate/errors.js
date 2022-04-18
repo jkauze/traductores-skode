@@ -11,8 +11,11 @@ const notLvalueError = () => 'The expression has no LVALUE'
 
 const invalidTypeCondition = (guard) => `The guard "${guard}" is not boolean type`
 
+const invalidSize = (size) => `The Size "${size} is not a valid number > 0`
+
 module.exports = {
     reference,
+    invalidSize,
     invalidFunction,
     objectIsNotIterable,
     notLvalueError,
