@@ -21,6 +21,7 @@ const { cos } = require('../cos')
 const { exp } = require('../exp')
 const { formula } = require('../formula')
 const { tick } = require('../tick')
+const { array } = require('../array')
 
 const isResetFunction = op => op === 'reset'
 const isPIFunction = op => op === 'pi'
@@ -38,6 +39,7 @@ const isCosFunction = op => op === 'cos'
 const isExpFunction = op => op === 'exp'
 const isFormulaFunction = op => op === 'formula'
 const isTickFunction = op => op === 'tick'
+const isArrayFunction = op => op === 'array'
 const isIfFunction = op => op === 'if'
 const isIndexArray = op => op === 'index'
 const isErrorFunction = op => op === 'function'
@@ -53,11 +55,9 @@ const isBinary = (tmpLvalue, tmpRvalue) => tmpLvalue !== undefined && tmpRvalue 
 
 const isIdentifier = value => typeof value === 'string'
 
+const isValidSize = size => typeof size === 'number' && size >= 0
+
 const isNotValidIndex = value => typeof value !== 'number' || value < 0
-
-// const isExpressionValue = value => typeof data[value]['value'] === 'object' ? evalExpression(data[value]['value']) : data[value]['value']
-
-// const findValue = value => data[value] && isExpressionValue(value)
 
 const findIdValue = (value) => {
     if (data[value] === undefined) throw new Error(errors.reference(value))
@@ -122,6 +122,23 @@ const evaluateExpression = (astInput, option = false) => {
     if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
     if (isFormulaFunction(op)) return formula(operands[0])
     if (isTickFunction(op)) return tick()
+    if (isArrayFunction(op)) {
+        const size = evaluateExpression(operands[0])
+        const resultArray = []
+        if (!isValidSize(size)) throw new Error(errors.invalidSize(size))
+        if (evaluateExpression(operands[1]) && quoted) {
+            for (let index = 0; index < size; index++) {
+                const value = evaluateExpression(operands[1])
+                resultArray.push(value)
+            }
+        } else {
+            const value = evaluateExpression(operands[1])
+            for (let index = 0; index < size; index++) {
+                resultArray.push(value)
+            }
+        }
+        return `[${resultArray}]`
+    }
     //
 
     if (isFloorFunction(op)) {
@@ -133,9 +150,11 @@ const evaluateExpression = (astInput, option = false) => {
     }
     if (isIndexArray(op)) {
         const { result: indexExpression } = evalExpression(operands[1])
+        const { result: arrayExpression } = evalExpression(operands[0])
+        const array = JSON.parse(arrayExpression) ?? operands[0]
         const index = indexExpression ?? operands[1]
         if (isNotValidIndex(index)) return undefined
-        const indexOfArray = operands[0][index]
+        const indexOfArray = array[index]
         const { result } = evalExpression(indexOfArray)
         return result
     }
@@ -185,14 +204,14 @@ const evaluateExpression = (astInput, option = false) => {
     return eval(stringExpression)
 }
 
-const formatExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
+const formatArrayExpression = (expression) => Array.isArray(expression) ? `[${expression}]` : expression
 
 const transformItem = item => isAst(item) ? evaluateExpression(item) : getIdValue(item)
 
 const evalArray = ast => ast.map(transformItem)
 
 const evalExpression = ast => Array.isArray(ast)
-    ? { result: formatExpression(evalArray(ast)), quoted }
+    ? { result: formatArrayExpression(evalArray(ast)), quoted }
     : { result: evaluateExpression(ast), quoted }
 
 module.exports = { evalExpression }

@@ -1,10 +1,11 @@
 # TODO ETAPA 4
     - [] Hacer las funciones en el process.
         - [x] tick
-        - [] array
+        - [x] array
+        - [x] histogram
     - [] Buscar como manejar lo del histogram
     - [x] Soportar Tick y arreglar la memoria para ello
-
+    - solucionar bug de asignacion de index de array
 
 # Planteamientos
 
