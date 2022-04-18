@@ -76,29 +76,29 @@ describe('#process - functions cases (phase 4) - success', () => {
         assert.deepEqual(message, expectedMessage, 'should get correct value');
     });
 
-    // it("Case 7: type([1,2,3][0])", () => {
-    //     const input = functionsCases.case7
+    it("Case 7: formula(ydebug)", () => {
+        const input = functionsCases.case7
 
-    //     const actual = process(input)
-    //     const { status, message } = actual
+        const actual = process(input)
+        const { status, message } = actual
 
-    //     const expectedStatus = 'OK'
-    //     const expectedMessage = 'int'
-    //     assert.deepEqual(status, expectedStatus, 'should get correct status');
-    //     assert.deepEqual(message, expectedMessage, 'should get correct value');
-    // });
+        const expectedStatus = 'OK'
+        const expectedMessage = '("xdebug" + 1)'
+        assert.deepEqual(status, expectedStatus, 'should get correct status');
+        assert.deepEqual(message, expectedMessage, 'should get correct value');
+    });
 
-    // it("Case 8: type([1,2,3][3 - 3])", () => {
-    //     const input = functionsCases.case8
+    it("Case 8: formula(zdebug)", () => {
+        const input = functionsCases.case8
 
-    //     const actual = process(input)
-    //     const { status, message } = actual
+        const actual = process(input)
+        const { status, message } = actual
 
-    //     const expectedStatus = 'OK'
-    //     const expectedMessage = 'int'
-    //     assert.deepEqual(status, expectedStatus, 'should get correct status');
-    //     assert.deepEqual(message, expectedMessage, 'should get correct value');
-    // });
+        const expectedStatus = 'OK'
+        const expectedMessage = '"(((xdebug + ydebug) + 1) + 2)"'
+        assert.deepEqual(status, expectedStatus, 'should get correct status');
+        assert.deepEqual(message, expectedMessage, 'should get correct value');
+    });
 
     // it("Case 9: ltype(xdebug)", () => {
     //     const input = functionsCases.case9

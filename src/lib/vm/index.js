@@ -21,6 +21,7 @@ const { sin } = require('./sin');
 const { cos } = require('./cos');
 const { exp } = require('./exp');
 const { formula } = require('./formula');
+const { tick } = require('./tick');
 
 module.exports = {
     lexer,
@@ -43,5 +44,6 @@ module.exports = {
     sin,
     cos,
     exp,
-    formula
+    formula,
+    tick
 }

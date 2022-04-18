@@ -21,9 +21,9 @@ const case5 = setupCase('sin(floor(1.2 * 1))')
 
 const case6 = setupCase('cos(floor(1.2 * 1))')
 
-const case7 = setupCase('type([1,2,3][0])')
+const case7 = setupCase('formula(ydebug)')
 
-const case8 = setupCase('type([1,2,3][2-1])')
+const case8 = setupCase('formula(zdebug)')
 
 const case9 = setupCase('ltype(xdebug)')
 
