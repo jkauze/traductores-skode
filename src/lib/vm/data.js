@@ -9,6 +9,34 @@ const data = {
           operands: [ { op: 'quote', type: 'expression', operands: [ 'xdebug' ] }, 1 ]
         },
         type: 'Num'
+      },
+      zdebug: {
+        value: {
+          op: 'quote',
+          type: 'expression',
+          operands: [
+            {
+              op: '+',
+              type: 'expression',
+              operands: [
+                {
+                  op: '+',
+                  type: 'expression',
+                  operands: [
+                    {
+                      op: '+',
+                      type: 'expression',
+                      operands: [ 'xdebug', 'ydebug' ]
+                    },
+                    1
+                  ]
+                },
+                2
+              ]
+            }
+          ]
+        },
+        type: 'Num'
       }
  }
 
