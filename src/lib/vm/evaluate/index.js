@@ -3,9 +3,9 @@
 const { statusTypes } = require('../../../shared')
 const { evalExpression } = require('./evalExpression')
 const formatResponse = require('../utils/formatResponse')
+const { isNotAst, isAst } = require('./utils/astHelpers')
 const data = require('../data')
-
-const isNotAst = ast => typeof ast !== 'object'
+const memTick = require('../memTick')
 
 const isIdentifier = ast => typeof ast === 'string'
 
@@ -14,13 +14,20 @@ const referenceError = ast => (
 )
 
 const isExpressionValue = ast => {
-    const { result } = evalExpression(data[ast]['value'])
-    return result || data[ast]['value']
+    const actualTick = memTick[memTick.length - 1]
+    const tickIdValue = data[ast]['tick']
+    if (isAst(data[ast]['cvalue']) && tickIdValue !== actualTick) {
+        const { result: idValue } = evalExpression(data[ast]['cvalue'])
+        data[ast]['tick'] = actualTick
+        data[ast]['rvalue'] = idValue
+        return idValue
+    }
+    else return data[ast]['rvalue']
 }
 
 const formatValue = ast => `${isExpressionValue(ast)}`
 
-const findValue = ast => data[ast] && formatResponse(formatValue(ast), statusTypes.OK)
+const findValue = ast => data[ast] !== undefined && formatResponse(formatValue(ast), statusTypes.OK)
 
 const getIdValue = ast => findValue(ast) || referenceError(ast)
 

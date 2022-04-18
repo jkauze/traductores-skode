@@ -5,7 +5,7 @@ const { ast2str } = require('../ast2str')
 
 const referenceError = id => `Uncaught ReferenceError: "${id}" is not defined`
 
-const convertCValue = value => data[value] && ast2str(data[value]['value'])
+const convertCValue = value => data[value] && ast2str(data[value]['cvalue'])
 
 const getIdCValue = value => {
     if (convertCValue(value)) return convertCValue(value)

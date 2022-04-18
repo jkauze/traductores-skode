@@ -2,7 +2,8 @@
 
 const data = require('../data')
 const errors = require('./errors')
-const {isNotAst, isAst} = require('./utils/astHelpers')
+const memTick = require('../memTick')
+const { isNotAst, isAst } = require('./utils/astHelpers')
 
 const { reset } = require('../reset')
 const { pi } = require('../pi')
@@ -19,6 +20,7 @@ const { sin } = require('../sin')
 const { cos } = require('../cos')
 const { exp } = require('../exp')
 const { formula } = require('../formula')
+const { tick } = require('../tick')
 
 const isResetFunction = op => op === 'reset'
 const isPIFunction = op => op === 'pi'
@@ -35,6 +37,7 @@ const isSinFunction = op => op === 'sin'
 const isCosFunction = op => op === 'cos'
 const isExpFunction = op => op === 'exp'
 const isFormulaFunction = op => op === 'formula'
+const isTickFunction = op => op === 'tick'
 const isIfFunction = op => op === 'if'
 const isIndexArray = op => op === 'index'
 const isErrorFunction = op => op === 'function'
@@ -52,13 +55,21 @@ const isIdentifier = value => typeof value === 'string'
 
 const isNotValidIndex = value => typeof value !== 'number' || value < 0
 
-const isExpressionValue = value => typeof data[value]['value'] === 'object' ? evalExpression(data[value]['value']) : data[value]['value']
+// const isExpressionValue = value => typeof data[value]['value'] === 'object' ? evalExpression(data[value]['value']) : data[value]['value']
 
-const findValue = value => data[value] && isExpressionValue(value)
+// const findValue = value => data[value] && isExpressionValue(value)
 
-const findIdValue = value => {
-    if (findValue(value)) return findValue(value) 
-    else throw new Error(errors.reference(value))
+const findIdValue = (value) => {
+    if (data[value] === undefined) throw new Error(errors.reference(value))
+    const actualTick = memTick[memTick.length - 1]
+    const tickIdValue = data[value]['tick']
+    if (isAst(data[value]['cvalue']) && tickIdValue !== actualTick) {
+        const { result: idValue } = evalExpression(data[value]['cvalue'])
+        data[value]['tick'] = actualTick
+        data[value]['rvalue'] = idValue
+        return idValue
+    }
+    else return data[value]['rvalue']
 }
 
 const mapOpRelationals = {
@@ -103,13 +114,14 @@ const evaluateExpression = (astInput, option = false) => {
     if (isLengthFunction(op)) {
         if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
         return length(operands[0])
-    } 
+    }
     // etapa 4
     if (isLnFunction(op)) return lnFunction(evaluateExpression(operands[0]))
     if (isSinFunction(op)) return sin(evaluateExpression(operands[0]))
     if (isCosFunction(op)) return cos(evaluateExpression(operands[0]))
     if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
     if (isFormulaFunction(op)) return formula(operands[0])
+    if (isTickFunction(op)) return tick()
     //
 
     if (isFloorFunction(op)) {

@@ -10,8 +10,10 @@ const data = require('../../../data')
  */
 const updateMem = (id, value, type) => Object.assign(data, {
     [id]: {
-        value,
-        type
+        cvalue: value,
+        type,
+        tick: 0,
+        rvalue: value
     }
 })
 

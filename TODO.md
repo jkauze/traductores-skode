@@ -1,9 +1,9 @@
 # TODO ETAPA 4
     - [] Hacer las funciones en el process.
         - [] tick
-        - [] array
+        - [x] array
     - [] Buscar como manejar lo del histogram
-    - [] Agregar una nueva propiedad a las variables quoted
+    - [x] Soportar Tick y arreglar la memoria para ello
 
 
 # Planteamientos
