@@ -21,7 +21,6 @@ const { cos } = require('../cos')
 const { exp } = require('../exp')
 const { formula } = require('../formula')
 const { tick } = require('../tick')
-const { array } = require('../array')
 
 const isResetFunction = op => op === 'reset'
 const isPIFunction = op => op === 'pi'
