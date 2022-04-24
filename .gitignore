@@ -1,3 +1,6 @@
+# Ignore package lock except in production branches
+package-lock.json
+#
 # Logs
 logs
 npm-debug.log*
