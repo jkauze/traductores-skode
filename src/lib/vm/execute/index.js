@@ -3,7 +3,7 @@
 const data = require('../data')
 const memTick = require('../memTick')
 const { evalExpression } = require('../evaluate/evalExpression')
-const formatResponse = require('../utils/formatResponse')
+const formatResponseExecute = require('../utils/formatResponseExecute')
 const statusTypes = require('../../../shared/statusTypes')
 
 const mapType = {
@@ -49,10 +49,10 @@ const updateMem = ({ lvalue, result, type, quoted, cvalue, actualTick }) => Obje
 const dataType = lvalue => data[lvalue]['type']
 
 const referenceError = lvalue => (
-    formatResponse(`Uncaught ReferenceError: ${lvalue} is not defined`, statusTypes.ERROR)
+    formatResponseExecute(`Uncaught ReferenceError: ${lvalue} is not defined`, statusTypes.ERROR)
 )
 const typeError = (rvalue, type) => (
-    formatResponse(`TypeError: "${rvalue}" is not "${type}" type`, statusTypes.ERROR)
+    formatResponseExecute(`TypeError: "${rvalue}" is not "${type}" type`, statusTypes.ERROR)
 )
 
 const formatType = type => Array.isArray(type) ? `[${type}]` : type
@@ -80,11 +80,11 @@ const execute = ast => {
             if (isNotDefined(lvalue)) return referenceError(lvalue)
             if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
             updateMem({ lvalue, result, quoted, cvalue, actualTick })
-            return formatResponse(`${lvalue} ${op} ${result}`, statusTypes.ACK);
+            return formatResponseExecute(`${lvalue} ${op} ${result}`, statusTypes.ACK);
         } else {
             if (hasNotValidType(result, type)) return typeError(result, type)
             updateMem({ lvalue, result, type, quoted, cvalue, actualTick })
-            return formatResponse(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
+            return formatResponseExecute(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
         }
     } catch (error) {
         restoreMemCycle()
