@@ -26,20 +26,25 @@ const isAssignation = type => !type
 
 const isNotDefined = lvalue => !data[lvalue]
 
-const updateMem = ({ lvalue, result, type, quoted, cvalue }) => {
+const updateMemCycle = () => {
     const previousTick = memTick[memTick.length - 1]
     const actualTick = previousTick + 1
     memTick.push(actualTick)
-    Object.assign(data, {
-        [lvalue]: {
-            value: result,
-            rvalue: result,
-            cvalue: quoted ? cvalue : result,
-            tick: actualTick,
-            type: type || data[lvalue]['type']
-        }
-    })
+    return actualTick
 }
+
+const restoreMemCycle = () => memTick.pop()
+
+const updateMem = ({ lvalue, result, type, quoted, cvalue, actualTick }) => Object.assign(data, {
+    [lvalue]: {
+        value: result,
+        rvalue: result,
+        cvalue: quoted ? cvalue : result,
+        tick: actualTick,
+        type: type || data[lvalue]['type']
+    }
+})
+
 
 const dataType = lvalue => data[lvalue]['type']
 
@@ -64,21 +69,28 @@ const formatType = type => Array.isArray(type) ? `[${type}]` : type
 const execute = ast => {
     const { operands, op } = ast
     const [lvalue, cvalue, type] = operands
-    const { result, quoted } = evalExpression(cvalue)
-    // aqui hay que poner un if, para los asignable array, si el lvalue es obj, entonces 
-    // guardar tomar el id/array como lvalue, pasar las validaciones, reemplazar el index de id/array
-    // y guardar ese resultado con updateMem
+    try {
+        const actualTick = updateMemCycle()
+        const { result, quoted } = evalExpression(cvalue)
+        // aqui hay que poner un if, para los asignable array, si el lvalue es obj, entonces 
+        // guardar tomar el id/array como lvalue, pasar las validaciones, reemplazar el index de id/array
+        // y guardar ese resultado con updateMem
 
-    if (isAssignation(type)) {
-        if (isNotDefined(lvalue)) return referenceError(lvalue)
-        if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
-        updateMem({lvalue, result, quoted, cvalue})
-        return formatResponse(`${lvalue} ${op} ${result}`, statusTypes.ACK);
-    } else {
-        if (hasNotValidType(result, type)) return typeError(result, type)
-        updateMem({lvalue, result, type, quoted, cvalue})
-        return formatResponse(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
+        if (isAssignation(type)) {
+            if (isNotDefined(lvalue)) return referenceError(lvalue)
+            if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
+            updateMem({ lvalue, result, quoted, cvalue, actualTick })
+            return formatResponse(`${lvalue} ${op} ${result}`, statusTypes.ACK);
+        } else {
+            if (hasNotValidType(result, type)) return typeError(result, type)
+            updateMem({ lvalue, result, type, quoted, cvalue, actualTick })
+            return formatResponse(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
+        }
+    } catch (error) {
+        restoreMemCycle()
+        throw error
     }
+
 }
 
 module.exports = { execute }
