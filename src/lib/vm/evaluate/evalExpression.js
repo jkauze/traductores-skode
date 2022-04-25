@@ -145,6 +145,10 @@ const evaluateExpression = (astInput, option = false) => {
     }
     
     if (isHistogramFunction(op)) {
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (Array.isArray(array)) throw new Error(errors.objectIsIterable(op, operands[0]))
+
         let samples = []
         for (let sample = operands[1]; sample > 0; sample--) {
             samples.push(evaluateExpression(operands[0]))
@@ -154,7 +158,7 @@ const evaluateExpression = (astInput, option = false) => {
         const stepSize = (operands[4] - operands[3]) / operands[2]
         let step = stepSize
         let buckets = Array(operands[2]).fill(0)
-        let histogram = buckets.map((bucket, index, buckets) => {
+        let histogram = buckets.map(bucket => {
             const stepSamples = samples.filter( value => step - stepSize < value && value < step )
             step += stepSize
             return bucket + stepSamples.length
