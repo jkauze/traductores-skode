@@ -107,7 +107,7 @@ describe('#process - basic cases - success', () => {
 
         const actual = process(input)
 
-        const expected = { status: 'ACK', message: "[Num] xdebug := []" }
+        const expected = { status: 'ACK', message: "[Num] xdebug := [];" }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 14: num xdebug := 20+3", () => {
@@ -115,7 +115,7 @@ describe('#process - basic cases - success', () => {
 
         const actual = process(input)
 
-        const expected = { status: 'ACK', message: "Num xdebug := 23" }
+        const expected = { status: 'ACK', message: "Num xdebug := 23;" }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 15: xdebug := 20 + 2", () => {
@@ -123,7 +123,7 @@ describe('#process - basic cases - success', () => {
 
         const actual = process(input)
 
-        const expected = { status: 'ACK', message: "xdebug := 22" }
+        const expected = { status: 'ACK', message: "xdebug := 22;" }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 16: 1+2-3*4/5^6", () => {
@@ -147,7 +147,7 @@ describe('#process - basic cases - success', () => {
 
         const actual = process(input)
 
-        const expected = { status: 'ACK', message: "Num xdebug2 := 22" }
+        const expected = { status: 'ACK', message: "Num xdebug2 := 22;" }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
 });

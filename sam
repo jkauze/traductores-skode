@@ -1,3 +1,19 @@
-reset()
-num x := 10
-num z := 'x + 10'
+num x := '7 + uniform()';
+num y := 8 + uniform();
+formula(x)
+formula(y)
+x
+x
+y
+y
+tick()
+x
+x
+y
+y
+num z := 'x + y';
+formula(z)
+z
+z
+y
+x
