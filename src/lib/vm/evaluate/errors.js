@@ -7,6 +7,8 @@ const invalidFunction = id => `Uncaught ReferenceError: "function ${id}" is not 
 
 const objectIsNotIterable = (func, arg) => `Uncaught SyntaxError: Invalid or unexpected token ${arg} in function ${func}`
 
+const objectIsIterable = (func, arg) => `Uncaught SyntaxError: Invalid or unexpected token [${arg}] in function ${func}`
+
 const notLvalueError = () => 'The expression has no LVALUE'
 
 const invalidTypeCondition = (guard) => `The guard "${guard}" is not boolean type`
@@ -18,6 +20,7 @@ module.exports = {
     invalidSize,
     invalidFunction,
     objectIsNotIterable,
+    objectIsIterable,
     notLvalueError,
     invalidTypeCondition
 }
