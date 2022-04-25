@@ -26,7 +26,6 @@ const processVM = (args) => {
         if (debug) logger(ast)
         return isActionAst(ast) ? execute(ast) : evaluate(ast)
     } catch (error) {
-        console.log(error)
         return sendErrorMessage(error)
     }
 }
