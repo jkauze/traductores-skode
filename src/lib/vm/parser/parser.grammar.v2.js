@@ -2,8 +2,8 @@ module.exports =
 `
     {{
         function getTokenValue(token) {
-            if (token === 'TkNum') return 'Num'
-            else if (token === 'TkBool') return 'Boolean'
+            if (token === 'TkNum') return 'num'
+            else if (token === 'TkBool') return 'bool'
             else if (token === 'TkPlus') return '+'
             else if (token === 'TkMinus') return '-'
             else if (token === 'TkMult') return '*'

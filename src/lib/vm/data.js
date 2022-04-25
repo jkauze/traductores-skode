@@ -1,7 +1,7 @@
 'use strict'
 
 const data = { 
-    xdebug: { rvalue: 6, cvalue: 6, type: 'Num', tick: 0 },
+    xdebug: { rvalue: 6, cvalue: 6, type: 'num', tick: 0 },
     ydebug: {
         rvalue: 7,
         cvalue: {
@@ -9,7 +9,7 @@ const data = {
           type: 'expression',
           operands: [ { op: 'quote', type: 'expression', operands: [ 'xdebug' ] }, 1 ]
         },
-        type: 'Num',
+        type: 'num',
         tick: 0
       },
       zdebug: {
@@ -39,7 +39,7 @@ const data = {
             }
           ]
         },
-        type: 'Num',
+        type: 'num',
         tick: 0
       }
  }

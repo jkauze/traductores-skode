@@ -44,7 +44,7 @@ npm start
 ```sh
 Welcome to stokhos 3.0.0
 <Stókhos> .ast num x := a
-OK:ast("num x := a") ==> def(Num, x, a)
+OK:ast("num x := a") ==> def(num, x, a)
 ```
 
 # Instrucciones etapa 3: Validaciones estaticas && Ambiente de ejecucion
@@ -59,7 +59,7 @@ npm start
 ```sh
 Welcome to stokhos 3.0.0
 <Stókhos> num prueba := 12 + 13
-ACK: Num prueba := 25
+ACK: num prueba := 25
 <Stókhos> prueba
 OK: prueba ==> 25
 <Stókhos> prueba + 10
@@ -107,11 +107,11 @@ if(<exp>, <expT>, <expF>)     Return a <expT> if <exp> is true, else return <exp
 Welcome to stokhos 4.0.0
 Type ".help" for more information
 <Stókhos> [num] x := array(3, 'uniform()')
-ACK: [Num] x := [0.14094696300881182,0.2027306015287298,0.9622381784248013]
+ACK: [num] x := [0.14094696300881182,0.2027306015287298,0.9622381784248013]
 <Stókhos> x[1]
 OK:x[1] ==> 0.2027306015287298
 <Stókhos> num koz := 'uniform()'
-ACK: Num koz := 0.3935482015587848
+ACK: num koz := 0.3935482015587848
 <Stókhos> koz
 OK:koz ==> 0.3935482015587848
 <Stókhos> sin(koz)

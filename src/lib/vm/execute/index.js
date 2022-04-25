@@ -9,8 +9,8 @@ const statusTypes = require('../../../shared/statusTypes')
 const { ast2str } = require('../ast2str')
 
 const mapType = {
-    number: 'Num',
-    boolean: 'Boolean',
+    number: 'num',
+    boolean: 'bool',
     object: 'Array'
 }
 

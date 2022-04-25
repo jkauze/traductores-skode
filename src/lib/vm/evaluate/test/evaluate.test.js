@@ -9,9 +9,9 @@ const assert = require('assert');
 
 describe('#evaluate', () => {
     before("setup data", () => {
-        updateMem('xx', 1, 'Num')
-        updateMem('yy', 2, 'Num')
-        updateMem('zz', 3, 'Num')
+        updateMem('xx', 1, 'num')
+        updateMem('yy', 2, 'num')
+        updateMem('zz', 3, 'num')
     })
 
     it("Case 1: 1 + 2 = 3", () => {

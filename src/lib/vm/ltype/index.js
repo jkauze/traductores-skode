@@ -20,7 +20,7 @@ const getIdType = (lvalue, isId) => isId ? typeMapper[typeof lvalue] : 'NOT_ASSI
 /**
  * get ltype of assignable lvalue
  * @param {Any}
- * @param {Boolean}
+ * @param {bool}
  * @returns {Number}
  */
 const ltype = (lvalue, isArray, isId) => isArray ? `[${getArrayType(JSON.parse(lvalue))}]` : getIdType(lvalue, isId)

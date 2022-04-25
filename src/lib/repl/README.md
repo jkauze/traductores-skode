@@ -47,7 +47,7 @@ OK:lex("2 + +") ==> [TkNum(2),TkPlus,TkPlus]
 OK:ast("1 + 2 + 3") ==> (1 + (2 + 3))
 
 <Stókhos> .ast num x := a
-OK:ast("num x := a") ==> def(Num, x, a)
+OK:ast("num x := a") ==> def(num, x, a)
 ```
 
 ---

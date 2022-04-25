@@ -9,14 +9,14 @@ const sample = {
     ]
 }
 
-// def(Num execute1 := value)
+// def(num execute1 := value)
 const case1 = {
     op: ':=',
     type: 'instruction',
     operands: [
         'execute1',
         10,
-        'Num', // no existe en asignaciones
+        'num', // no existe en asignaciones
     ]
 }
 
@@ -40,19 +40,19 @@ const case3 = {
     ]
 }
 
-// def(Boolean, id, (1 + 2))
+// def(bool, id, (1 + 2))
 const case4 = {
     op: ':=',
     type: 'instruction',
     operands: [
         'executefail1',
         sample,
-        'Boolean',
+        'bool',
     ]
 }
 
 // num lol := x
-const case5 = { op: ':=', type: 'instruction', operands: [ 'lol', 'xdebug', 'Num' ] }
+const case5 = { op: ':=', type: 'instruction', operands: [ 'lol', 'xdebug', 'num' ] }
 
 // num lol2 := 'lol'
 const case6 = {
@@ -61,7 +61,7 @@ const case6 = {
     operands: [
       'lol2',
       { op: 'quote', type: 'expression', operands: [ 'lol' ] },
-      'Num'
+      'num'
     ]
   }
 

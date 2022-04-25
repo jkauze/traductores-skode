@@ -18,7 +18,7 @@ const getArrayType = array => validateArrayItemsInt(array) ? 'int' : validateArr
 /**
  * get type of exp
  * @param {Any} value
- * @param {Boolean} isArray
+ * @param {bool} isArray
  * @returns {Number}
  */
 const type = (value, isArray) => isArray ? `[${getArrayType(JSON.parse(value))}]` : typeMapper[typeof value]

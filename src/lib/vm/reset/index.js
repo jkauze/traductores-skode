@@ -4,7 +4,7 @@ const data = require('../data')
 
 /**
  * reset memory data
- * @returns {Boolean}
+ * @returns {bool}
  */
 const reset = () => {
     Object.keys(data).forEach(key => delete data[key]);

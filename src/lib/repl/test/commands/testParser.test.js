@@ -107,7 +107,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK: ast("[num] xdebug := []") ==> def(Num, xdebug, [])'
+      const expected = 'OK: ast("[num] xdebug := []") ==> def(num, xdebug, [])'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 14: num x := 20+3", () => {
@@ -115,7 +115,7 @@ describe('#testParser', () => {
 
       const actual = testParser(input)
 
-      const expected = 'OK: ast("num xdebug := 20+3") ==> def(Num, xdebug, (20 + 3))'
+      const expected = 'OK: ast("num xdebug := 20+3") ==> def(num, xdebug, (20 + 3))'
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 15: x := 20 + 2", () => {

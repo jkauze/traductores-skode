@@ -24,12 +24,12 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it('Case 3: def(Boolean, id, value)', () => {
+    it('Case 3: def(bool, id, value)', () => {
         const input = cases.case3
 
         const actual = ast2str(input)
 
-        const expected = 'def(Boolean, id, value)'
+        const expected = 'def(bool, id, value)'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -51,12 +51,12 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it('Case 6: def(Boolean, id, (1 + 2))', () => {
+    it('Case 6: def(bool, id, (1 + 2))', () => {
         const input = cases.case6
 
         const actual = ast2str(input)
 
-        const expected = 'def(Boolean, id, (1 + 2))'
+        const expected = 'def(bool, id, (1 + 2))'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -123,21 +123,21 @@ describe('#ast2str', () => {
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it('Case 14: def(Boolean, x, [1,(2 + 1)])', () => {
+    it('Case 14: def(bool, x, [1,(2 + 1)])', () => {
         const input = cases.case14
 
         const actual = ast2str(input)
 
-        const expected = 'def(Boolean, x, [1,(2 + 1)])'
+        const expected = 'def(bool, x, [1,(2 + 1)])'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
-    it('Case 15: def(Boolean, x, [1,2,3,4])', () => {
+    it('Case 15: def(bool, x, [1,2,3,4])', () => {
         const input = cases.case15
 
         const actual = ast2str(input)
 
-        const expected = 'def(Boolean, x, [1,2,3,4])'
+        const expected = 'def(bool, x, [1,2,3,4])'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -182,7 +182,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = 'def(Boolean, x, (((3 = 3) && true) || (!true)))'
+        const expected = 'def(bool, x, (((3 = 3) && true) || (!true)))'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -290,7 +290,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = 'def(Num, k, floor((100 * uniform())))'
+        const expected = 'def(num, k, floor((100 * uniform())))'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 

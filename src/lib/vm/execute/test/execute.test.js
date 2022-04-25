@@ -7,12 +7,12 @@ const setupExpected = require('./fixtures/setupExpected')
 const assert = require('assert');
 
 describe('#execute', () => {
-    it("Case 1: def(Num execute1 := 10)", () => {
+    it("Case 1: def(num execute1 := 10)", () => {
         const input = cases.case1
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num execute1 := 10;')
+        const expected = setupExpected('num execute1 := 10;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -34,12 +34,12 @@ describe('#execute', () => {
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
-    it("Case 4: def(Boolean, executefail1, 3) - TypeError", () => {
+    it("Case 4: def(bool, executefail1, 3) - TypeError", () => {
         const input = cases.case4
 
         const actual = execute(input)
 
-        const expected = setupExpected('TypeError: "3" is not "Boolean" type;', 'ERROR')
+        const expected = setupExpected('TypeError: "3" is not "bool" type;', 'ERROR')
         assert.deepEqual(actual, expected, 'should return TypeError');
     });
 
@@ -48,7 +48,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num lol := 6;')
+        const expected = setupExpected('num lol := 6;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -57,7 +57,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num lol2 := lol;')
+        const expected = setupExpected('num lol2 := lol;')
         assert.deepEqual(actual, expected, 'should return correct value response');
 
         execute({
@@ -69,7 +69,7 @@ describe('#execute', () => {
             ]
         })
         const actualChanged = execute(input)
-        const expectedChanged = setupExpected('Num lol2 := lol;')
+        const expectedChanged = setupExpected('num lol2 := lol;')
         assert.deepEqual(actualChanged, expectedChanged, 'should return correct value response');
 
     });

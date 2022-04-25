@@ -124,7 +124,7 @@ describe('#parser', () => {
 
       const actual = parser(input)
 
-      const expected = { op: ':=', type: 'instruction', operands: [ 'x', [], [ 'Num' ] ] }
+      const expected = { op: ':=', type: 'instruction', operands: [ 'x', [], [ 'num' ] ] }
       assert.deepEqual(actual, expected, 'should generate the ast');
     });
     it("Case 14: num x := 20+3", () => {
@@ -138,7 +138,7 @@ describe('#parser', () => {
         operands: [
           'x',
           { op: '+', type: 'expression', operands: [ 20, 3 ] },
-          'Num'
+          'num'
         ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
@@ -225,7 +225,7 @@ describe('#parser', () => {
               { op: '!', type: 'expression', operands: [ true ] }
             ]
           },
-          'Boolean'
+          'bool'
         ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');
@@ -431,7 +431,7 @@ describe('#parser', () => {
               }
             ]
           },
-          'Num'
+          'num'
         ]
       }
       assert.deepEqual(actual, expected, 'should generate the ast');

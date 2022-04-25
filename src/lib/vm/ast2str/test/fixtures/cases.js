@@ -41,14 +41,14 @@ const case2 = {
     ]
 }
 
-// def(Boolean id := value)
+// def(bool id := value)
 const case3 = {
     op: ':=',
     type: 'instruction',
     operands: [
         'id',
         'value',
-        'Boolean', // no existe en asignaciones
+        'bool', // no existe en asignaciones
     ]
 }
 
@@ -72,14 +72,14 @@ const case5 = {
     ]
 }
 
-// def(Boolean, id, (1 + 2))
+// def(bool, id, (1 + 2))
 const case6 = {
     op: ':=',
     type: 'instruction',
     operands: [
         'id',
         case1,
-        'Boolean', // no existe en asignaciones
+        'bool', // no existe en asignaciones
     ]
 }
 
@@ -139,14 +139,14 @@ const case14 = {
     operands: [
         'x',
         ['1', { op: '+', type: 'expression', operands: [2, 1] }],
-        'Boolean'
+        'bool'
     ]
 }
 
 const case15 = {
     op: ':=',
     type: 'instruction',
-    operands: ['x', [1, 2, 3, 4], 'Boolean']
+    operands: ['x', [1, 2, 3, 4], 'bool']
 }
 
 const case16 = [{
@@ -185,7 +185,7 @@ const case20 = {
                 { op: '!', type: 'expression', operands: [true] }
             ]
         },
-        'Boolean'
+        'bool'
     ]
 }
 
@@ -335,7 +335,7 @@ const case32 = {
           }
         ]
       },
-      'Num'
+      'num'
     ]
   } 
 
