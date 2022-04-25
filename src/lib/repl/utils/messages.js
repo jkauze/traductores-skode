@@ -4,22 +4,21 @@ const { notImplemented } = require('../replErrors');
 const { saveError } = require('./saveError');
 
 const okASTMessage = (input, tokens) => {
-  const formatedMessage = `OK:ast("${input}") ==> ${tokens}`
+  const formatedMessage = `OK: ast("${input}") ==> ${tokens}`
   console.log(formatedMessage);
   return formatedMessage
 }
 
 const okLexMessage = (input, tokens) => {
-  const formatedMessage = `OK:lex("${input}") ==> [${tokens}]`
+  const formatedMessage = `OK: lex("${input}") ==> [${tokens}]`
   console.log(formatedMessage);
   return formatedMessage
 }
 
 const ackMessage = (message) => console.log(`ACK: ${message}`);
 
-// const okMessage = (message) => console.log(`OK: ${message}`);
 const okMessage = (input, message) => {
-  const formatedMessage = `OK:${input} ==> ${message}`
+  const formatedMessage = `OK: ${input} ==> ${message}`
   console.log(formatedMessage);
   return formatedMessage
 }
@@ -44,7 +43,7 @@ const astErrorMessage = ({ error, fileInfo, input }) => {
 }
 
 const fatalErrorMessage = ({ error, fileInfo, input }) => {
-  const formatedError = error ? `ERROR ${input} ==> FatalError "${error}"` : `ERROR ${input} ==> FatalError`
+  const formatedError = error ? `ERROR: ${input} ==> FatalError "${error}"` : `ERROR ${input} ==> FatalError`
   console.log(formatedError)
   saveError({ fileInfo, error: formatedError })
 }

@@ -54,7 +54,7 @@ const ast2strExpression = ast => {
         }
 
         if (isQuote(op)) {
-            newRightOperand = isNode(newRightOperand) ? `"${ast2strExpression(newRightOperand)}"` : `"${newLeftOperand}"`
+            newRightOperand = isNode(newRightOperand) ? `${ast2strExpression(newRightOperand)}` : `${newLeftOperand}`
             return newRightOperand || newLeftOperand
         }
         

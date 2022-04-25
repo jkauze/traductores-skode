@@ -147,7 +147,7 @@ describe('#process - basic cases - success', () => {
 
         const actual = process(input)
 
-        const expected = { status: 'ACK', message: "Num xdebug2 := 22;" }
+        const expected = { status: 'ACK', message: "Num xdebug2 := xdebug;" }
         assert.deepEqual(actual, expected, 'should generate the ast');
     });
 });

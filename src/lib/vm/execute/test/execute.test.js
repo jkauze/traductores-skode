@@ -57,7 +57,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num lol2 := 6;')
+        const expected = setupExpected('Num lol2 := lol;')
         assert.deepEqual(actual, expected, 'should return correct value response');
 
         execute({
@@ -69,7 +69,7 @@ describe('#execute', () => {
             ]
         })
         const actualChanged = execute(input)
-        const expectedChanged = setupExpected('Num lol2 := 20;')
+        const expectedChanged = setupExpected('Num lol2 := lol;')
         assert.deepEqual(actualChanged, expectedChanged, 'should return correct value response');
 
     });

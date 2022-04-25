@@ -96,7 +96,6 @@ const REPLHandler = (input, fileInfo) => {
       return;
     }
   } catch (error) {
-    console.log(error)
     return fatalErrorMessage({error: error.message, fileInfo, input})
   }
 };

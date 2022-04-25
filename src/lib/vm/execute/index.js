@@ -6,6 +6,7 @@ const { evalExpression } = require('../evaluate/evalExpression')
 const formatResponseExecute = require('../utils/formatResponseExecute')
 const { isAst } = require('../utils/astHelpers')
 const statusTypes = require('../../../shared/statusTypes')
+const { ast2str } = require('../ast2str')
 
 const mapType = {
     number: 'Num',
@@ -77,6 +78,7 @@ const formatType = type => Array.isArray(type) ? `[${type}]` : type
 const execute = ast => {
     const { operands, op } = ast
     const [lvalue, cvalue, type] = operands
+    const cvalueString = ast2str(cvalue)
     try {
         const actualTick = updateMemCycle()
         const { result, quoted } = evalExpression(cvalue)
@@ -97,11 +99,11 @@ const execute = ast => {
             if (isNotDefined(lvalue)) return referenceError(lvalue)
             if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
             updateMem({ lvalue, result, quoted, cvalue, actualTick })
-            return formatResponseExecute(`${lvalue} ${op} ${result}`, statusTypes.ACK);
+            return quoted ? formatResponseExecute(`${lvalue} ${op} ${cvalueString}`, statusTypes.ACK) : formatResponseExecute(`${lvalue} ${op} ${result}`, statusTypes.ACK);
         } else {
             if (hasNotValidType(result, type)) return typeError(result, type)
             updateMem({ lvalue, result, type, quoted, cvalue, actualTick })
-            return formatResponseExecute(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
+            return quoted ? formatResponseExecute(`${formatType(type)} ${lvalue} ${op} ${cvalueString}`, statusTypes.ACK) : formatResponseExecute(`${formatType(type)} ${lvalue} ${op} ${result}`, statusTypes.ACK);
         }
     } catch (error) {
         restoreMemCycle()
