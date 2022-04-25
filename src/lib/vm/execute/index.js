@@ -72,10 +72,8 @@ const execute = ast => {
     try {
         const actualTick = updateMemCycle()
         const { result, quoted } = evalExpression(cvalue)
-        // aqui hay que poner un if, para los asignable array, si el lvalue es obj, entonces 
-        // guardar tomar el id/array como lvalue, pasar las validaciones, reemplazar el index de id/array
-        // y guardar ese resultado con updateMem
 
+        // if (lvalue
         if (isAssignation(type)) {
             if (isNotDefined(lvalue)) return referenceError(lvalue)
             if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
