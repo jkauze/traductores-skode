@@ -83,7 +83,7 @@ describe('#process - functions cases (phase 4) - success', () => {
         const { status, message } = actual
 
         const expectedStatus = 'OK'
-        const expectedMessage = '(xdebug + 1)'
+        const expectedMessage = '("xdebug" + 1)'
         assert.deepEqual(status, expectedStatus, 'should get correct status');
         assert.deepEqual(message, expectedMessage, 'should get correct value');
     });
@@ -95,7 +95,7 @@ describe('#process - functions cases (phase 4) - success', () => {
         const { status, message } = actual
 
         const expectedStatus = 'OK'
-        const expectedMessage = '(((xdebug + ydebug) + 1) + 2)'
+        const expectedMessage = '"(((xdebug + ydebug) + 1) + 2)"'
         assert.deepEqual(status, expectedStatus, 'should get correct status');
         assert.deepEqual(message, expectedMessage, 'should get correct value');
     });

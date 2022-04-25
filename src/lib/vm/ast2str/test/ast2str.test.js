@@ -200,7 +200,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = '(y / w)'
+        const expected = '"(y / w)"'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -209,7 +209,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = '(z = (x + (y / w)))'
+        const expected = '(z = (x + "(y / w)"))'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -218,7 +218,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = '(y + 1)'
+        const expected = '("y" + 1)'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
@@ -290,7 +290,7 @@ describe('#ast2str', () => {
 
         const actual = ast2str(input)
 
-        const expected = 'def(num, k, floor((100 * uniform())))'
+        const expected = 'def(num, k, "floor((100 * uniform()))")'
         assert.deepEqual(actual, expected, 'should convert the correct ast');
     });
 
