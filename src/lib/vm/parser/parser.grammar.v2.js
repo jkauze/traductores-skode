@@ -74,12 +74,12 @@ module.exports =
 
 
     GeneralExpression
-        = FunctionExpression
-        / BinaryExpression
+        = BinaryExpression
 
 
     FunctionExpression
-        = i:Id __ 'TkOpenPar' __ e:(ArrayElements)* __ 'TkClosePar' {
+        = i:Id __ 'TkOpenPar' __ ('TkComma')? __ 'TkClosePar' { return { op: i, type: 'expression' } }
+        / i:Id __ 'TkOpenPar' __ e:(ArrayElements)* __ 'TkClosePar' {
             if (isReserverdId(i)) return e[0] ? { op: i, type: 'expression', operands: e[0] } : { op: i, type: 'expression' }
             else return e[0] ? { op: "function", type: 'error', operands: [i, e[0]] } : { op: "function", type: 'error', operands: [i, e] }
         }
