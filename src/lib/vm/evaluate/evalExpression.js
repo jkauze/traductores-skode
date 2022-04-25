@@ -3,7 +3,7 @@
 const data = require('../data')
 const errors = require('./errors')
 const memTick = require('../memTick')
-const { isNotAst, isAst } = require('./utils/astHelpers')
+const { isNotAst, isAst } = require('../utils/astHelpers')
 
 const { reset } = require('../reset')
 const { pi } = require('../pi')

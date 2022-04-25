@@ -4,6 +4,7 @@ const data = require('../data')
 const memTick = require('../memTick')
 const { evalExpression } = require('../evaluate/evalExpression')
 const formatResponseExecute = require('../utils/formatResponseExecute')
+const { isAst } = require('../utils/astHelpers')
 const statusTypes = require('../../../shared/statusTypes')
 
 const mapType = {
@@ -17,6 +18,8 @@ const getType = (rvalue) => mapType[typeof rvalue]
 const checkArrayItemsType = (array, type) => array.reduce((prev, act) =>
     mapType[typeof act] === type && prev,
     true)
+
+const hasNotValidArrayIndex = (type, rvalue) => Array.isArray(type) && mapType[typeof rvalue] !== type[0]
 
 const validateArrayType = (type, rvalue) => Array.isArray(rvalue) && checkArrayItemsType(rvalue, type[0])
 
@@ -45,6 +48,11 @@ const updateMem = ({ lvalue, result, type, quoted, cvalue, actualTick }) => Obje
     }
 })
 
+const replaceArrayIndex = (index, array, value) => {
+    const formatedArray = JSON.parse(array)
+    formatedArray[index] = value
+    return formatedArray
+}
 
 const dataType = lvalue => data[lvalue]['type']
 
@@ -72,11 +80,20 @@ const execute = ast => {
     try {
         const actualTick = updateMemCycle()
         const { result, quoted } = evalExpression(cvalue)
-        // aqui hay que poner un if, para los asignable array, si el lvalue es obj, entonces 
-        // guardar tomar el id/array como lvalue, pasar las validaciones, reemplazar el index de id/array
-        // y guardar ese resultado con updateMem
-
-        if (isAssignation(type)) {
+        if (isAst(lvalue) && lvalue.op === 'index') {
+            const { operands } = lvalue
+            const arrayIdLvalue = operands[0]
+            const arrayIndex = operands[1]
+            const arrayType = dataType(arrayIdLvalue)
+            if (isNotDefined(arrayIdLvalue)) return referenceError(arrayIdLvalue)
+            const { result: arrayLvalue } = evalExpression(arrayIdLvalue)
+            const { result: rvalue, quoted: cvalueQuoted } = evalExpression(cvalue)
+            if (hasNotValidArrayIndex(arrayType, rvalue)) return typeError(rvalue, arrayType)
+            const newArray = replaceArrayIndex(arrayIndex, arrayLvalue, rvalue)
+            updateMem({ lvalue: arrayIdLvalue, result: newArray, cvalueQuoted, cvalue, actualTick })
+            return formatResponseExecute(`${arrayIdLvalue} ${op} [${newArray}]`, statusTypes.ACK);
+        }
+        else if (isAssignation(type)) {
             if (isNotDefined(lvalue)) return referenceError(lvalue)
             if (hasNotValidType(result, dataType(lvalue))) return typeError(result, dataType(lvalue))
             updateMem({ lvalue, result, quoted, cvalue, actualTick })

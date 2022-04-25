@@ -12,7 +12,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num execute1 := 10')
+        const expected = setupExpected('Num execute1 := 10;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -21,7 +21,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('execute1 := 20')
+        const expected = setupExpected('execute1 := 20;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -30,7 +30,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('execute1 := 3')
+        const expected = setupExpected('execute1 := 3;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -39,7 +39,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('TypeError: "3" is not "Boolean" type', 'ERROR')
+        const expected = setupExpected('TypeError: "3" is not "Boolean" type;', 'ERROR')
         assert.deepEqual(actual, expected, 'should return TypeError');
     });
 
@@ -48,7 +48,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num lol := 6')
+        const expected = setupExpected('Num lol := 6;')
         assert.deepEqual(actual, expected, 'should return correct value response');
     });
 
@@ -57,7 +57,7 @@ describe('#execute', () => {
 
         const actual = execute(input)
 
-        const expected = setupExpected('Num lol2 := 6')
+        const expected = setupExpected('Num lol2 := 6;')
         assert.deepEqual(actual, expected, 'should return correct value response');
 
         execute({
@@ -69,7 +69,7 @@ describe('#execute', () => {
             ]
         })
         const actualChanged = execute(input)
-        const expectedChanged = setupExpected('Num lol2 := 20')
+        const expectedChanged = setupExpected('Num lol2 := 20;')
         assert.deepEqual(actualChanged, expectedChanged, 'should return correct value response');
 
     });

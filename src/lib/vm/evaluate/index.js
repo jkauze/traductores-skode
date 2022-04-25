@@ -3,7 +3,7 @@
 const { statusTypes } = require('../../../shared')
 const { evalExpression } = require('./evalExpression')
 const formatResponse = require('../utils/formatResponse')
-const { isNotAst, isAst } = require('./utils/astHelpers')
+const { isNotAst, isAst } = require('../utils/astHelpers')
 const data = require('../data')
 const memTick = require('../memTick')
 
