@@ -27,7 +27,8 @@ const isIndex = op => op ==='index'
 const mapperFunction = {
     if:true, type:true, ltype:true, reset:true, uniform:true, floor:true, 
     length:true, sum:true, avg:true, pi:true, now:true, ln:true, exp:true, 
-    sin:true, cos:true, formula:true, tick:true, array:true
+    sin:true, cos:true, formula:true, tick:true, array:true, histogram: true,
+    sqrt:true
 }
 
 const isFunction = op => mapperFunction[op] || false
