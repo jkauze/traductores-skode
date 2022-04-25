@@ -36,8 +36,10 @@ const isLnFunction = op => op === 'ln'
 const isSinFunction = op => op === 'sin'
 const isCosFunction = op => op === 'cos'
 const isExpFunction = op => op === 'exp'
+const isSQRTFunction = op => op === 'sqrt'
 const isFormulaFunction = op => op === 'formula'
 const isTickFunction = op => op === 'tick'
+const isHistogramFunction = op => op === 'histogram'
 const isArrayFunction = op => op === 'array'
 const isIfFunction = op => op === 'if'
 const isIndexArray = op => op === 'index'
@@ -111,14 +113,17 @@ const evaluateExpression = (astInput, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(errors.invalidFunction(operands[0]))
     if (isLengthFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        return length(operands[0])
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        return length(array)
     }
     // etapa 4
     if (isLnFunction(op)) return lnFunction(evaluateExpression(operands[0]))
     if (isSinFunction(op)) return sin(evaluateExpression(operands[0]))
     if (isCosFunction(op)) return cos(evaluateExpression(operands[0]))
     if (isExpFunction(op)) return exp(evaluateExpression(operands[0]))
+    if (isSQRTFunction(op)) return Math.sqrt(evaluateExpression(operands[0]))
     if (isFormulaFunction(op)) return formula(operands[0])
     if (isTickFunction(op)) return tick()
     if (isArrayFunction(op)) {
@@ -137,6 +142,25 @@ const evaluateExpression = (astInput, option = false) => {
             }
         }
         return `[${resultArray}]`
+    }
+    
+    if (isHistogramFunction(op)) {
+        let samples = []
+        for (let sample = operands[1]; sample > 0; sample--) {
+            samples.push(evaluateExpression(operands[0]))
+            tick()
+        }
+
+        const stepSize = (operands[4] - operands[3]) / operands[2]
+        let step = stepSize
+        let buckets = Array(operands[2]).fill(0)
+        let histogram = buckets.map((bucket, index, buckets) => {
+            const stepSamples = samples.filter( value => step - stepSize < value && value < step )
+            step += stepSize
+            return bucket + stepSamples.length
+        })
+
+        return histogram
     }
     //
 
@@ -158,8 +182,10 @@ const evaluateExpression = (astInput, option = false) => {
         return result
     }
     if (isSumFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        const operandsValue = operands[0].map(item => {
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        const operandsValue = array.map(item => {
             const { result } = evalExpression(item)
             return result
         })
@@ -167,7 +193,7 @@ const evaluateExpression = (astInput, option = false) => {
     }
     if (isTypeFunction(op)) {
         const { result } = evalExpression(operands[0])
-        const isArray = Array.isArray(operands[0])
+        const isArray = Array.isArray(JSON.parse(result))
         return type(result, isArray)
     }
     if (isLtypeFunction(op)) {
@@ -179,8 +205,10 @@ const evaluateExpression = (astInput, option = false) => {
         return ltypeResult
     }
     if (isAvgFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        const operandsValue = operands[0].map(item => {
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        const operandsValue = array.map(item => {
             const { result } = evalExpression(item)
             return result
         })
