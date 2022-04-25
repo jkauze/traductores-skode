@@ -111,8 +111,10 @@ const evaluateExpression = (astInput, option = false) => {
     if (isUniformFunction(op)) return uniform()
     if (isErrorFunction(op)) throw new Error(errors.invalidFunction(operands[0]))
     if (isLengthFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        return length(operands[0])
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        return length(array)
     }
     // etapa 4
     if (isLnFunction(op)) return lnFunction(evaluateExpression(operands[0]))
@@ -158,8 +160,10 @@ const evaluateExpression = (astInput, option = false) => {
         return result
     }
     if (isSumFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        const operandsValue = operands[0].map(item => {
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        const operandsValue = array.map(item => {
             const { result } = evalExpression(item)
             return result
         })
@@ -167,7 +171,7 @@ const evaluateExpression = (astInput, option = false) => {
     }
     if (isTypeFunction(op)) {
         const { result } = evalExpression(operands[0])
-        const isArray = Array.isArray(operands[0])
+        const isArray = Array.isArray(JSON.parse(result))
         return type(result, isArray)
     }
     if (isLtypeFunction(op)) {
@@ -179,8 +183,10 @@ const evaluateExpression = (astInput, option = false) => {
         return ltypeResult
     }
     if (isAvgFunction(op)) {
-        if (!Array.isArray(operands[0])) throw new Error(errors.objectIsNotIterable(op, operands[0]))
-        const operandsValue = operands[0].map(item => {
+        const { result } = evalExpression(operands[0])
+        const array = JSON.parse(result)
+        if (!Array.isArray(array)) throw new Error(errors.objectIsNotIterable(op, operands[0]))
+        const operandsValue = array.map(item => {
             const { result } = evalExpression(item)
             return result
         })
