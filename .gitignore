@@ -1,6 +1,5 @@
 # Ignore package lock except in production branches
 # BAD: pls read npm doc https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json
-# package-lock.json
 
 #
 # Logs
